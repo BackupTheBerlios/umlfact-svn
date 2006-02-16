@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Uml Plug-in
+Bundle-SymbolicName: org.xiaobo.uml; singleton:=true
+Bundle-Version: 0.9
+Bundle-Activator: org.xiaobo.uml.UmlPlugin
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.ui.views,
+ org.eclipse.draw2d,
+ org.eclipse.gef,
+ org.eclipse.jface.text,
+ org.eclipse.ui.editors,
+ org.eclipse.ui.workbench.texteditor
+Eclipse-AutoStart: true
