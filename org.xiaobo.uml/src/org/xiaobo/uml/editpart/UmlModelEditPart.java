@@ -12,7 +12,7 @@ import org.xiaobo.uml.editpolicy.UmlModelLayoutEditPolicy;
  * 
  * @author Xiaobo Sun
  * 
- * Copyright ? 2006 by Xiaobo Sun. All Rights Reserved.
+ * Copyright 2006 by Xiaobo Sun. All Rights Reserved.
  */
 public class UmlModelEditPart extends UmlElementEditPart {
 
