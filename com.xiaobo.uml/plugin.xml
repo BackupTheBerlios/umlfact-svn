@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+   <extension
+         id="umleditor"
+         point="org.eclipse.ui.editors">
+      <editor
+            class="com.xiaobo.uml.editor.UmlEditor"
+            default="false"
+            extensions="cd"
+            icon="icons/type.gif"
+            id="com.xiaobo.uml.editor"
+            name="Class Diagram"/>
+   </extension>
+
+</plugin>
