@@ -36,11 +36,14 @@ public class TypePart extends PositionableElementPart implements NodeEditPart {
 		installEditPolicy(EditPolicy.CONTAINER_ROLE, new TypeLayoutEditPolicy());
 	}
 
+	/**
+	 * prefer at first refresh...() then super.propertyChange(event)
+	 */
 	public void propertyChange(PropertyChangeEvent event) {
-		super.propertyChange(event);
 		refreshSourceConnections();
 		refreshTargetConnections();
 		refreshChildren();
+		super.propertyChange(event);
 	}
 
 	/**
