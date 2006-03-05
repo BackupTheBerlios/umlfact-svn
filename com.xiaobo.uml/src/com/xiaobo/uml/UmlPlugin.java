@@ -6,7 +6,10 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 /**
- * The main plugin class to be used in the desktop.
+ * 
+ * @author xiaobo
+ * 
+ * Copyright 2006 by Xiaobo Sun. All Rights Reserved.
  */
 public class UmlPlugin extends AbstractUIPlugin {
 
