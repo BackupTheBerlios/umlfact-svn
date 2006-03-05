@@ -8,9 +8,8 @@ import org.osgi.framework.BundleContext;
 /**
  * 
  * @author xiaobo
- * 
- * Copyright 2006 by Xiaobo Sun. All Rights Reserved.
- * 
+ *
+ * Copyright 2006 by Xiaobo Sun. All Rights reserved.
  */
 public class UmlPlugin extends AbstractUIPlugin {
 
