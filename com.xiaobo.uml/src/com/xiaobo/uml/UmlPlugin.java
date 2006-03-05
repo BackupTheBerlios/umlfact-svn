@@ -10,6 +10,7 @@ import org.osgi.framework.BundleContext;
  * @author xiaobo
  * 
  * Copyright 2006 by Xiaobo Sun. All Rights Reserved.
+ * 
  */
 public class UmlPlugin extends AbstractUIPlugin {
 
