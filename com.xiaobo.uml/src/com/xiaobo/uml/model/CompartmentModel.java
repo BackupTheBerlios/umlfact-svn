@@ -1,5 +1,6 @@
 package com.xiaobo.uml.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -8,46 +9,41 @@ import java.util.List;
  * 
  * Copyright 2006 by Xiaobo Sun. All Rights Reserved.
  */
-public class CompartmentModel extends UmlElement implements IUmlContainer {
+public class CompartmentModel extends NamedElement implements IUmlContainer {
 
-	public static final String FIELD_ID = "field";
+	public static final String CHILD_PROP = "child";
 
-	public static final String CONSTRUCTOR_ID = "constructor";
-
-	public static final String METHOD_ID = "method";
-
-	private String id;
+	private List children = new ArrayList();
 
 	public CompartmentModel() {
-
-	}
-
-	public CompartmentModel(String id) {
-		this.id = id;
+		setName("others:");
 	}
 
 	public List getChildren() {
-		// TODO Auto-generated method stub
-		return null;
+		return children;
 	}
 
 	public void addChild(IUmlElement element) {
-		// TODO Auto-generated method stub
-
+		if (!(element instanceof MemberModel)) {
+			throw new IllegalArgumentException();
+		}
+		children.add(element);
+		firePropertyChange(CHILD_PROP);
 	}
 
 	public void addChild(IUmlElement element, int index) {
-		// TODO Auto-generated method stub
-
+		if (!(element instanceof MemberModel)) {
+			throw new IllegalArgumentException();
+		}
+		children.add(index, element);
+		firePropertyChange(CHILD_PROP);
 	}
 
 	public void removeChild(IUmlElement element) {
-		// TODO Auto-generated method stub
-
+		if (!(element instanceof MemberModel)) {
+			throw new IllegalArgumentException();
+		}
+		children.remove(element);
+		firePropertyChange(CHILD_PROP);
 	}
-
-	public String getId() {
-		return id;
-	}
-
 }

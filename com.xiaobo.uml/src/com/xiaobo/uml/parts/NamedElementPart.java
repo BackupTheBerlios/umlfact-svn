@@ -73,6 +73,8 @@ public abstract class NamedElementPart extends UmlElementPart {
 		Label figureLabel = figure.getLabel();
 		NamedElement model = (NamedElement) getModel();
 		figureLabel.setText(model.getName());
+
+		getFigure().revalidate();
 	}
 
 	public void propertyChange(PropertyChangeEvent event) {

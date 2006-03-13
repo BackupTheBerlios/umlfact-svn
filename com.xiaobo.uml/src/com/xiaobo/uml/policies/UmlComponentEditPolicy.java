@@ -21,14 +21,14 @@ public class UmlComponentEditPolicy extends ComponentEditPolicy {
 		Object model = getHost().getModel();
 		Object parent = getHost().getParent().getModel();
 
-//		if (model instanceof IFarmConnection) {
-//			return new ConnectionDeleteCommand((IFarmConnection) model);
-//		}
-//
-//		if (model instanceof IFarmConnectionContainer) {
-//			return new ConnectionContainerDeleteCommand(
-//					(IFarmConnectionContainer) model, (IFarmContainer) parent);
-//		}
+		// if (model instanceof IFarmConnection) {
+		// return new ConnectionDeleteCommand((IFarmConnection) model);
+		// }
+		//
+		// if (model instanceof IFarmConnectionContainer) {
+		// return new ConnectionContainerDeleteCommand(
+		// (IFarmConnectionContainer) model, (IFarmContainer) parent);
+		// }
 
 		if (model instanceof IUmlElement) {
 			return new UmlElementDeleteCommand((IUmlElement) model,

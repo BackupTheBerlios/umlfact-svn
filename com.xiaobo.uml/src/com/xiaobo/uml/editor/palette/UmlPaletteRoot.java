@@ -31,6 +31,8 @@ public class UmlPaletteRoot extends PaletteRoot {
 		umlTools = new PaletteDrawer("Uml tools");
 		umlTools.add(new TypeToolEntry());
 		umlTools.add(new ConnectionToolEntry());
+		umlTools.add(new CompartmentToolEntry());
+		umlTools.add(new MemberToolEntry());
 		return umlTools;
 	}
 }

@@ -11,7 +11,14 @@ import org.eclipse.swt.graphics.Color;
 public class ColorFactory {
 
 	public static Color getTypeColor() {
-		return new Color(null, 0, 255, 0);
+		return new Color(null, 255, 255, 206);
 	}
 
+	public static Color getCompartmentColor() {
+		return getTypeColor();
+	}
+
+	public static Color getMemberColor() {
+		return getTypeColor();
+	}
 }

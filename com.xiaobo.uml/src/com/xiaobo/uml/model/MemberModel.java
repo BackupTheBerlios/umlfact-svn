@@ -9,5 +9,6 @@ package com.xiaobo.uml.model;
 public class MemberModel extends NamedElement {
 
 	public MemberModel() {
+		setName("member");
 	}
 }

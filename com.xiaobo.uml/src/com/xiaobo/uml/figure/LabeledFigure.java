@@ -15,7 +15,7 @@ import org.eclipse.draw2d.ToolbarLayout;
  */
 public class LabeledFigure extends Figure implements ILabeledFigure {
 
-	private static final int BORDER_SIZE = 5;
+	private static final int BORDER_SIZE = 1;
 
 	private EditableLabel label;
 

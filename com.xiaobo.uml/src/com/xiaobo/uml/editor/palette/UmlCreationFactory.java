@@ -2,7 +2,9 @@ package com.xiaobo.uml.editor.palette;
 
 import org.eclipse.gef.requests.CreationFactory;
 
+import com.xiaobo.uml.model.CompartmentModel;
 import com.xiaobo.uml.model.ConnectionModel;
+import com.xiaobo.uml.model.MemberModel;
 import com.xiaobo.uml.model.TypeModel;
 
 /**
@@ -21,12 +23,20 @@ public class UmlCreationFactory implements CreationFactory {
 
 	public Object getNewObject() {
 		if (type == TypeModel.class) {
-			return new TypeModel();
-		}
-		if (type == ConnectionModel.class) {
-			ConnectionModel connModel = new ConnectionModel();
-			System.out.println("creation connection: " + connModel);
-			return connModel;
+			TypeModel type = new TypeModel();
+			CompartmentModel fields = new CompartmentModel();
+			fields.setName("fields:");
+			type.addChild(fields);
+			CompartmentModel methods = new CompartmentModel();
+			methods.setName("methods:");
+			type.addChild(methods);
+			return type;
+		} else if (type == ConnectionModel.class) {
+			return new ConnectionModel();
+		} else if (type == CompartmentModel.class) {
+			return new CompartmentModel();
+		} else if (type == MemberModel.class) {
+			return new MemberModel();
 		}
 		return null;
 	}

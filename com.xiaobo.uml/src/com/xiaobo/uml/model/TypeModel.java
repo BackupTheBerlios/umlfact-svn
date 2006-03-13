@@ -10,18 +10,18 @@ import java.util.List;
  * Copyright 2006 by Xiaobo Sun. All Rights Reserved.
  */
 public class TypeModel extends PositionableElement implements
-		IUmlConnectionNode,IUmlContainer{
+		IUmlConnectionNode, IUmlContainer {
 
 	private static final String CONNS_OUT_PROP = "Out";
 
 	private static final String CONNS_IN_PROP = "In";
-	
+
 	private static final String CHILD_PROP = "child";
 
 	private List outs = new ArrayList();
 
 	private List ins = new ArrayList();
-	
+
 	private List children = new ArrayList();
 
 	public TypeModel() {
@@ -61,7 +61,7 @@ public class TypeModel extends PositionableElement implements
 	}
 
 	public void addChild(IUmlElement element) {
-		if(!(element instanceof CompartmentModel)){
+		if (!(element instanceof CompartmentModel)) {
 			throw new IllegalArgumentException();
 		}
 		children.add(element);
@@ -69,15 +69,15 @@ public class TypeModel extends PositionableElement implements
 	}
 
 	public void addChild(IUmlElement element, int index) {
-		if(!(element instanceof CompartmentModel)){
+		if (!(element instanceof CompartmentModel)) {
 			throw new IllegalArgumentException();
 		}
-		children.add(index,element);
+		children.add(index, element);
 		firePropertyChange(CHILD_PROP);
 	}
 
 	public void removeChild(IUmlElement element) {
-		if(!(element instanceof CompartmentModel)){
+		if (!(element instanceof CompartmentModel)) {
 			throw new IllegalArgumentException();
 		}
 		children.remove(element);

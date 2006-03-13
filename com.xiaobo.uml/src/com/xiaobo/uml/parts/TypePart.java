@@ -1,6 +1,7 @@
 package com.xiaobo.uml.parts;
 
 import java.beans.PropertyChangeEvent;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.draw2d.ChopboxAnchor;
@@ -12,6 +13,7 @@ import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
 
 import com.xiaobo.uml.figure.TypeFigure;
+import com.xiaobo.uml.model.CompartmentModel;
 import com.xiaobo.uml.model.IUmlContainer;
 import com.xiaobo.uml.model.TypeModel;
 import com.xiaobo.uml.policies.TypeLayoutEditPolicy;
@@ -25,6 +27,28 @@ import com.xiaobo.uml.policies.TypeNodeEditPolicy;
  */
 
 public class TypePart extends PositionableElementPart implements NodeEditPart {
+
+	public void activate() {
+		if (!isActive()) {
+			super.activate();
+			for (Iterator i = getChildren().iterator(); i.hasNext();) {
+				CompartmentPart child = (CompartmentPart) i.next();
+				((CompartmentModel) child.getModel())
+						.addPropertyChangeListener(this);
+			}
+		}
+	}
+
+	public void deactivate() {
+		if (isActive()) {
+			for (Iterator i = getChildren().iterator(); i.hasNext();) {
+				CompartmentPart child = (CompartmentPart) i.next();
+				((CompartmentModel) child.getModel())
+						.removePropertyChangeListener(this);
+			}
+			super.deactivate();
+		}
+	}
 
 	protected IFigure createFigure() {
 		return new TypeFigure();

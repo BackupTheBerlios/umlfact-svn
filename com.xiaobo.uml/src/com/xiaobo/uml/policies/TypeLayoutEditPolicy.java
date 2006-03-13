@@ -46,11 +46,12 @@ public class TypeLayoutEditPolicy extends ToolbarLayoutEditPolicy {
 	}
 
 	protected Command getCreateCommand(CreateRequest request) {
-		 if (request.getNewObjectType() == Process.class) {
-		 return new UmlElementCreateCommand((CompartmentModel) request
-		 .getNewObject(), (TypeModel) getHost().getModel(), getHost()
-		 .getChildren().indexOf(getInsertionReference(request)));
-		 }
+		if (request.getNewObjectType() == CompartmentModel.class) {
+			return new UmlElementCreateCommand((CompartmentModel) request
+					.getNewObject(), (TypeModel) getHost().getModel(),
+					getHost().getChildren().indexOf(
+							getInsertionReference(request)));
+		}
 		return null;
 	}
 }

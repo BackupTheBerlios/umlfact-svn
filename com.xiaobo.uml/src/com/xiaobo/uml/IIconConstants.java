@@ -15,4 +15,6 @@ public interface IIconConstants {
 
 	public static final String ARROW_ICON = "arrow";
 
+	public static final String COMPARTMENT_ICON = "compartment";
+
 }
