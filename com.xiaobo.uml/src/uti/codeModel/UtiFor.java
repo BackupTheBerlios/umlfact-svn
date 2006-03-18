@@ -1,5 +1,9 @@
 package uti.codeModel;
 
+import org.w3c.dom.Element;
+
+import uti.java.UtiOB;
+
 public class UtiFor extends UtiCommand {
 	UtiBlock block=new UtiBlock(this);
 	UtiBlock init = new UtiBlock(this);
@@ -32,5 +36,22 @@ public class UtiFor extends UtiCommand {
 	}
 	public void setStep(UtiBlock step) {
 		this.step = step;
+	}
+	public void read(Element xml, int version) {
+		// TODO Auto-generated method stub
+		super.read(xml, version);
+		UtiOB.readObject(xml, "block", block, version);
+		UtiOB.readObject(xml, "init", init, version);
+		UtiOB.readObject(xml, "step", step, version);
+		UtiOB.readObject(xml, "bedingung", bedingung, version);
+	}
+
+	public void write(Element xml, int version) {
+		// TODO Auto-generated method stub
+		super.write(xml, version);
+		UtiOB.writeObject(xml, "block", block, version);
+		UtiOB.writeObject(xml, "init", init, version);
+		UtiOB.writeObject(xml, "step", step, version);
+		UtiOB.writeObject(xml, "bedingung", bedingung, version);
 	}
 }

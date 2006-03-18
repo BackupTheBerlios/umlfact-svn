@@ -2,6 +2,10 @@ package uti.codeModel;
 
 import java.util.*;
 
+import org.w3c.dom.Element;
+
+import uti.java.UtiOB;
+
 public class UtiAusdruck extends BaseCode {
 	public final static int T_CALL = 0;
 	public final static int T_AUSDRUCK = 1;
@@ -28,6 +32,18 @@ public class UtiAusdruck extends BaseCode {
     double real=0;
     int build_in=0;
     int type=0;
+	public void read(Element xml, int version) {
+		// TODO Auto-generated method stub
+		super.read(xml, version);
+		/*call = (UtiCall)UtiOB.readObjectMulti(xml, "call", version, this);
+		ausdruck = (UtiAusdruck)UtiOB.readObjectMulti(xml, "ausdruck", version, this);
+		ausdruck2 = (UtiAusdruck)UtiOB.readObjectMulti(xml, "ausdruck2", version, this);
+		number = UtiOB.readInteger()*/
+	}
+	public void write(Element xml, int version) {
+		// TODO Auto-generated method stub
+		super.write(xml, version);
+	}
 	public UtiAusdruck(BaseCode p) {
 		super(p);
 		

@@ -1,18 +1,35 @@
 package uti.codeModel;
 
+import org.w3c.dom.Element;
+
+import uti.java.Link;
+import uti.java.UtiOB;
+
 public class UtiDesField extends UtiDesStep {
-    UtiVariable field;
+    Link field=new Link();
 	public UtiDesField(BaseCode p, UtiVariable v) {
 		super(p);
 		setField(v);
 		
 	}
 	public UtiVariable getField() {
-		return field;
+		return (UtiVariable)field.getObject();
 	}
 	public void setField(UtiVariable field) {
-		this.field = field;
-		this.result = field.getType();
+		this.field.setObject(field);
+		setResult(field.getType());
+		
 	}
+	public void read(Element xml, int version) {
+		// TODO Auto-generated method stub
+		super.read(xml, version);
+		UtiOB.readObject(xml, "field", field, version);
+	}
+	public void write(Element xml, int version) {
+		// TODO Auto-generated method stub
+		super.write(xml, version);
+		UtiOB.writeObject(xml, "field", field, version);
+	}
+	
 
 }

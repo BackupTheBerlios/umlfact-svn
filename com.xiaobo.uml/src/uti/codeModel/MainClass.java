@@ -11,6 +11,7 @@ public class MainClass {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		
         UtiPackage base = new UtiPackage(null);
         base.setName("Package");
         System.out.println("CodeModel");

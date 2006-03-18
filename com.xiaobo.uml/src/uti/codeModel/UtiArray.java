@@ -1,6 +1,9 @@
 package uti.codeModel;
 
 import java.util.*;
+
+import org.w3c.dom.Element;
+
 import uti.java.*;
 
 class ArrayElement {
@@ -47,6 +50,18 @@ public class UtiArray extends UtiType {
 	}
 	public void setBasetype(UtiType basetype) {
 		this.basetype.setObject(basetype);
+	}
+	public void read(Element xml, int version) {
+		// TODO Auto-generated method stub
+		super.read(xml, version);
+		UtiOB.readObject(xml, "basetype", basetype, version);
+		UtiOB.readList(xml, "dimensions", dimensions, version, this);
+	}
+	public void write(Element xml, int version) {
+		// TODO Auto-generated method stub
+		super.write(xml, version);
+		UtiOB.writeObject(xml, "basetype", basetype, version);
+		UtiOB.writeList(xml, "dimensions", dimensions, version, this);
 	};
 	
 

@@ -1,8 +1,15 @@
 package uti.codeModel;
 
+import java.util.Vector;
+
+import org.w3c.dom.Element;
+
+import uti.java.Link;
+import uti.java.UtiOB;
+
 public class UtiCall extends UtiCommand {
-    UtiMethod method;
-    UtiAusdruck parameter[];
+    Link method = new Link();
+    Vector parameter = new Vector();
 	public UtiCall(BaseCode p) {
 		super(p);
 		// TODO Auto-generated constructor stub
@@ -10,20 +17,31 @@ public class UtiCall extends UtiCommand {
 	
 	public void setMethod(UtiMethod m)
 	{
-		method = m;
-		int s = method.parameter.size();
-		parameter = new UtiAusdruck[s];
-		for (int i = 0; i < parameter.length; i++) {
-			parameter[i] = new UtiAusdruck(this);
-		}
+		method.setObject(m);
+		int s = m.parameter.size();
+		
 	}
 	public UtiAusdruck getAusdruck(int i)
 	{
-		return parameter[i];
+		return (UtiAusdruck)parameter.elementAt(i);
 	}
 	public UtiMethod getMethod()
 	{
-		return method;
+		return (UtiMethod)method.getObject();
+	}
+
+	public void read(Element xml, int version) {
+		// TODO Auto-generated method stub
+		super.read(xml, version);
+		UtiOB.readObject(xml, "method", method, version);
+		UtiOB.readList(xml, "parameter", parameter, version, this);
+	}
+
+	public void write(Element xml, int version) {
+		// TODO Auto-generated method stub
+		super.write(xml, version);
+		UtiOB.writeObject(xml, "method", method, version);
+		UtiOB.writeList(xml, "parameter", parameter, version);
 	}
    
 }

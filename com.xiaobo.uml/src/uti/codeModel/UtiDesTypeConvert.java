@@ -1,16 +1,18 @@
 package uti.codeModel;
 
+import uti.java.Link;
+
 public class UtiDesTypeConvert extends UtiDesStep {
-    UtiType type=null;
+    Link type=new Link();
 	public UtiDesTypeConvert(BaseCode p) {
 		super(p);
 		// TODO Auto-generated constructor stub
 	}
 	public UtiType getType() {
-		return type;
+		return (UtiType)type.getObject();
 	}
 	public void setType(UtiType type) {
-		this.type = type;
+		this.type.setObject(type);
 	}
 
 }

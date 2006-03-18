@@ -2,14 +2,41 @@ package uti.codeModel;
 
 import java.util.*;
 
+import org.w3c.dom.Element;
+
+import uti.java.*;
+
 public class UtiMethod extends UtiCollection {
     boolean utiabstract = true;
-    UtiType resulttype = null;
+    Link resulttype = new Link();
     boolean utifinal = false;
     boolean utistatic = false;
     UtiBlock block = null; 
     Vector utithrows = new Vector();
     Vector parameter = new Vector();
+	public void read(Element xml, int version) {
+		// TODO Auto-generated method stub
+		super.read(xml, version);
+		setAbstract(UtiOB.readBoolean(xml, "abstract"));
+		UtiOB.readObject(xml, "resulttype", resulttype, version);
+		setFinal(UtiOB.readBoolean(xml, "final"));
+		setStatic(UtiOB.readBoolean(xml, "static"));
+		block = (UtiBlock)UtiOB.readObjectMulti(xml, "block", version, this);
+		UtiOB.readList(xml, "throws", utithrows, version, this);
+		UtiOB.readList(xml, "parameter", parameter, version, this);
+	}
+	public void write(Element xml, int version) {
+		// TODO Auto-generated method stub
+		super.write(xml, version);
+		UtiOB.writeBoolean(xml, "abstract", isAbstract());
+		UtiOB.writeObject(xml, "resulttype", resulttype, version);
+		UtiOB.writeBoolean(xml, "final", isFinal());
+		UtiOB.writeBoolean(xml, "static", isStatic());
+		UtiOB.writeObject(xml, "block", block, version);
+		UtiOB.writeList(xml, "throws", utithrows, version);
+		UtiOB.writeList(xml, "parameter", parameter, version);
+		
+	}
 	public UtiMethod(BaseCode p) {
 		super(p);
 		// TODO Auto-generated constructor stub
@@ -31,7 +58,7 @@ public class UtiMethod extends UtiCollection {
 	}
 	public void addException(UtiClass obj)
 	{
-		utithrows.addElement(obj);
+		utithrows.addElement(new Link(obj));
 	}
 	public int getExceptionCount()
 	{
@@ -39,7 +66,7 @@ public class UtiMethod extends UtiCollection {
 	}
 	public UtiClass getException(int i)
 	{
-		return (UtiClass)utithrows.elementAt(i);
+		return (UtiClass)((Link)utithrows.elementAt(i)).getObject();
 	}
 	public int getParamCount()
 	{

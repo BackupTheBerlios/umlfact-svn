@@ -137,14 +137,14 @@ public class UtiOB {
       }
    }
 
-   public static UtiOB readObjectMulti(Element xml, String name, int version)
+   public static UtiOB readObjectMulti(Element xml, String name, int version, UtiOB Parent)
    {
       Node k = xml.getFirstChild();
       while (k != null) {
          if (k.getNodeType() == Node.ELEMENT_NODE) {
             Element el = (Element) k;
             if (el.getNodeName().equals(name)) {
-               UtiOB obj = UtiOB.CreateClass(null, el.getAttribute("type"));
+               UtiOB obj = UtiOB.CreateClass(Parent, el.getAttribute("type"));
                obj.read(el, version);
                return obj;
             }

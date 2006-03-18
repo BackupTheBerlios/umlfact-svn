@@ -1,5 +1,9 @@
 package uti.codeModel;
 
+import org.w3c.dom.Element;
+
+import uti.java.UtiOB;
+
 public class UtiWhile extends UtiCommand {
 	UtiAusdruck expression = new UtiAusdruck(this);
 	UtiBlock block=new UtiBlock(this);
@@ -14,10 +18,10 @@ public class UtiWhile extends UtiCommand {
 	public void setBlock(UtiBlock code) {
 		this.block = code;
 	}
-	public boolean isDowhile() {
+	public boolean isDoWhile() {
 		return dowhile;
 	}
-	public void setDowhile(boolean dowhile) {
+	public void setDoWhile(boolean dowhile) {
 		this.dowhile = dowhile;
 	}
 	public UtiAusdruck getExpression() {
@@ -25,5 +29,21 @@ public class UtiWhile extends UtiCommand {
 	}
 	public void setExpression(UtiAusdruck expression) {
 		this.expression = expression;
+	}
+	public void read(Element xml, int version) {
+		// TODO Auto-generated method stub
+		super.read(xml, version);
+		UtiOB.readObject(xml, "block", block, version);
+		UtiOB.readObject(xml, "expression", expression, version);
+		setDoWhile(UtiOB.readBoolean(xml, "dowhile"));
+		
+	}
+
+	public void write(Element xml, int version) {
+		// TODO Auto-generated method stub
+		super.write(xml, version);
+		UtiOB.writeObject(xml, "block", block, version);
+		UtiOB.writeObject(xml, "expression", expression, version);
+		UtiOB.writeBoolean(xml, "dowhile", isDoWhile());
 	}
 }
