@@ -61,7 +61,7 @@ public class UtiArray extends UtiType {
 		// TODO Auto-generated method stub
 		super.write(xml, version);
 		UtiOB.writeObject(xml, "basetype", basetype, version);
-		UtiOB.writeList(xml, "dimensions", dimensions, version, this);
+		UtiOB.writeList(xml, "dimensions", dimensions, version);
 	};
 	
 
