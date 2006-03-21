@@ -1,9 +1,7 @@
 package com.xiaobo.uml.figure;
 
+import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.ToolbarLayout;
-
-import com.xiaobo.uml.IIconConstants;
-import com.xiaobo.uml.UmlPlugin;
 
 /**
  * 
@@ -20,8 +18,13 @@ public class CompartmentFigure extends LabeledFigure {
 		getContentPane().setLayoutManager(layout);
 
 		setBackgroundColor(ColorFactory.getCompartmentColor());
-		getLabel().setIcon(UmlPlugin.getImage(IIconConstants.COMPARTMENT_ICON));
 		getLabel().setTooltipText("Compartment");
+		setBorder(null);
 	}
 
+	protected void paintFigure(Graphics graphics) {
+		super.paintFigure(graphics);
+		graphics.drawLine(getBounds().x, getBounds().y, getBounds().x
+				+ getBounds().width, getBounds().y);
+	}
 }

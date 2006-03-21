@@ -22,20 +22,14 @@ public class LabeledFigure extends Figure implements ILabeledFigure {
 	private IFigure containerFigure;
 
 	public LabeledFigure() {
-		IFigure borderFigure = new Figure();
-
 		setLabel(new EditableLabel());
 		setContainerFigure(new Figure());
 
 		getLabel().setBorder(new MarginBorder(0, 0, BORDER_SIZE, 0));
 
-		borderFigure.setBorder(new MarginBorder(BORDER_SIZE));
-		borderFigure.setLayoutManager(new ToolbarLayout(false));
-		borderFigure.add(getLabel());
-		borderFigure.add(getContentPane());
-
 		setLayoutManager(new ToolbarLayout(false));
-		add(borderFigure);
+		add(getLabel());
+		add(getContentPane());
 
 		setBorder(new LineBorder(ColorConstants.black, 1));
 		setForegroundColor(ColorConstants.black);
