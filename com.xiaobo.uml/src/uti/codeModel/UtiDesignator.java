@@ -2,7 +2,7 @@ package uti.codeModel;
 
 import java.util.*;
 
-public class UtiDesignator extends BaseCode {
+public class UtiDesignator extends UtiCommand {
     Vector steps = new Vector();
     UtiVariable BaseVar = null;
 	public UtiDesignator(BaseCode p) {

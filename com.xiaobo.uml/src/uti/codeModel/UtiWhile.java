@@ -16,6 +16,7 @@ public class UtiWhile extends UtiCommand {
 		return block;
 	}
 	public void setBlock(UtiBlock code) {
+		code.setObjParent(this);
 		this.block = code;
 	}
 	public boolean isDoWhile() {
@@ -28,6 +29,7 @@ public class UtiWhile extends UtiCommand {
 		return expression;
 	}
 	public void setExpression(UtiAusdruck expression) {
+		expression.setObjParent(this);
 		this.expression = expression;
 	}
 	public void read(Element xml, int version) {

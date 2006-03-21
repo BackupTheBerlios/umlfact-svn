@@ -35,6 +35,7 @@ public class UtiCollection extends UtiType implements BaseCollection {
 	   {
 		   children.addElement(obj);
 		   childrenmap.put(obj.getName(), obj);
+		   ((UtiOB)obj).setObjParent(this);
 	   }
 	public int getChildCount()
 	{

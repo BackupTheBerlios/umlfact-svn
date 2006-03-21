@@ -61,6 +61,7 @@ public class UtiZuweisung extends UtiCommand {
 	}
 
 	public void setExpression(UtiAusdruck exp) {
+		exp.setObjParent(this);
 		this.expression = exp;
 	}
 
@@ -69,6 +70,7 @@ public class UtiZuweisung extends UtiCommand {
 	}
 
 	public void setTarget(UtiDesignator t) {
+		t.setObjParent(this);
 		target = t;
 	}
 

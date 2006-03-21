@@ -60,6 +60,16 @@ public class UtiMethod extends UtiCollection {
 	{
 		utithrows.addElement(new Link(obj));
 	}
+	public Link intern_throw()
+	{
+	   Link l = new Link();
+	   utithrows.addElement(l);
+	   return l;
+	}
+	public Link intern_result()
+	{
+		return resulttype;
+	}
 	public int getExceptionCount()
 	{
 		return utithrows.size();
@@ -94,13 +104,14 @@ public class UtiMethod extends UtiCollection {
 		return block;
 	}
 	public void setBlock(UtiBlock block) {
+		block.setObjParent(this);
 		this.block = block;
 	}
 	public UtiType getResultType() {
-		return resulttype;
+		return (UtiType)resulttype.getObject();
 	}
 	public void setResultType(UtiType resulttype) {
-		this.resulttype = resulttype;
+		this.resulttype.setObject(resulttype);
 	}
 	public boolean isAbstract() {
 		return utiabstract;
@@ -123,6 +134,7 @@ public class UtiMethod extends UtiCollection {
 
 	public void addChild(BaseName obj) {
 		// TODO Auto-generated method stub
+		((UtiOB)obj).setObjParent(this);
 		if (obj instanceof UtiVariable)
 		super.addChild(obj);
 	}

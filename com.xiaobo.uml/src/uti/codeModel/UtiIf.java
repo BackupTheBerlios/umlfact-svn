@@ -21,6 +21,7 @@ public class UtiIf extends UtiCommand {
 	}
 
 	public void setElse_Block(UtiBlock else_block) {
+	    else_block.setObjParent(this);
 		this.else_block = else_block;
 	}
 
@@ -29,6 +30,7 @@ public class UtiIf extends UtiCommand {
 	}
 
 	public void setExpression(UtiAusdruck expression) {
+		expression.setObjParent(this);
 		this.expression = expression;
 	}
 
@@ -37,6 +39,7 @@ public class UtiIf extends UtiCommand {
 	}
 
 	public void setThen_Block(UtiBlock then_block) {
+		then_block.setObjParent(this);
 		this.then_block = then_block;
 	}
 

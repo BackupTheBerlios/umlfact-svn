@@ -7,7 +7,10 @@ import uti.java.*;
 import uti.java.Link;
 
 public class UtiClass extends UtiCollection {
-	boolean utiabstract;
+	boolean utiabstract=false;
+	boolean utipublic=false;;
+	boolean utifinal=false;;
+
 	Link extendsobj = new Link();
 	Vector implementsobj = new Vector();
 	public UtiClass(BaseCode p) {
@@ -22,6 +25,16 @@ public class UtiClass extends UtiCollection {
 	{
 		return (UtiClass)extendsobj.getObject();
 	}
+	public Link intern_extends_link()
+	{
+		return extendsobj;
+	}
+	public Link intern_impl_link()
+	{
+		Link l = new Link();
+		implementsobj.addElement(l);
+		return l;
+	}
 	public void addImplement(UtiInterface i)
 	{
 		implementsobj.addElement(new Link(i));
@@ -34,6 +47,8 @@ public class UtiClass extends UtiCollection {
 		UtiOB.readObject(xml, "extends", extendsobj, version);
 		UtiOB.readList(xml, "implements", implementsobj, version, this);
 		setAbstract(UtiOB.readBoolean(xml, "abstract"));
+		setPublic(UtiOB.readBoolean(xml, "public"));
+		setFinal(UtiOB.readBoolean(xml, "final"));
 	}
 	public void write(Element xml, int version) {
 		// TODO Auto-generated method stub
@@ -41,6 +56,8 @@ public class UtiClass extends UtiCollection {
 		UtiOB.writeObject(xml, "extends", extendsobj, version);
 		UtiOB.writeList(xml, "implements", implementsobj, version);
 		UtiOB.writeBoolean(xml, "abstract", isAbstract());
+		UtiOB.writeBoolean(xml, "public", isPublic());
+		UtiOB.writeBoolean(xml, "final", isFinal());
 	}
 	public UtiMethod addMethod(String Name)
 	{
@@ -62,5 +79,17 @@ public class UtiClass extends UtiCollection {
 	}
 	public void setAbstract(boolean utiabstract) {
 		this.utiabstract = utiabstract;
+	}
+	public boolean isFinal() {
+		return utifinal;
+	}
+	public void setFinal(boolean utifinal) {
+		this.utifinal = utifinal;
+	}
+	public boolean isPublic() {
+		return utipublic;
+	}
+	public void setPublic(boolean utipublic) {
+		this.utipublic = utipublic;
 	}
 }

@@ -46,6 +46,7 @@ public class UtiBlock extends UtiCommand implements BaseCollection {
 		// TODO Auto-generated method stub
 		children.addElement(obj);
 		childrenmap.put(obj.getName(), obj);
+		((UtiOB)obj).setObjParent(this);
 
 	}
 

@@ -8,6 +8,7 @@ public class UtiVariable extends UtiName implements BaseCommand{
     Link type = new Link();
     boolean utifinal = false;
     boolean utistatic = false;
+    int arraysize=0;
     public void setType(UtiType t)
     {
     	type.setObject(t);
@@ -20,6 +21,14 @@ public class UtiVariable extends UtiName implements BaseCommand{
 	public UtiVariable(BaseCode p) {
 		super(p);
 		
+	}
+	public void addArray(int i)
+	{
+		arraysize += i;
+	}
+	public Link intern_type()
+	{
+		return type;
 	}
 	public boolean isStatic() {
 		return utistatic;
@@ -39,6 +48,7 @@ public class UtiVariable extends UtiName implements BaseCommand{
 		UtiOB.readObject(xml, "type", type, version);
 		setStatic(UtiOB.readBoolean(xml, "static"));
 		setFinal(UtiOB.readBoolean(xml, "final"));
+		arraysize = UtiOB.readInteger(xml, "arraysize");
 	}
 	public void write(Element xml, int version) {
 		// TODO Auto-generated method stub
@@ -46,6 +56,7 @@ public class UtiVariable extends UtiName implements BaseCommand{
 		UtiOB.writeObject(xml, "type", type, version);
 		UtiOB.writeBoolean(xml, "static", isStatic());
 		UtiOB.writeBoolean(xml, "final", isFinal());
+		UtiOB.writeInteger(xml, "arraysize", arraysize);
 	}
 
 }

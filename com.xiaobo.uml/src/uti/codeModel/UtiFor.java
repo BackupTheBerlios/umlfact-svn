@@ -17,24 +17,28 @@ public class UtiFor extends UtiCommand {
 		return block;
 	}
 	public void setBlock(UtiBlock code) {
+		code.setObjParent(this);
 		this.block = code;
 	}
 	public UtiAusdruck getBedingung() {
 		return bedingung;
 	}
 	public void setBedingung(UtiAusdruck bedingung) {
+		bedingung.setObjParent(this);
 		this.bedingung = bedingung;
 	}
 	public UtiBlock getInit() {
 		return init;
 	}
 	public void setInit(UtiBlock init) {
+		init.setObjParent(this);
 		this.init = init;
 	}
 	public UtiBlock getStep() {
 		return step;
 	}
 	public void setStep(UtiBlock step) {
+		step.setObjParent(this);
 		this.step = step;
 	}
 	public void read(Element xml, int version) {
