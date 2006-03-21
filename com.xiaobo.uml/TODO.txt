@@ -1,0 +1,8 @@
+=================TODO List========================
+1.0) refine the figures. (done by xiaobo on Mar 21)
+2.0) add GraphLayout to the UmlModelPart 
+2.1) delete everything about the position
+3.0) combination the model to the uti package
+=================Bug List========================
+1.) cann't refresh the Type automatically
+2.) there are some errors in the uti package
