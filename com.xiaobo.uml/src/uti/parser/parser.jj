@@ -1,0 +1,591 @@
+ 
+options {
+   LOOKAHEAD=2;
+   JAVA_UNICODE_ESCAPE=true;
+}
+
+PARSER_BEGIN(ModelGenerator)
+
+package uti.parser;
+
+import java.io.*;
+import uti.codeModel.*;
+import java.util.*;
+
+public class ModelGenerator {
+   static public UtiPackage MainPackage=null;
+   static void readSingleFile(File f, UtiPackage m)
+   {
+       try {
+       ModelGenerator mg = new ModelGenerator(new FileReader(f.getName()));
+       mg.MainPackage = m;
+       mg.program();
+       } catch(Exception e) {
+       
+       }
+   }
+   static UtiPackage getPackage(LinkName n)
+   {
+      UtiPackage current=MainPackage;
+      for (int i = 0; i < n.getCount(); i++) {
+         String b = n.getValue(i);
+         UtiPackage ne = current.getPackageByName(b);
+         if (ne== null) ne = current.addPackage(b);
+         current = ne;
+      }
+      return current;
+   }
+
+}
+
+PARSER_END(ModelGenerator)
+
+SKIP:
+{
+" "
+| "\r"
+| "\t"
+| "\n"
+}
+
+MORE: 
+{
+   "/*": BIG_COMMENT
+|   "//": SMALL_COMMENT
+}
+
+<BIG_COMMENT>
+SPECIAL_TOKEN:
+{
+   <BIG_COMMENT_BLA: "*/" > : DEFAULT
+}
+
+<SMALL_COMMENT>
+SPECIAL_TOKEN:
+{
+   <SMALL_COMMENT_BLA: "\n" | "\r" > : DEFAULT
+}
+
+<BIG_COMMENT, SMALL_COMMENT>
+MORE:
+{
+   < ~[]>
+}
+
+//Komplexe Elemente
+
+
+TOKEN: {
+   <INTEGER_VALUE:
+      ["1"-"9"] (["0"-"9"])* (["l", "L"])?
+      | "0" ["x", "X"]  (["0"-"9", "a"-"f", "A"-"F"])+ (["l", "L"])?
+      | "0" (["0"-"7"])*
+   >
+   |
+   <FLOAT_VALUE:
+      (["0"-"9"])+ "." (["0"-"9"])* (<EXP>)? (["f", "F", "d", "D"])?
+      |  "." (["0"-"9"])+ (<EXP>)? (["f", "F", "d", "D"])?
+      |  (["0"-"9"])+ <EXP> (["f", "F", "d", "D"])?
+      |  (["0"-"9"])+ (<EXP>)? ["f", "F", "d", "D"]
+   >
+   |
+   <#EXP:["e", "E"] (["+", "-"])? (["0"-"9"])+ >
+   |
+   <CHAR_VALUE:  
+      "'"
+      (   (~["'", "\\", "\n", "\r"])
+        | ("\\"
+            ( ["0"-"7"] ( ["0"-"7"] ) ?
+            | ["n", "t", "b", "r", "f", "\\", "'", "\""]
+            | ["0"-"3"] ["0"-"7"] ["0"-"7"]
+            )
+         )
+      )
+      "'"
+    >   
+    |
+    <STRING_VALUE:  
+      "\""
+      (   (~["'", "\\", "\n", "\r"])
+        | ("\\"
+            ( ["0"-"7"] ( ["0"-"7"] ) ?
+            | ["n", "t", "b", "r", "f", "\\", "'", "\""]
+            | ["0"-"3"] ["0"-"7"] ["0"-"7"]
+            )
+         )
+      )*
+      "\""
+    >   
+}
+
+
+TOKEN:
+{
+   <PACKAGE_TOK: "package" >
+   |<CLASS_TOK: "class" >
+   |<INTERFACE_TOK: "interface" >
+   |<PUBLIC_TOK: "public" >
+   |<PROTECTED_TOK: "protected" >
+   |<PRIVATE_TOK: "private" >
+   |<FINAL_TOK: "final">
+   |<ABSTRACT_TOK: "abstract">
+   |<IMPLEMENTS_TOK: "implements">
+   |<EXTENDS_TOK: "extends">
+   |<THROWS_TOK: "throws">
+   |<STATIC_TOK: "static">
+   |<IF_TOK: "if">
+   |<ELSE_TOK: "else">
+   |<DO_TOK: "do">
+   |<WHILE_TOK: "while">
+   |<FOR_TOK: "for">
+   
+}
+
+TOKEN:
+{
+   <IDENT: ["$", "A"-"Z", "_", "a"-"z"] 
+   (
+      ["0"-"9",
+      "$","A"-"Z", "_", "a"-"z"]
+   )*
+   >
+   |
+   <SYMIDENT: (["=", "<", ">", "/", "\\", "!", "~", "?", ":", "|", "&", "+", "-", "*", "^",
+   "%"])+>
+}
+
+TOKEN:
+{
+   <LKLAMMER: "(">
+ | <RKLAMMER: ")">
+ | <LGKLAMMER: "{" >
+ | <RGKLAMMER: "}" >
+ | <LEKLAMMER: "]" >
+ | <REKLAMMER: "[" >
+ | <SEMICOLON: ";" >
+ | <COMMA: ",">
+ | <DOT: ".">
+}
+
+void program():
+{
+   LinkName n=null;
+   UtiPackage currentpackage=MainPackage;
+   UtiClass c=null;
+   UtiInterface i=null;
+}
+{
+   ("package" n = name() 
+      {
+         currentpackage = getPackage(n);      
+      }
+
+   )?
+   (
+      c=StdClass() {currentpackage.addChild(c);}
+      | i = StdInterface() {currentpackage.addChild(i);}
+      
+   )+
+}
+
+LinkName name():
+{
+   LinkName n=new LinkName();
+   Token bez;
+}
+{
+   bez=<IDENT> {n.addValue(bez.toString(), bez);}
+   (
+      "." bez=<IDENT> {n.addValue(bez.toString(), bez);}
+   )*
+   {return n;}
+}
+
+UtiClass StdClass():
+{
+   UtiClass cl=null;
+   boolean abst= false;
+   boolean publ = false;
+   boolean fin=false;
+}
+{
+  ("public" {publ=true;})? 
+   (
+     "abstract" {abst = true;}
+     | "final" {fin = true;}
+   )?
+   cl=Klassendeklaration() 
+   {
+   cl.setPublic(publ);
+   cl.setAbstract(abst);
+   cl.setFinal(fin);   
+   return cl;
+   } 
+}
+
+UtiInterface StdInterface():
+{
+}
+{
+   "interface" {return null;}
+}
+
+int Sichtbarkeitsmod():
+{
+   int vis = -1;
+}
+{
+   (
+         "public" {vis = 0;}
+         | "protected" {vis = 1;}
+         | "private" {vis = 2;}
+      )?
+     {return vis;}
+}
+
+UtiClass Klassendeklaration():
+{
+   UtiClass cl=new UtiClass(null);
+   Token cn;
+   LinkName ln;
+   BaseName bn;
+   Vector blist;
+   int vis=-1;
+}
+{
+   "class" cn=<IDENT> {cl.setName(cn.toString());}
+   ("extends" ln=name()
+      {
+         LinkMemory.add(cl.intern_extends_link(), cl, ln, UtiClass.class);
+      }
+   )?
+   ("implements" ln=name()
+       {
+         LinkMemory.add(cl.intern_impl_link(), cl, ln, UtiInterface.class);
+       }
+     ("," ln=name()
+        {
+           LinkMemory.add(cl.intern_impl_link(), cl, ln, UtiInterface.class);
+        }     
+     )*  
+   )?
+   "{"
+   (
+      vis =  Sichtbarkeitsmod()
+      (
+         bn=Methode() {
+            cl.addChild(bn);
+      }
+         | bn=Constructor() {
+            cl.addChild(bn);
+      }
+         | blist=Deklaration(){
+            for (int i = 0; i < blist.size(); i++) {
+               cl.addChild((BaseName)blist.elementAt(i));
+            }
+      }
+         | "abstract" bn=Methodenrumpf(){
+            cl.addChild(bn);
+      }
+      ) 
+      | "static"
+      
+   )*
+   "}"
+   {return cl;}
+   
+   
+}
+
+Vector Deklaration():
+{
+   LinkName typ;
+   int arraycount=0;
+   UtiVariable var;
+   Vector l = new Vector();
+}
+{
+   typ=name() ("[""]" {arraycount++;} )* 
+   var=Variablendeklaration() {
+      LinkMemory.add(var.intern_type(), var, typ, UtiType.class);
+      var.addArray(arraycount);
+      l.addElement(var);
+   }
+   ( ","
+   var=Variablendeklaration() {
+      LinkMemory.add(var.intern_type(), var, typ, UtiType.class);
+      var.addArray(arraycount);
+      l.addElement(var);
+   }
+   
+   )*
+   {return l;}
+}
+
+UtiVariable Variablendeklaration():
+{
+   UtiVariable var=new UtiVariable(null);
+   Token n;
+}
+{
+   n=<IDENT> {var.setName(n.toString());}
+
+  {return var;}
+}
+
+Vector FormaleParameter():
+{
+   LinkName typ;
+   int arraycount=0;
+   UtiVariable var;
+   Vector l = new Vector();
+}
+{
+   "("
+   
+   (typ=name() ("[""]" {arraycount++;} )* 
+   var=Variablendeklaration() {
+      LinkMemory.add(var.intern_type(), var, typ, UtiType.class);
+      var.addArray(arraycount);
+      l.addElement(var);
+      arraycount = 0;
+   })?
+   ( "," 
+   typ=name() ("[""]" {arraycount++;} )* 
+   var=Variablendeklaration() {
+      LinkMemory.add(var.intern_type(), var, typ, UtiType.class);
+      var.addArray(arraycount);
+      l.addElement(var);
+      arraycount = 0;
+   }
+   
+   )*
+   ")"
+   {return l;}
+}
+
+UtiMethod MethodKopf():
+{
+   UtiMethod m = new UtiMethod(null);
+   Vector v = new Vector();
+   Token n;
+   LinkName link;
+}
+{
+   n = <IDENT> {m.setName(n.toString());}
+   v=FormaleParameter() 
+   { 
+      for (int i = 0; i < v.size(); i++) {
+         m.addChild((UtiVariable)v.elementAt(i));
+      };
+   }
+   (
+      "throws"
+      link = name() 
+      {
+         LinkMemory.add(m.intern_throw(), m, link, UtiClass.class);
+      }
+      (
+      
+      ","
+      link = name() 
+      {
+         LinkMemory.add(m.intern_throw(), m, link, UtiClass.class);
+      }      
+      )*
+   
+   )?
+   {return m;}
+}
+
+UtiMethod Constructor():
+{
+   UtiMethod m = null;
+   UtiBlock b=null;
+}
+{
+   m=MethodKopf()
+   b=Block()
+   {m.setBlock(b); return m;}
+}
+
+UtiMethod Methode():
+{
+   UtiMethod m = null;
+   UtiBlock b=null;
+}
+{
+   m=Methodenrumpf()
+   b=Block()
+   {m.setBlock(b); return m;}
+}
+
+UtiMethod Methodenrumpf():
+{
+   UtiMethod m = null;
+   LinkName typ;
+}
+{
+   typ=name()
+   m = MethodKopf()
+   {
+   LinkMemory.add(m.intern_result(), m, typ, UtiType.class);
+   return m;
+   }
+}
+
+
+UtiBlock Block():
+{
+   UtiBlock b=new UtiBlock(null);
+   BaseCommand com;
+   Vector v;
+}
+{
+   "{"
+   (
+      com=Basisanweisung() ";"
+      {
+         b.addCommand(com);
+      }
+      |
+      v=Deklaration() ";"
+      {
+         for (int i = 0; i < v.size(); i++)  {
+            b.addCommand((UtiVariable)v.elementAt(i));
+         }
+      }
+   )*
+   "}"
+   |
+   (
+      com=Basisanweisung() ";"
+      {
+         b.addCommand(com);
+      }
+      |
+      v=Deklaration() ";"
+      {
+         for (int i = 0; i < v.size(); i++)  {
+            b.addCommand((UtiVariable)v.elementAt(i));
+         }
+      }
+   )
+   
+   {return b;}
+}
+
+BaseCommand Basisanweisung():
+{
+   BaseCommand com=null;
+}
+{
+   com=If()
+   | com=For()
+   | com=While()
+   | com=DoWhile()
+   | com=Zuweisung()
+   { 
+   return com;
+   }
+}
+
+BaseCommand Zuweisung():
+{
+   UtiZuweisung z;
+   UtiAusdruck a;
+   UtiDesignator d;
+}
+{
+   d = Designator() 
+   (" = "
+   a = Ausdruck()
+   {
+   z = new UtiZuweisung(null);
+   z.setExpression(a);
+   z.setTarget(d);
+   return z;
+   }
+   )?
+   {return d;}
+}
+
+UtiIf If():
+{
+   UtiIf f = new UtiIf(null);
+   UtiAusdruck d;
+   UtiBlock b;
+}
+{
+   "if" "("d=Ausdruck() ")" {f.setExpression(d);}
+   b=Block() {f.setThen_Block(b);}
+   (
+      "else"
+      b=Block() {f.setElse_Block(b);}
+   )?
+
+  {return f;}
+}
+
+UtiFor For():
+{
+   UtiFor f = new UtiFor(null);
+   UtiAusdruck d;
+   UtiBlock b;
+}
+{
+   "for" "(" b=Block() {f.setInit(b);}
+   ";" d=Ausdruck() {f.setBedingung(d);}
+   ";" b=Block() {f.setStep(b);} ")"
+   b=Block() {f.setBlock(b);}
+   {return f;}
+}
+
+UtiWhile While():
+{
+   UtiWhile w = new UtiWhile(null);
+   UtiAusdruck d;
+   UtiBlock b;
+}
+{
+   "while" "(" d = Ausdruck() ")" b= Block() 
+   {
+      w.setExpression(d);
+      w.setBlock(b);
+      return w;
+   }
+}
+
+UtiWhile DoWhile():
+{
+   UtiWhile w = new UtiWhile(null);
+   UtiAusdruck d;
+   UtiBlock b;
+}
+{
+   "do" b= Block() "while" "(" d = Ausdruck() ")"
+   {
+      w.setExpression(d);
+      w.setBlock(b);
+      w.setDoWhile(true);
+      return w;
+   }
+}
+
+UtiDesignator Designator():
+{
+   UtiDesignator d = new UtiDesignator(null);
+}
+{
+   
+
+   {return d;}
+}
+
+UtiAusdruck Ausdruck():
+{
+   UtiAusdruck a= new UtiAusdruck(null);
+}
+{
+   {return a;}
+}
