@@ -28,17 +28,20 @@ public interface ModelGeneratorConstants {
   int DO_TOK = 29;
   int WHILE_TOK = 30;
   int FOR_TOK = 31;
-  int IDENT = 32;
-  int SYMIDENT = 33;
-  int LKLAMMER = 34;
-  int RKLAMMER = 35;
-  int LGKLAMMER = 36;
-  int RGKLAMMER = 37;
-  int LEKLAMMER = 38;
-  int REKLAMMER = 39;
-  int SEMICOLON = 40;
-  int COMMA = 41;
-  int DOT = 42;
+  int INSTANCEOF_TOK = 32;
+  int TRUE_TOK = 33;
+  int FALSE_TOK = 34;
+  int NULL_TOK = 35;
+  int IDENT = 36;
+  int LKLAMMER = 37;
+  int RKLAMMER = 38;
+  int LGKLAMMER = 39;
+  int RGKLAMMER = 40;
+  int LEKLAMMER = 41;
+  int REKLAMMER = 42;
+  int SEMICOLON = 43;
+  int COMMA = 44;
+  int DOT = 45;
 
   int DEFAULT = 0;
   int BIG_COMMENT = 1;
@@ -77,8 +80,11 @@ public interface ModelGeneratorConstants {
     "\"do\"",
     "\"while\"",
     "\"for\"",
+    "\"instanceof\"",
+    "\"true\"",
+    "\"false\"",
+    "\"null\"",
     "<IDENT>",
-    "<SYMIDENT>",
     "\"(\"",
     "\")\"",
     "\"{\"",
@@ -89,6 +95,29 @@ public interface ModelGeneratorConstants {
     "\",\"",
     "\".\"",
     "\" = \"",
+    "\"||\"",
+    "\"&&\"",
+    "\"|\"",
+    "\"^\"",
+    "\"&\"",
+    "\"==\"",
+    "\"!=\"",
+    "\"<\"",
+    "\"<=\"",
+    "\">\"",
+    "\">=\"",
+    "\"<<\"",
+    "\">>\"",
+    "\">>>\"",
+    "\"+\"",
+    "\"-\"",
+    "\"*\"",
+    "\"/\"",
+    "\"%\"",
+    "\"~\"",
+    "\"!\"",
+    "\"++\"",
+    "\"--\"",
   };
 
 }

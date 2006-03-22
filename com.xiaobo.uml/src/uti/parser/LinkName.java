@@ -7,7 +7,7 @@ public class LinkName {
    Vector tokens = new Vector();
    void addValue(String name, Token t)
    {
-	   names.addElement(names);
+	   names.addElement(name);
 	   tokens.addElement(t);
 	   
    }
@@ -18,5 +18,11 @@ public class LinkName {
    String getValue(int i)
    {
 	   return (String)names.elementAt(i);
+   }
+   public String toString()
+   {
+	   String s="";
+	   for (int i = 0; i < getCount();i++) s+= getValue(i);
+	   return s;
    }
 }

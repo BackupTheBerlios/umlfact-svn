@@ -14,14 +14,18 @@ import java.util.*;
 
 public class ModelGenerator {
    static public UtiPackage MainPackage=null;
-   static void readSingleFile(File f, UtiPackage m)
+   public static void readSingleFile(File f, UtiPackage m)
    {
        try {
-       ModelGenerator mg = new ModelGenerator(new FileReader(f.getName()));
+       BufferedReader in =new BufferedReader(new FileReader(f.getAbsoluteFile()));
+       System.out.println("Datei "+f.getAbsoluteFile()+" geladen");
+       ModelGenerator mg = new ModelGenerator(in);
+       System.out.println("ModelGenerator gestartet");
        mg.MainPackage = m;
        mg.program();
+       System.out.println("Programm geparsed");
        } catch(Exception e) {
-       
+       e.printStackTrace();
        }
    }
    static UtiPackage getPackage(LinkName n)
@@ -138,6 +142,10 @@ TOKEN:
    |<DO_TOK: "do">
    |<WHILE_TOK: "while">
    |<FOR_TOK: "for">
+   |<INSTANCEOF_TOK: "instanceof">
+   |<TRUE_TOK: "true">
+   |<FALSE_TOK: "false">
+   |<NULL_TOK: "null">
    
 }
 
@@ -149,9 +157,6 @@ TOKEN:
       "$","A"-"Z", "_", "a"-"z"]
    )*
    >
-   |
-   <SYMIDENT: (["=", "<", ">", "/", "\\", "!", "~", "?", ":", "|", "&", "+", "-", "*", "^",
-   "%"])+>
 }
 
 TOKEN:
@@ -175,7 +180,7 @@ void program():
    UtiInterface i=null;
 }
 {
-   ("package" n = name() 
+   ("package" n = name()  ";"
       {
          currentpackage = getPackage(n);      
       }
@@ -303,23 +308,44 @@ Vector Deklaration():
    int arraycount=0;
    UtiVariable var;
    Vector l = new Vector();
+   TypeDescription d;
 }
 {
    typ=name() ("[""]" {arraycount++;} )* 
    var=Variablendeklaration() {
-      LinkMemory.add(var.intern_type(), var, typ, UtiType.class);
-      var.addArray(arraycount);
+      d= new TypeDescription(null);
+      LinkMemory.add(d.intern_type(), d, typ, UtiType.class);
+      d.addArray(arraycount);
+      var.setDescription(d);
       l.addElement(var);
    }
    ( ","
    var=Variablendeklaration() {
-      LinkMemory.add(var.intern_type(), var, typ, UtiType.class);
-      var.addArray(arraycount);
+      d= new TypeDescription(null);
+      LinkMemory.add(d.intern_type(), d, typ, UtiType.class);
+      d.addArray(arraycount);
+      var.setDescription(d);
       l.addElement(var);
    }
    
    )*
    {return l;}
+}
+
+
+TypeDescription TypeDeklaration():
+{
+   TypeDescription d= new TypeDescription(null);
+   int arraycount=0;
+   LinkName typ;
+}
+{
+   typ=name() ("[""]" {arraycount++;} )* 
+   {
+       LinkMemory.add(d.intern_type(), d, typ, UtiType.class);
+       d.addArray(arraycount);
+       return d;
+   }
 }
 
 UtiVariable Variablendeklaration():
@@ -339,22 +365,23 @@ Vector FormaleParameter():
    int arraycount=0;
    UtiVariable var;
    Vector l = new Vector();
+   TypeDescription t;
 }
 {
    "("
-   
-   (typ=name() ("[""]" {arraycount++;} )* 
+   (
+   t = TypeDeklaration()
    var=Variablendeklaration() {
-      LinkMemory.add(var.intern_type(), var, typ, UtiType.class);
-      var.addArray(arraycount);
+      var.setDescription(t);
+      t.addArray(arraycount);
       l.addElement(var);
       arraycount = 0;
    })?
    ( "," 
-   typ=name() ("[""]" {arraycount++;} )* 
+   t = TypeDeklaration()
    var=Variablendeklaration() {
-      LinkMemory.add(var.intern_type(), var, typ, UtiType.class);
-      var.addArray(arraycount);
+      var.setDescription(t);
+      t.addArray(arraycount);
       l.addElement(var);
       arraycount = 0;
    }
@@ -442,7 +469,7 @@ UtiBlock Block():
    Vector v;
 }
 {
-   "{"
+   ("{"
    (
       com=Basisanweisung() ";"
       {
@@ -471,7 +498,7 @@ UtiBlock Block():
          }
       }
    )
-   
+   )
    {return b;}
 }
 
@@ -480,11 +507,11 @@ BaseCommand Basisanweisung():
    BaseCommand com=null;
 }
 {
-   com=If()
+   (com=If()
    | com=For()
    | com=While()
    | com=DoWhile()
-   | com=Zuweisung()
+   | com=Zuweisung())
    { 
    return com;
    }
@@ -575,17 +602,335 @@ UtiWhile DoWhile():
 UtiDesignator Designator():
 {
    UtiDesignator d = new UtiDesignator(null);
+   Vector elements=new Vector();
+   LinkName n;
+   UtiAusdruck a;
+   Vector arguments;
 }
 {
+   (
+      n=name() {elements.addElement(n);}
+      | "[" a= Ausdruck() "]" {elements.addElement(a);}
+      | "(" arguments=Arguments() ")" {elements.addElement(arguments);}
+      
    
+   )+
 
-   {return d;}
+   {
+   LinkMemory.addDesignator(d, elements);
+   return d;
+   }
+}
+
+Vector Arguments():
+{
+   Vector a= new Vector();
+   UtiAusdruck aus;
+}
+{
+   aus = Ausdruck() {a.addElement(aus);}
+   (
+   "," aus = Ausdruck() {a.addElement(aus);}
+   )*
+   {return a;}
 }
 
 UtiAusdruck Ausdruck():
 {
-   UtiAusdruck a= new UtiAusdruck(null);
+   UtiAusdruck a;
 }
 {
+   a=Ausdruck3()
+   {return a;}
+}
+
+UtiAusdruck Ausdruck3():
+{
+   UtiAusdruck a, c;
+}
+{
+   a=Ausdruck4() ["||" c= Ausdruck3()
+   {
+      a= new UtiAusdruck(a, c, UtiAusdruck.BI_LOGICOR);
+   }]
+   
+   {return a;}
+}
+
+UtiAusdruck Ausdruck4():
+{
+   UtiAusdruck a, c;
+}
+{
+   a=Ausdruck5()[ "&&" c= Ausdruck4()
+   {
+      a= new UtiAusdruck(a, c, UtiAusdruck.BI_LOGICAND);
+   }]
+   {return a;}
+}
+
+UtiAusdruck Ausdruck5():
+{
+   UtiAusdruck a, c;
+}
+{
+   a=Ausdruck6()[ "|" c= Ausdruck5()
+   {
+      a= new UtiAusdruck(a, c, UtiAusdruck.BI_OR);
+   }]
+   
+   {return a;}
+}
+
+UtiAusdruck Ausdruck6():
+{
+   UtiAusdruck a, c;
+}
+{
+   a=Ausdruck7() ["^" c= Ausdruck6()
+   {
+      a= new UtiAusdruck(a, c, UtiAusdruck.BI_XOR);
+   }]
+   
+   {return a;}
+}
+
+UtiAusdruck Ausdruck7():
+{
+   UtiAusdruck a, b,c;
+}
+{
+   a=Ausdruck8() ["&" c= Ausdruck7()
+   {
+      a= new UtiAusdruck(a, c, UtiAusdruck.BI_AND);
+   }]
+ 
+   {return a;}
+}
+
+UtiAusdruck Ausdruck8():
+{
+   UtiAusdruck a, c;
+   int value;
+}
+{
+   a=Ausdruck9() [("=="{value=UtiAusdruck.BI_EQUAL;}|
+                   "!="{value=UtiAusdruck.BI_NOTEQUAL;})
+       c= Ausdruck8()
+       {
+          a= new UtiAusdruck(a, c, value);
+       }]
+   {return a;}
+}
+
+UtiAusdruck Ausdruck9():
+{
+   UtiAusdruck a, c;
+   int value;
+}
+{
+   a=Ausdruck10() [("<"  {value=UtiAusdruck.BI_LESS;}      |
+                   "<="  {value=UtiAusdruck.BI_ELESS;}      |
+                   ">"  {value=UtiAusdruck.BI_GREATER;}      |
+                   ">="  {value=UtiAusdruck.BI_EGREATER;}      |
+                   "instanceof"   {value=UtiAusdruck.BI_INSTANCEOF;}  )
+       c= Ausdruck9()
+       {
+          a= new UtiAusdruck(a, c, value);
+       }]
+   {return a;}
+}
+
+/*UtiAusdruck Ausdruck9():
+{
+   UtiAusdruck a, b,c;
+}
+{
+   b=Ausdruck10() "<" c= Ausdruck9()
+   {
+      a= new UtiAusdruck(b, c, UtiAusdruck.BI_LESS);
+   }
+   | b=Ausdruck10() "<=" c= Ausdruck9()
+   {
+      a= new UtiAusdruck(b, c, UtiAusdruck.BI_ELESS);
+   }
+   | b=Ausdruck10() ">" c= Ausdruck9()
+   {
+      a= new UtiAusdruck(b, c, UtiAusdruck.BI_GREATER);
+   }
+   | b=Ausdruck10() ">=" c= Ausdruck9()
+   {
+      a= new UtiAusdruck(b, c, UtiAusdruck.BI_EGREATER);
+   }
+   | b=Ausdruck10() "instanceof" c= Ausdruck9()
+   {
+      a= new UtiAusdruck(b, c, UtiAusdruck.BI_INSTANCEOF);
+   }
+   | a=Ausdruck10()
+   {return a;}
+}*/
+
+UtiAusdruck Ausdruck10():
+{
+   UtiAusdruck a, c;
+   int value;
+}
+{
+   a=Ausdruck11() [("<<"  {value=UtiAusdruck.BI_LSHIFT;}      |
+                   ">>"  {value=UtiAusdruck.BI_RSHIFT;}      |
+                   ">>>"  {value=UtiAusdruck.BI_SHIFTROUND;}    
+                     )
+       c= Ausdruck10()
+       {
+          a= new UtiAusdruck(a, c, value);
+       }]
+   {return a;}
+}
+/*
+UtiAusdruck Ausdruck10():
+{
+   UtiAusdruck a, b,c;
+}
+{
+   b=Ausdruck11() "<<" c= Ausdruck10()
+   {
+      a= new UtiAusdruck(b, c, UtiAusdruck.BI_LSHIFT);
+   }
+   | b=Ausdruck11() ">>" c= Ausdruck10()
+   {
+      a= new UtiAusdruck(b, c, UtiAusdruck.BI_RSHIFT);
+   }
+   | b=Ausdruck11() ">>>" c= Ausdruck10()
+   {
+      a= new UtiAusdruck(b, c, UtiAusdruck.BI_SHIFTROUND);
+   }
+   | a=Ausdruck11()
+   {return a;}
+}*/
+
+UtiAusdruck Ausdruck11():
+{
+   UtiAusdruck a, c;
+   int value;
+}
+{
+   a=Ausdruck12() [("+"  {value=UtiAusdruck.BI_PLUS;}      |
+                   "-"  {value=UtiAusdruck.BI_MINUS;}        
+                     )
+       c= Ausdruck11()
+       {
+          a= new UtiAusdruck(a, c, value);
+       }]
+   {return a;}
+}
+
+/*UtiAusdruck Ausdruck11():
+{
+   UtiAusdruck a, b,c;
+}
+{
+   b=Ausdruck12() "+" c= Ausdruck11()
+   {
+      a= new UtiAusdruck(b, c, UtiAusdruck.BI_PLUS);
+   }
+   | b=Ausdruck12() "-" c= Ausdruck11()
+   {
+      a= new UtiAusdruck(b, c, UtiAusdruck.BI_MINUS);
+   }
+   | a=Ausdruck12()
+   {return a;}
+}*/
+
+/*UtiAusdruck Ausdruck12():
+{
+   UtiAusdruck a, b,c;
+}
+{
+  b=Ausdruck13() "*" c= Ausdruck12()
+   {
+      a= new UtiAusdruck(b, c, UtiAusdruck.BI_MULTIPLY);
+   }
+   | b=Ausdruck13() "/" c= Ausdruck12()
+   {
+      a= new UtiAusdruck(b, c, UtiAusdruck.BI_DIVIDE);
+   }
+   | b=Ausdruck13() "%" c= Ausdruck12()
+   {
+      a= new UtiAusdruck(b, c, UtiAusdruck.BI_MOD);
+   }
+   | a=Ausdruck13()
+   {return a;}
+}*/
+
+UtiAusdruck Ausdruck12():
+{
+   UtiAusdruck a, c;
+   int value;
+}
+{
+   a=Ausdruck13() [("*"  {value=UtiAusdruck.BI_MULTIPLY;}      |
+                   "/"  {value=UtiAusdruck.BI_DIVIDE;}      |
+                   "%"  {value=UtiAusdruck.BI_MOD;}    
+                     )
+       c= Ausdruck12()
+       {
+          a= new UtiAusdruck(a, c, value);
+       }]
+   {return a;}
+}
+
+UtiAusdruck Ausdruck13():
+{
+   UtiAusdruck a, b,c;
+   TypeDescription d;
+   int value;
+}
+{
+   ("~"  {value=UtiAusdruck.BI_BITNOT;}      |
+    "!"  {value=UtiAusdruck.BI_NOT;}      |
+    "+"  {value=UtiAusdruck.BI_NONE;}   |
+    "-"  {value=UtiAusdruck.BI_NEG;}   |  
+    "++"  {value=UtiAusdruck.BI_LEFTINCREMENT;}   |
+    "--"  {value=UtiAusdruck.BI_LEFTDECREMENT;}  
+    )b= Ausdruck13()
+   {
+      if (value != UtiAusdruck.BI_NONE) {
+      a= new UtiAusdruck(b, value);
+      } else {
+      a=b;
+      }
+   }
+   | "(" d=TypeDeklaration() ")" c= Ausdruck13()
+   {
+      a= new UtiAusdruck(d, c);
+   }
+   | b=Ausdruck14() ("++"  {value=UtiAusdruck.BI_RIGHTINCREMENT;}   |
+                     "--"  {value=UtiAusdruck.BI_RIGHTDECREMENT;}  
+                    )
+   {
+      a= new UtiAusdruck(b,value);
+   }
+   | a=Ausdruck14()
+   {return a;}
+}
+
+UtiAusdruck Ausdruck14():
+{
+   UtiAusdruck a=null, b;
+   Token t;
+   UtiDesignator d=null;
+}
+{
+   "(" a=Ausdruck() ")"
+   | "true" {a = new UtiAusdruck(UtiAusdruck.BI_TRUE);}
+   | "false" {a = new UtiAusdruck(UtiAusdruck.BI_FALSE);}
+   | "null" {a = new UtiAusdruck(UtiAusdruck.BI_NULL);}
+   | t=<INTEGER_VALUE> {
+   a = new UtiAusdruck(new Integer(Integer.parseInt(t.toString())));
+   }
+   | t=<FLOAT_VALUE> {a = new UtiAusdruck(new Double(Double.parseDouble(t.toString())));}
+   | t=<STRING_VALUE> {a= new UtiAusdruck(t.toString());}
+   | t=<CHAR_VALUE> {a= new UtiAusdruck(new Character(t.toString().charAt(1)));}
+   | d=Designator() {a = new UtiAusdruck(d);}
    {return a;}
 }
