@@ -14,13 +14,14 @@ public class UtiOB {
       return toString();
    }
 
-   public static UtiOB CreateClass(UtiOB Parent, String id)
+   public static Object CreateClass(UtiOB Parent, String id)
    {
-      UtiOB ob = null;
+      Object ob = null;
       try {
          Class cl = Class.forName(id); /* numberlist.get(id)*/ ;
-         ob = (UtiOB) cl.newInstance();
-         ob.Parent = Parent;
+         ob =  cl.newInstance();
+         if (ob instanceof UtiOB)
+            ((UtiOB)ob).Parent = Parent;
       } catch (Exception e) {
          System.out.println(e.toString());
          e.printStackTrace();
@@ -144,7 +145,7 @@ public class UtiOB {
          if (k.getNodeType() == Node.ELEMENT_NODE) {
             Element el = (Element) k;
             if (el.getNodeName().equals(name)) {
-               UtiOB obj = UtiOB.CreateClass(Parent, el.getAttribute("type"));
+               UtiOB obj = (UtiOB)UtiOB.CreateClass(Parent, el.getAttribute("type"));
                obj.read(el, version);
                return obj;
             }
@@ -161,10 +162,13 @@ public class UtiOB {
       Element sItem = d.createElement(name);
       xml.appendChild(sItem);
       for (int i = 0; i < Items.size(); i++) {
-         UtiOB ob = (UtiOB) Items.elementAt(i);
-         Element sub = d.createElement("class");
-         sItem.appendChild(sub);
-         ob.write(sub, version);
+    	  Object obj = Items.elementAt(i);
+    	  if (obj instanceof UtiOB) {
+            UtiOB ob = (UtiOB) obj;
+            Element sub = d.createElement("class");
+            sItem.appendChild(sub);
+            ob.write(sub, version);
+    	  }
       }
       ;
 
@@ -184,7 +188,8 @@ public class UtiOB {
                   if (n1.getNodeType() == Node.ELEMENT_NODE) {
                      Element e = (Element) n1;
                      String l = e.getAttribute("type");
-                     UtiOB no = UtiOB.CreateClass(Parent, l);
+                     Object obj = UtiOB.CreateClass(Parent, l);
+                     UtiOB no = (UtiOB)obj;
                      no.read(e, version);
                      Items.addElement(no);
                   }
