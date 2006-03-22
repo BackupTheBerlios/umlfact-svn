@@ -90,7 +90,7 @@ public class UtiMethod extends UtiCollection {
 	{
 		UtiVariable m = new UtiVariable(this);
 		m.setName(Name);
-		m.setType(typ);
+		m.getDescription().setType(typ);
 		addChild(m);
 		return m;
 	}

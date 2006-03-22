@@ -17,7 +17,7 @@ public class UtiDesField extends UtiDesStep {
 	}
 	public void setField(UtiVariable field) {
 		this.field.setObject(field);
-		setResult(field.getType());
+		setResult(field.getDescription().getType());
 		
 	}
 	public void read(Element xml, int version) {

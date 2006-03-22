@@ -41,6 +41,7 @@ public class UtiPackage extends UtiCollection {
    }
    public void renamePackage(UtiPackage pack, String newname)
    {
+	   if (!childrenmap.containsKey(pack.getName())) return;
 	   packagemap.remove(pack.getName());
 	   pack.setName(newname);
 	   packagemap.put(newname, pack);

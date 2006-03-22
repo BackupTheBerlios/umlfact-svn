@@ -5,30 +5,21 @@ import org.w3c.dom.Element;
 import uti.java.*;
 
 public class UtiVariable extends UtiName implements BaseCommand{
-    Link type = new Link();
+    TypeDescription des= new TypeDescription();
     boolean utifinal = false;
     boolean utistatic = false;
-    int arraysize=0;
-    public void setType(UtiType t)
-    {
-    	type.setObject(t);
-    }
-    public UtiType getType()
-    {
-    	return (UtiType)type.getObject();
-    }
+   
     // TODO Variableninitialisierung
 	public UtiVariable(BaseCode p) {
-		super(p);
-		
+		super(p);		
 	}
-	public void addArray(int i)
+	public void setDescription(TypeDescription d)
 	{
-		arraysize += i;
+		des = d;		
 	}
-	public Link intern_type()
+	public TypeDescription getDescription()
 	{
-		return type;
+		return des;
 	}
 	public boolean isStatic() {
 		return utistatic;
@@ -45,18 +36,18 @@ public class UtiVariable extends UtiName implements BaseCommand{
 	public void read(Element xml, int version) {
 		// TODO Auto-generated method stub
 		super.read(xml, version);
-		UtiOB.readObject(xml, "type", type, version);
+		UtiOB.readObject(xml, "type", des, version);
 		setStatic(UtiOB.readBoolean(xml, "static"));
 		setFinal(UtiOB.readBoolean(xml, "final"));
-		arraysize = UtiOB.readInteger(xml, "arraysize");
+		
 	}
 	public void write(Element xml, int version) {
 		// TODO Auto-generated method stub
 		super.write(xml, version);
-		UtiOB.writeObject(xml, "type", type, version);
+		UtiOB.writeObject(xml, "type", des, version);
 		UtiOB.writeBoolean(xml, "static", isStatic());
 		UtiOB.writeBoolean(xml, "final", isFinal());
-		UtiOB.writeInteger(xml, "arraysize", arraysize);
+		
 	}
 
 }

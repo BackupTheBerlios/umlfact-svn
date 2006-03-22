@@ -4,7 +4,6 @@ import java.util.Vector;
 
 import org.w3c.dom.Element;
 import uti.java.*;
-import uti.java.Link;
 
 public class UtiClass extends UtiCollection {
 	boolean utiabstract=false;
@@ -66,14 +65,14 @@ public class UtiClass extends UtiCollection {
 		addChild(m);
 		return m;
 	}
-	public UtiVariable addVariable(String Name, UtiType typ)
+	/*public UtiVariable addVariable(String Name, UtiType typ)
 	{
 		UtiVariable m = new UtiVariable(this);
 		m.setName(Name);
-		m.setType(typ);
+		
 		addChild(m);
 		return m;
-	}
+	}*/
 	public boolean isAbstract() {
 		return utiabstract;
 	}
@@ -91,5 +90,10 @@ public class UtiClass extends UtiCollection {
 	}
 	public void setPublic(boolean utipublic) {
 		this.utipublic = utipublic;
+	}
+	public void addChild(BaseName obj) {
+		// TODO Auto-generated method stub
+		super.addChild(obj);
+		System.out.println("class "+getName()+" "+obj.getName());
 	}
 }

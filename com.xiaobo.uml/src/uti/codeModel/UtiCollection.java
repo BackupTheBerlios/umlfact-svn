@@ -22,6 +22,7 @@ public class UtiCollection extends UtiType implements BaseCollection {
 	
 	public void renameChild(BaseName pack, String newname)
 	   {
+		   if (!childrenmap.containsKey(pack.getName())) return;
 		   childrenmap.remove(pack.getName());
 		   pack.setName(newname);
 		   childrenmap.put(newname, pack);
