@@ -19,6 +19,10 @@ public class LinkName {
    {
 	   return (String)names.elementAt(i);
    }
+   Token getToken(int i)
+   {
+	   return (Token)tokens.elementAt(i);
+   }
    public String toString()
    {
 	   String s="";
