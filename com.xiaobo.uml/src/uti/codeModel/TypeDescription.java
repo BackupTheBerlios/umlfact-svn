@@ -26,6 +26,10 @@ public class TypeDescription extends BaseCode {
 	{
 		arraysize += i;
 	}
+	public int getArraySize()
+	{
+		return arraysize;
+	}
 	public void setType(UtiType t)
     {
     	type.setObject(t);

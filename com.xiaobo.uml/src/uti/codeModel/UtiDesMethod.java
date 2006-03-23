@@ -4,11 +4,14 @@ import org.w3c.dom.Element;
 
 import uti.java.Link;
 import uti.java.UtiOB;
+import java.util.*;
 
 public class UtiDesMethod extends UtiDesStep {
     Link method=new Link();
-	public UtiDesMethod(BaseCode p, UtiMethod m) {
+    Vector params = new Vector();
+	public UtiDesMethod(BaseCode p, UtiMethod m, Vector parameter) {
 		super(p);
+		params = parameter;
 		setMethod(m);
 	}
 	public UtiMethod getMethod() {
@@ -22,11 +25,13 @@ public class UtiDesMethod extends UtiDesStep {
 		// TODO Auto-generated method stub
 		super.read(xml, version);
 		UtiOB.readObject(xml, "method", method, version);
+		UtiOB.readList(xml, "parameter", params, version, this);
 	}
 	public void write(Element xml, int version) {
 		// TODO Auto-generated method stub
 		super.write(xml, version);
 		UtiOB.writeObject(xml, "method", method, version);
+		UtiOB.writeList(xml, "parameter", params, version);
 	}
 
 }
