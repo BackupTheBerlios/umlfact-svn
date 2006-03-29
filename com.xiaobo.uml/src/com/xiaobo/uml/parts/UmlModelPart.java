@@ -2,13 +2,11 @@ package com.xiaobo.uml.parts;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.gef.GraphicalEditPart;
 
 import com.xiaobo.uml.layout.GraphLayout;
 import com.xiaobo.uml.model.UmlModel;
@@ -51,11 +49,11 @@ public class UmlModelPart extends UmlElementPart implements
 		refreshChildren();
 	}
 
-	protected void refreshChildren() {
-		super.refreshChildren();
-		for (Iterator i = getChildren().iterator(); i.hasNext();) {
-			GraphicalEditPart child = (GraphicalEditPart) i.next();
-			child.refresh();
-		}
-	}
+	// protected void refreshChildren() {
+	// super.refreshChildren();
+	// for (Iterator i = getChildren().iterator(); i.hasNext();) {
+	// GraphicalEditPart child = (GraphicalEditPart) i.next();
+	// child.refresh();
+	// }
+	// }
 }
