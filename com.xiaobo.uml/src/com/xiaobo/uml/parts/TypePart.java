@@ -16,6 +16,7 @@ import com.xiaobo.uml.figure.TypeFigure;
 import com.xiaobo.uml.model.CompartmentModel;
 import com.xiaobo.uml.model.IUmlContainer;
 import com.xiaobo.uml.model.TypeModel;
+import com.xiaobo.uml.model.UmlModel;
 import com.xiaobo.uml.policies.TypeLayoutEditPolicy;
 import com.xiaobo.uml.policies.TypeNodeEditPolicy;
 
@@ -31,6 +32,7 @@ public class TypePart extends PositionableElementPart implements NodeEditPart {
 	public void activate() {
 		if (!isActive()) {
 			super.activate();
+			((UmlModel) getParent().getModel()).addPropertyChangeListener(this);
 			for (Iterator i = getChildren().iterator(); i.hasNext();) {
 				CompartmentPart child = (CompartmentPart) i.next();
 				((CompartmentModel) child.getModel())
@@ -46,6 +48,8 @@ public class TypePart extends PositionableElementPart implements NodeEditPart {
 				((CompartmentModel) child.getModel())
 						.removePropertyChangeListener(this);
 			}
+			((UmlModel) getParent().getModel())
+					.removePropertyChangeListener(this);
 			super.deactivate();
 		}
 	}
