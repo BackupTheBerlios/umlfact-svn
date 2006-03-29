@@ -36,5 +36,9 @@ public class UtiNumber extends UtiOB {
 		super.write(xml, version);
 		UtiOB.writeDouble(xml, "value", value);
 	}
+	public String toString() {
+		// TODO Auto-generated method stub
+		return Double.toString(value);
+	}
 
 }

@@ -37,5 +37,9 @@ public class UtiCharacter extends UtiOB  {
 		super.write(xml, version);
 		UtiOB.writeInteger(xml, "value", value);
 	}
+	public String toString() {
+		// TODO Auto-generated method stub
+		return Character.toString(value);
+	}
 
 }

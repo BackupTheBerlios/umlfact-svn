@@ -36,5 +36,13 @@ public class UtiBoolean extends UtiOB {
 		super.write(xml, version);
 		UtiOB.writeBoolean(xml, "value", value);
 	}
-
+	public String toString() {
+		// TODO Auto-generated method stub
+		if (value == true) {
+			return "true";
+		} else {
+			return "false";
+			
+		}
+	}
 }

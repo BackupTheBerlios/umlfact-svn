@@ -3,16 +3,16 @@ package uti.java;
 import org.w3c.dom.*;
 
 public class Link extends UtiOB {
-   UtiOB Object = null;
+   UtiOB Obj = null;
    long ref = 0;
    public UtiOB getObject()
    {
-      return Object;
+      return Obj;
    }
 
    public void setObject(UtiOB ob)
    {
-      Object = ob;
+      Obj = ob;
       if (ob != null) {
          ref = ob.id;
       } else {
@@ -22,7 +22,7 @@ public class Link extends UtiOB {
 
    public Link()
    {
-      Object = null;
+      Obj = null;
    }
 
    public Link(UtiOB ref)
@@ -33,7 +33,11 @@ public class Link extends UtiOB {
    public void dolink()
    {
       Long l = new Long(ref);
-      Object = (UtiOB) UtiOB.loadobj.get(l);
+      Object o = UtiOB.loadobj.get(l);
+      if (o == null) {
+    	  o = UtiOB.staticref.get(l);
+      }
+      Obj = (UtiOB) o;
    }
 
   /* public void write(Element node, String name)
@@ -58,7 +62,7 @@ public class Link extends UtiOB {
 	   //super.write(xml, version);
 	   String k = xml.getAttribute("link");
 	      ref = Long.parseLong(k, 16);
-	      Object = null;
+	      Obj = null;
 	      UtiOB.loadedlinks.addElement(this);
 	 
    }

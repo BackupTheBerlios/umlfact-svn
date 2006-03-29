@@ -38,4 +38,9 @@ public class UtiInteger extends UtiOB {
 		this.value = value;
 	}
 
+	public String toString() {
+		// TODO Auto-generated method stub
+		return Integer.toString(value);
+	}
+
 }

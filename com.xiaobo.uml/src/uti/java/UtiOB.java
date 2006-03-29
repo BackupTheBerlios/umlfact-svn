@@ -30,7 +30,11 @@ public class UtiOB {
    }
 
    public static HashMap loadobj = new HashMap();
+   public static HashMap staticref = new HashMap();
    public static Vector loadedlinks = new Vector();
+   public static void addStaticRef(UtiOB ob) {
+	   staticref.put(new Long(ob.id), ob);
+   }
    long id;
    public UtiOB Parent;
    public UtiOB()
@@ -66,7 +70,7 @@ public class UtiOB {
    public UtiOB(UtiOB p)
    {
       Parent = p;
-      id = (long) (Math.random() * 1000000 + Math.random() * 1000000000) + 100;
+      id = (long) (Math.random() * 1000000 + Math.random() * 1000000000) + 1000;
    }
 
    public String getTypeInfo()
@@ -145,7 +149,7 @@ public class UtiOB {
          if (k.getNodeType() == Node.ELEMENT_NODE) {
             Element el = (Element) k;
             if (el.getNodeName().equals(name)) {
-               UtiOB obj = (UtiOB)UtiOB.CreateClass(Parent, el.getAttribute("type"));
+               UtiOB obj = (UtiOB)UtiOB.CreateClass(Parent, el.getAttribute("_type"));
                obj.read(el, version);
                return obj;
             }
@@ -187,7 +191,7 @@ public class UtiOB {
                while (n1 != null) {
                   if (n1.getNodeType() == Node.ELEMENT_NODE) {
                      Element e = (Element) n1;
-                     String l = e.getAttribute("type");
+                     String l = e.getAttribute("_type");
                      Object obj = UtiOB.CreateClass(Parent, l);
                      UtiOB no = (UtiOB)obj;
                      no.read(e, version);
@@ -208,14 +212,14 @@ public class UtiOB {
       Document d = xml.getOwnerDocument();
       //Attr a = d.createAttribute("id");
       //a.setValue(Long.toHexString(id));
-      xml.setAttribute("id", Long.toHexString(id));
-      xml.setAttribute("type", getTypeInfo());
+      xml.setAttribute("_id", Long.toHexString(id));
+      xml.setAttribute("_type", getTypeInfo());
 
    }
 
    public void read(Element xml, int version)
    {
-      String d = xml.getAttribute("id");
+      String d = xml.getAttribute("_id");
       setID(Long.parseLong(d, 16));
       loadobj.put(new Long(id), this);
    }
