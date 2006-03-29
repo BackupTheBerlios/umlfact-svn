@@ -1,14 +1,14 @@
 =================TODO List========================
-1.0) refine the figures. (done by xiaobo on Mar 21)
-2.0) add GraphLayout to the UmlModelPart (done by xiaobo on Mar 21)
-2.1) delete everything about the position
-3.0) combination the model to the uti package
-4.0) various types of connection to implement
+1.0) refine the figures.(done by xiaobo on Mar 21)
+2.0) add GraphLayout to the UmlModelPart( done by xiaobo on Mar 21)
+2.1) delete everything about the position( Mar 21)
+3.0) combination the model to the uti package( Mar 21)
+4.0) various types of connection to implement( Mar 21)
 =================Bug List========================
-1.) cann't refresh the Type automatically (Mar 21) 
+1.) cann't refresh the Type automatically( Mar 21) 
 done with the solution: add TypeEditPart as children models' listener
-1.1) how can refresh the current created Type (Mar 21)
-1.3) the length of the line above the compartment (Mar 21)
-1.4) delete the label of the compartment (Mar 21)
-1.5) add margin border for the member (Mar 21)
-2.) there are some errors in the uti package (Mar 21)
+1.1) how can refresh the current created Type( Mar 21)
+1.3) the length of the line above the compartment( Mar 21)
+1.4) delete the label of the compartment( Mar 21)
+1.5) add margin border for the member( Mar 21)
+2.) there are some errors in the uti package( Mar 21)
