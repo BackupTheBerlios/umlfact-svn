@@ -25,10 +25,10 @@ public class UmlCreationFactory implements CreationFactory {
 		if (type == TypeModel.class) {
 			TypeModel type = new TypeModel();
 			CompartmentModel fields = new CompartmentModel();
-			fields.setName("              ");
+			fields.setName("                  ");
 			type.addChild(fields);
 			CompartmentModel methods = new CompartmentModel();
-			methods.setName("              ");
+			methods.setName("                 ");
 			type.addChild(methods);
 			return type;
 		} else if (type == ConnectionModel.class) {

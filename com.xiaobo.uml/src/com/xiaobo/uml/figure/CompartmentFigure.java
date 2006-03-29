@@ -1,6 +1,7 @@
 package com.xiaobo.uml.figure;
 
 import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.ToolbarLayout;
 
 /**
@@ -19,12 +20,13 @@ public class CompartmentFigure extends LabeledFigure {
 
 		setBackgroundColor(ColorFactory.getCompartmentColor());
 		getLabel().setTooltipText("Compartment");
-		setBorder(null);
+		setBorder(new MarginBorder(3));
 	}
 
 	protected void paintFigure(Graphics graphics) {
 		super.paintFigure(graphics);
-		graphics.drawLine(getBounds().x, getBounds().y, getBounds().x
-				+ getBounds().width, getBounds().y);
+		int width = getBounds().width;
+		graphics.drawLine(getBounds().x, getBounds().y, getBounds().x + width,
+				getBounds().y);
 	}
 }

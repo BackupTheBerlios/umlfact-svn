@@ -1,7 +1,5 @@
 package com.xiaobo.uml.figure;
 
-import org.eclipse.draw2d.MarginBorder;
-
 import com.xiaobo.uml.IIconConstants;
 import com.xiaobo.uml.UmlPlugin;
 
@@ -13,7 +11,7 @@ import com.xiaobo.uml.UmlPlugin;
  */
 public class MemberFigure extends LabeledFigure {
 	public MemberFigure() {
-		setBorder(new MarginBorder(1));
+		setBorder(null);
 		setBackgroundColor(ColorFactory.getMemberColor());
 		getLabel().setIcon(UmlPlugin.getImage(IIconConstants.MEMBER_ICON));
 		getLabel().setTooltipText("Member");
