@@ -10,6 +10,7 @@ package uti.parser;
 
 import java.io.*;
 import uti.codeModel.*;
+import uti.java.*;
 import java.util.*;
 
 public class ModelGenerator {
@@ -120,6 +121,12 @@ TOKEN: {
       )*
       "\""
     >   
+    |
+    <CODE_VALUE:  
+      "§"
+      ( ~[])*
+      "§"
+    >  
 }
 
 
@@ -146,6 +153,10 @@ TOKEN:
    |<TRUE_TOK: "true">
    |<FALSE_TOK: "false">
    |<NULL_TOK: "null">
+   |<EXTERN_TOK: "externcode">
+   |<RETURN_TOK: "return">
+   |<BREAK_TOK: "break">
+   |<CONTINUE_TOK: "continue">
    
 }
 
@@ -199,10 +210,21 @@ LinkName name():
    Token bez;
 }
 {
-   bez=<IDENT> {n.addValue(bez.toString(), bez);}
+   (bez=<IDENT> {n.addValue(bez.toString(), bez);}
    (
       "." bez=<IDENT> {n.addValue(bez.toString(), bez);}
-   )*
+   )*)
+   {return n;}
+}
+
+LinkName singlename():
+{
+   LinkName n=new LinkName();
+   Token bez;
+}
+{
+   bez=<IDENT> {n.addValue(bez.toString(), bez);}
+   
    {return n;}
 }
 
@@ -294,6 +316,7 @@ UtiClass Klassendeklaration():
       }
       ) 
       | "static"
+      | bn = ExternCode() {cl.addChild(bn);}
       
    )*
    "}"
@@ -450,13 +473,14 @@ UtiMethod Methode():
 UtiMethod Methodenrumpf():
 {
    UtiMethod m = null;
-   LinkName typ;
+   TypeDescription typ;
 }
 {
-   typ=name()
+   typ=TypeDeklaration()
    m = MethodKopf()
    {
-   LinkMemory.add(m.intern_result(), m, typ, UtiType.class);
+   //   LinkMemory.add(m.intern_result(), m, typ, UtiType.class);
+   m.setResultType(typ);
    return m;
    }
 }
@@ -471,7 +495,7 @@ UtiBlock Block():
 {
    ("{"
    (
-      com=Basisanweisung() ";"
+      com=Basisanweisung()
       {
          b.addCommand(com);
       }
@@ -486,7 +510,7 @@ UtiBlock Block():
    "}"
    |
    (
-      com=Basisanweisung() ";"
+      com=Basisanweisung()
       {
          b.addCommand(com);
       }
@@ -511,13 +535,33 @@ BaseCommand Basisanweisung():
    | com=For()
    | com=While()
    | com=DoWhile()
-   | com=Zuweisung())
+   | com=ExternCode()
+   | com=Return()
+   | com=Break()
+   | com=Continue()
+   | com=Ausdruck() ";" 
+   | ";")
    { 
    return com;
    }
 }
 
-BaseCommand Zuweisung():
+UtiExtern ExternCode():
+{
+   UtiExtern result = null;
+   Token t1, t2;
+}
+{
+   "externcode" "(" t1=<STRING_VALUE>")" t2 =<CODE_VALUE>
+   {
+   result = new UtiExtern();
+   result.setType(t1.toString().substring(1, t1.toString().length()-1));
+   result.setCode(t2.toString().substring(1, t2.toString().length()-1));
+   return result;}
+
+}
+
+/*BaseCommand Zuweisung():
 {
    UtiZuweisung z;
    UtiAusdruck a;
@@ -535,6 +579,39 @@ BaseCommand Zuweisung():
    }
    )?
    {return d;}
+}*/
+
+UtiSpecialCommand Break():
+{
+   UtiSpecialCommand f = new UtiSpecialCommand(null);
+   UtiAusdruck d;
+}
+{
+   "break" ";"
+  {f.setType(UtiSpecialCommand.BREAK);
+  return f;}
+}
+
+UtiSpecialCommand Continue():
+{
+   UtiSpecialCommand f = new UtiSpecialCommand(null);
+   UtiAusdruck d;
+}
+{
+   "continue" ";"
+  {f.setType(UtiSpecialCommand.CONTINUE);
+  return f;}
+}
+
+UtiSpecialCommand Return():
+{
+   UtiSpecialCommand f = new UtiSpecialCommand(null);
+   UtiAusdruck d;
+}
+{
+   "return" [d=Ausdruck(){f.setAusdruck(d);}] ";"
+  {f.setType(UtiSpecialCommand.RETURN);
+  return f;}
 }
 
 UtiIf If():
@@ -599,7 +676,7 @@ UtiWhile DoWhile():
    }
 }
 
-UtiDesignator Designator():
+/*UtiDesignator Designator():
 {
    UtiDesignator d = new UtiDesignator(null);
    Vector elements=new Vector();
@@ -608,19 +685,60 @@ UtiDesignator Designator():
    Vector arguments;
 }
 {
-   (
-      n=name() {elements.addElement(n);}
-      | "[" a= Ausdruck() "]" {elements.addElement(a);}
+  ( n=name() {elements.addElement(n);}
+      ( 
+      ("[" a= Ausdruck() "]" {elements.addElement(a);})+
       | "(" arguments=Arguments() ")" {elements.addElement(arguments);}
-      
+      )?
+   (
+      "."
+      n=name() {elements.addElement(n);}
+      ( 
+      ("[" a= Ausdruck() "]" {elements.addElement(a);})+
+      | "(" arguments=Arguments() ")" {elements.addElement(arguments);}
+      )?
    
-   )+
+   )*
+   )
 
    {
    LinkMemory.addDesignator(d, elements);
    return d;
    }
 }
+
+UtiDesignator ContinueDesignator():
+{
+   UtiDesignator d = new UtiDesignator(null);
+   Vector elements=new Vector();
+   LinkName n;
+   UtiAusdruck a;
+   Vector arguments;
+}
+{
+  ( "." n=name() {elements.addElement(n);}
+      ( 
+       "(" arguments=Arguments() ")" {elements.addElement(arguments);}
+      )?
+      |( "[" a= Ausdruck() "]" {elements.addElement(a);})+
+       
+   (
+      "."
+      n=name() {elements.addElement(n);}
+      ( 
+      ("[" a= Ausdruck() "]" {elements.addElement(a);})+
+      | "(" arguments=Arguments() ")" {elements.addElement(arguments);}
+      )?
+   
+   )*
+   )
+
+   {
+   LinkMemory.addContinueDesignator(d, elements);
+   return d;
+   }
+}
+*/
 
 Vector Arguments():
 {
@@ -640,7 +758,45 @@ UtiAusdruck Ausdruck():
    UtiAusdruck a;
 }
 {
-   a=Ausdruck3()
+   a=Ausdruck1()
+   {return a;}
+}
+
+UtiAusdruck Ausdruck1():
+{
+   UtiAusdruck a, c;
+   int value;
+}
+{
+   a=Ausdruck2() [("="{value=UtiAusdruck.BI_SET;}|
+                   "+="{value=UtiAusdruck.BI_SETADD;}|
+                   "-="{value=UtiAusdruck.BI_SETSUB;}|
+                   "*="{value=UtiAusdruck.BI_SETMUL;}|
+                   "/="{value=UtiAusdruck.BI_SETDIV;}|
+                   "%="{value=UtiAusdruck.BI_SETMODULO;}|
+                   ">>="{value=UtiAusdruck.BI_SETRSHIFT;}|
+                   ">>>="{value=UtiAusdruck.BI_SETRROUNDSHIFT;}|
+                   "<<="{value=UtiAusdruck.BI_SETLSHIFT;}|
+                   "&="{value=UtiAusdruck.BI_SETAND;}|
+                   "|="{value=UtiAusdruck.BI_SETOR;}|
+                   "^="{value=UtiAusdruck.BI_SETXOR;})
+       c= Ausdruck1()
+       {
+          a= new UtiAusdruck(a, c, value);
+       }]
+   {return a;}
+}
+
+UtiAusdruck Ausdruck2():
+{
+   UtiAusdruck a, b, c;
+}
+{
+   a=Ausdruck3() ["?" b= Ausdruck3() ":" c=Ausdruck3()
+   {
+      a= new UtiAusdruck(a, b, c, UtiAusdruck.BI_QUESTION);
+   }]
+   
    {return a;}
 }
 
@@ -886,7 +1042,7 @@ UtiAusdruck Ausdruck13():
    int value;
 }
 {
-   ("~"  {value=UtiAusdruck.BI_BITNOT;}      |
+   (("~"  {value=UtiAusdruck.BI_BITNOT;}      |
     "!"  {value=UtiAusdruck.BI_NOT;}      |
     "+"  {value=UtiAusdruck.BI_NONE;}   |
     "-"  {value=UtiAusdruck.BI_NEG;}   |  
@@ -904,13 +1060,12 @@ UtiAusdruck Ausdruck13():
    {
       a= new UtiAusdruck(d, c);
    }
-   | b=Ausdruck14() ("++"  {value=UtiAusdruck.BI_RIGHTINCREMENT;}   |
+   | a=Ausdruck14() [("++"  {value=UtiAusdruck.BI_RIGHTINCREMENT;}   |
                      "--"  {value=UtiAusdruck.BI_RIGHTDECREMENT;}  
                     )
    {
-      a= new UtiAusdruck(b,value);
-   }
-   | a=Ausdruck14()
+      a= new UtiAusdruck(a,value);
+   }])
    {return a;}
 }
 
@@ -919,9 +1074,11 @@ UtiAusdruck Ausdruck14():
    UtiAusdruck a=null, b;
    Token t;
    UtiDesignator d=null;
+   LinkName link;
+   Vector v = null;
 }
 {
-   "(" a=Ausdruck() ")"
+   ("(" a=Ausdruck() ")" 
    | "true" {a = new UtiAusdruck(UtiAusdruck.BI_TRUE);}
    | "false" {a = new UtiAusdruck(UtiAusdruck.BI_FALSE);}
    | "null" {a = new UtiAusdruck(UtiAusdruck.BI_NULL);}
@@ -931,6 +1088,27 @@ UtiAusdruck Ausdruck14():
    | t=<FLOAT_VALUE> {a = new UtiAusdruck(new Double(Double.parseDouble(t.toString())));}
    | t=<STRING_VALUE> {a= new UtiAusdruck(t.toString());}
    | t=<CHAR_VALUE> {a= new UtiAusdruck(new Character(t.toString().charAt(1)));}
-   | d=Designator() {a = new UtiAusdruck(d);}
+   |  (link=singlename() ["("
+        {v = new Vector();}
+        [b=Ausdruck() {v.addElement(b);}]
+        ("," b=Ausdruck() {v.addElement(b);}
+        )*
+       ")"])
+     { 
+        Link n=new Link();
+        if (v == null) {
+           a=new UtiAusdruck(UtiAusdruck.BI_VARIABLE);
+           a.addData(n);
+           LinkMemory.add(n, a, link, UtiVariable.class);
+        } else {
+           a=new UtiAusdruck(UtiAusdruck.BI_CALL);
+           a.addData(n);
+           LinkMemory.add(n, a, link, UtiMethod.class);
+           for (int i = 0; i < v.size(); i++) {
+              a.addData((UtiOB)v.elementAt(i));
+           }
+        }
+     }
+   | "["a=Ausdruck()"]" {a = new UtiAusdruck(a, UtiAusdruck.BI_ARRAY);})
    {return a;}
 }

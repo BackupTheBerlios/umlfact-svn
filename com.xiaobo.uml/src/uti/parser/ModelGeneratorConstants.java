@@ -11,37 +11,42 @@ public interface ModelGeneratorConstants {
   int EXP = 12;
   int CHAR_VALUE = 13;
   int STRING_VALUE = 14;
-  int PACKAGE_TOK = 15;
-  int CLASS_TOK = 16;
-  int INTERFACE_TOK = 17;
-  int PUBLIC_TOK = 18;
-  int PROTECTED_TOK = 19;
-  int PRIVATE_TOK = 20;
-  int FINAL_TOK = 21;
-  int ABSTRACT_TOK = 22;
-  int IMPLEMENTS_TOK = 23;
-  int EXTENDS_TOK = 24;
-  int THROWS_TOK = 25;
-  int STATIC_TOK = 26;
-  int IF_TOK = 27;
-  int ELSE_TOK = 28;
-  int DO_TOK = 29;
-  int WHILE_TOK = 30;
-  int FOR_TOK = 31;
-  int INSTANCEOF_TOK = 32;
-  int TRUE_TOK = 33;
-  int FALSE_TOK = 34;
-  int NULL_TOK = 35;
-  int IDENT = 36;
-  int LKLAMMER = 37;
-  int RKLAMMER = 38;
-  int LGKLAMMER = 39;
-  int RGKLAMMER = 40;
-  int LEKLAMMER = 41;
-  int REKLAMMER = 42;
-  int SEMICOLON = 43;
-  int COMMA = 44;
-  int DOT = 45;
+  int CODE_VALUE = 15;
+  int PACKAGE_TOK = 16;
+  int CLASS_TOK = 17;
+  int INTERFACE_TOK = 18;
+  int PUBLIC_TOK = 19;
+  int PROTECTED_TOK = 20;
+  int PRIVATE_TOK = 21;
+  int FINAL_TOK = 22;
+  int ABSTRACT_TOK = 23;
+  int IMPLEMENTS_TOK = 24;
+  int EXTENDS_TOK = 25;
+  int THROWS_TOK = 26;
+  int STATIC_TOK = 27;
+  int IF_TOK = 28;
+  int ELSE_TOK = 29;
+  int DO_TOK = 30;
+  int WHILE_TOK = 31;
+  int FOR_TOK = 32;
+  int INSTANCEOF_TOK = 33;
+  int TRUE_TOK = 34;
+  int FALSE_TOK = 35;
+  int NULL_TOK = 36;
+  int EXTERN_TOK = 37;
+  int RETURN_TOK = 38;
+  int BREAK_TOK = 39;
+  int CONTINUE_TOK = 40;
+  int IDENT = 41;
+  int LKLAMMER = 42;
+  int RKLAMMER = 43;
+  int LGKLAMMER = 44;
+  int RGKLAMMER = 45;
+  int LEKLAMMER = 46;
+  int REKLAMMER = 47;
+  int SEMICOLON = 48;
+  int COMMA = 49;
+  int DOT = 50;
 
   int DEFAULT = 0;
   int BIG_COMMENT = 1;
@@ -63,6 +68,7 @@ public interface ModelGeneratorConstants {
     "<EXP>",
     "<CHAR_VALUE>",
     "<STRING_VALUE>",
+    "<CODE_VALUE>",
     "\"package\"",
     "\"class\"",
     "\"interface\"",
@@ -84,6 +90,10 @@ public interface ModelGeneratorConstants {
     "\"true\"",
     "\"false\"",
     "\"null\"",
+    "\"externcode\"",
+    "\"return\"",
+    "\"break\"",
+    "\"continue\"",
     "<IDENT>",
     "\"(\"",
     "\")\"",
@@ -94,7 +104,20 @@ public interface ModelGeneratorConstants {
     "\";\"",
     "\",\"",
     "\".\"",
-    "\" = \"",
+    "\"=\"",
+    "\"+=\"",
+    "\"-=\"",
+    "\"*=\"",
+    "\"/=\"",
+    "\"%=\"",
+    "\">>=\"",
+    "\">>>=\"",
+    "\"<<=\"",
+    "\"&=\"",
+    "\"|=\"",
+    "\"^=\"",
+    "\"?\"",
+    "\":\"",
     "\"||\"",
     "\"&&\"",
     "\"|\"",
