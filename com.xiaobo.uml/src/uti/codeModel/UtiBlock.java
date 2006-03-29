@@ -29,9 +29,19 @@ public class UtiBlock extends UtiCommand implements BaseCollection {
 	public BaseName getChild(int i) {
 		return (BaseName) children.elementAt(i);
 	}
+	
+	public int getCommandCount() {
+		return commands.size();
+
+	}
+
+	public BaseCommand getCommand(int i) {
+		return (BaseCommand)commands.elementAt(i);
+	}
 
 	public void addCommand(BaseCommand com) {
 		commands.addElement(com);
+		((UtiOB)com).setObjParent(this);
 		if (com instanceof BaseName) {
 			addChild((BaseName) com, commands.size() - 1);
 		}
@@ -62,7 +72,7 @@ public class UtiBlock extends UtiCommand implements BaseCollection {
 
 	public BaseName getChildByName(String name) {
 
-		return (UtiClass) childrenmap.get(name);
+		return (BaseName) childrenmap.get(name);
 	}
 
 	public void removeChild(BaseName pack) {

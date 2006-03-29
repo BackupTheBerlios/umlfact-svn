@@ -16,6 +16,7 @@ public class UtiPackage extends UtiCollection {
 	   if (p == null) {
 	       sname = name;
 	   } else {
+		   sname = name;
 		   p.renamePackage(this, name);		   
 	   }
    }

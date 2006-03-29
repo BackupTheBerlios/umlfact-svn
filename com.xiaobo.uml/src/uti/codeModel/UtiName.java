@@ -20,6 +20,7 @@ public class UtiName extends BaseCode implements BaseName {
 		   if (p == null) {
 		       sname = name;
 		   } else {
+			   sname = name;
 			   p.renameChild(this, name);		   
 		   }
 	   }

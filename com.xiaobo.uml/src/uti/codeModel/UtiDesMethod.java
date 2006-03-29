@@ -5,7 +5,7 @@ import org.w3c.dom.Element;
 import uti.java.Link;
 import uti.java.UtiOB;
 import java.util.*;
-
+/** Veraltet nicht benutzen*/
 public class UtiDesMethod extends UtiDesStep {
     Link method=new Link();
     Vector params = new Vector();
@@ -19,7 +19,7 @@ public class UtiDesMethod extends UtiDesStep {
 	}
 	public void setMethod(UtiMethod method) {
 		this.method.setObject(method);
-		setResult(method.getResultType());
+		//setResult(method.getResultType());
 	}
 	public void read(Element xml, int version) {
 		// TODO Auto-generated method stub

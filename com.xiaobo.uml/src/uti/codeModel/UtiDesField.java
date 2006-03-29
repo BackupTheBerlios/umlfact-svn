@@ -4,7 +4,7 @@ import org.w3c.dom.Element;
 
 import uti.java.Link;
 import uti.java.UtiOB;
-
+/** Veraltet nicht benutzen*/
 public class UtiDesField extends UtiDesStep {
     Link field=new Link();
 	public UtiDesField(BaseCode p, UtiVariable v) {
@@ -17,7 +17,7 @@ public class UtiDesField extends UtiDesStep {
 	}
 	public void setField(UtiVariable field) {
 		this.field.setObject(field);
-		setResult(field.getDescription().getType());
+		//setResult(field.getDescription().getType());
 		
 	}
 	public void read(Element xml, int version) {

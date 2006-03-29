@@ -5,7 +5,7 @@ import java.util.*;
 import org.w3c.dom.Element;
 
 import uti.java.*;
-
+/** Veraltet nicht benutzen*/
 public class UtiDesignator extends UtiCommand {
     Vector steps = new Vector();
     Link basevar= new Link();
@@ -13,25 +13,25 @@ public class UtiDesignator extends UtiCommand {
 		super(p);
 		// TODO Auto-generated constructor stub
 	}
-	void addFieldAccess(UtiVariable var) {
+	public void addFieldAccess(UtiVariable var) {
 		UtiDesField f = new UtiDesField(this, var);
 		steps.addElement(f);
 	}
-	void addMethodAccess(UtiMethod var, Vector parameter) {
+	public void addMethodAccess(UtiMethod var, Vector parameter) {
 		UtiDesMethod f = new UtiDesMethod(this, var, parameter);
 		steps.addElement(f);
 	}
-	void addArrayAccess(UtiAusdruck[] exp) {
+	public void addArrayAccess(UtiAusdruck[] exp) {
 		UtiDesArray f = new UtiDesArray(this, exp);
 		steps.addElement(f);
 	}
-	public void setBase(UtiVariable v)
+	public void setBase(BaseCommand v)
 	{
-		basevar.setObject(v);
+		basevar.setObject((UtiOB)v);
 	}
-	public UtiVariable getBase()
+	public BaseCommand getBase()
 	{
-		return (UtiVariable)basevar.getObject();
+		return (BaseCommand)basevar.getObject();
 	}
 	public void read(Element xml, int version) {
 		// TODO Auto-generated method stub

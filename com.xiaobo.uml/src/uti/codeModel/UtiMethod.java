@@ -8,7 +8,7 @@ import uti.java.*;
 
 public class UtiMethod extends UtiCollection {
     boolean utiabstract = true;
-    Link resulttype = new Link();
+    TypeDescription resulttype = new TypeDescription();
     boolean utifinal = false;
     boolean utistatic = false;
     UtiBlock block = null; 
@@ -68,7 +68,7 @@ public class UtiMethod extends UtiCollection {
 	}
 	public Link intern_result()
 	{
-		return resulttype;
+		return resulttype.type;
 	}
 	public int getExceptionCount()
 	{
@@ -107,11 +107,11 @@ public class UtiMethod extends UtiCollection {
 		block.setObjParent(this);
 		this.block = block;
 	}
-	public UtiType getResultType() {
-		return (UtiType)resulttype.getObject();
+	public TypeDescription getResultType() {
+		return resulttype;
 	}
-	public void setResultType(UtiType resulttype) {
-		this.resulttype.setObject(resulttype);
+	public void setResultType(TypeDescription r) {
+		this.resulttype = r;
 	}
 	public boolean isAbstract() {
 		return utiabstract;

@@ -3,7 +3,7 @@ package uti.codeModel;
 import org.w3c.dom.Element;
 
 import uti.java.UtiOB;
-
+/** Veraltet nicht benutzen*/
 public class UtiZuweisung extends UtiCommand {
 	UtiDesignator target;
 

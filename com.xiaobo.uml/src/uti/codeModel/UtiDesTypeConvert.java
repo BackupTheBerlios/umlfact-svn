@@ -1,7 +1,7 @@
 package uti.codeModel;
 
 import uti.java.Link;
-
+/** Veraltet nicht benutzen*/
 public class UtiDesTypeConvert extends UtiDesStep {
     Link type=new Link();
 	public UtiDesTypeConvert(BaseCode p) {

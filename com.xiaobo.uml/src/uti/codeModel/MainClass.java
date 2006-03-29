@@ -16,7 +16,7 @@ public class MainClass {
 	public static void main(String[] args) {
 		
         UtiPackage base = new UtiPackage(null);
-        base.setName("Package");
+        base.setName("Base");
         System.out.println("CodeModel");
         File f = new File("/home/staud/test.java");
         ModelGenerator.readSingleFile(f, base);

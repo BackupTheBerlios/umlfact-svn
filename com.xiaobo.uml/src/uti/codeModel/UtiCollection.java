@@ -29,7 +29,7 @@ public class UtiCollection extends UtiType implements BaseCollection {
 	   }
 	 
 	public BaseName getChildByName(String name) {
-		   return (UtiClass)childrenmap.get(name);
+		   return (BaseName)childrenmap.get(name);
 	   }
 	
 	public void addChild(BaseName obj)
