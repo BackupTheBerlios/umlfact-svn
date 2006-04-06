@@ -7,7 +7,7 @@ import org.w3c.dom.Element;
 import uti.java.Link;
 import uti.java.UtiOB;
 
-public class UtiCall extends UtiCommand {
+/*public class UtiCall extends UtiCommand {
     Link method = new Link();
     Vector parameter = new Vector();
 	public UtiCall(BaseCode p) {
@@ -44,4 +44,4 @@ public class UtiCall extends UtiCommand {
 		UtiOB.writeList(xml, "parameter", parameter, version);
 	}
    
-}
+}*/

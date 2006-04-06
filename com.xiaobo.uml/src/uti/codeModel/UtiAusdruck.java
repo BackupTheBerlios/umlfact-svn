@@ -61,12 +61,14 @@ public class UtiAusdruck extends UtiCommand {
 //	public final static int BI_FIELD=1400+51;
 	public final static int BI_CALL=1400+52;
 	public final static int BI_ARRAY=1400+53;
+	public final static int BI_CONSTRUCTOR=1400+54;
+	public final static int BI_CONSTRUCTORARRAY=1400+55;
     Vector data=new Vector();
     int type=0;
 	public void read(Element xml, int version) {
 
 		super.read(xml, version);
-		type = UtiOB.readInteger(xml,"type");
+		type = UtiOB.readInteger(xml,"type", 0);
 		UtiOB.readList(xml, "data", data, version, this);
 	}
 	public int getPrecedenceLevel()
@@ -103,7 +105,12 @@ public class UtiAusdruck extends UtiCommand {
 		super(null);
 		setType( build_in);
 	}	
-	public UtiAusdruck(TypeDescription a, UtiAusdruck u)
+	public UtiAusdruck(UtiType a, UtiAusdruck u)
+	{
+		super(null);
+		setType(a, u);
+	}
+	public UtiAusdruck(Link a, UtiAusdruck u)
 	{
 		super(null);
 		setType(a, u);
@@ -176,10 +183,17 @@ public class UtiAusdruck extends UtiCommand {
     public void addData(UtiOB a) {
     	data.addElement(a); a.setObjParent(this);
     }
-    public void setType(TypeDescription a, UtiAusdruck u)
+    public void setType(Link a, UtiAusdruck u)
     {
        data.clear();
-       data.addElement(a); a.setObjParent(this);
+       data.addElement(a); //a.setObjParent(this);
+       data.addElement(u); u.setObjParent(this);
+       type = BI_CAST;
+    }
+    public void setType(UtiType a, UtiAusdruck u)
+    {
+       data.clear();
+       data.addElement(new Link(a)); //a.setObjParent(this);
        data.addElement(u); u.setObjParent(this);
        type = BI_CAST;
     }
@@ -210,5 +224,18 @@ public class UtiAusdruck extends UtiCommand {
     }
 	public int getType() {
 		return type;
+	}
+	public void searchImports(ImportList list) {
+		for (int i = 0; i < data.size(); i++) {
+			if (data.elementAt(i) instanceof Link) {
+				Object o = ((Link)data.elementAt(i)).getObject();
+				if (o instanceof BaseType)
+					list.addSecondary((BaseType)o);
+			}
+			if (data.elementAt(i) instanceof BaseCode) {
+				((BaseCode)data.elementAt(i)).searchImports(list);
+			}
+		}
+	       
 	}
 }

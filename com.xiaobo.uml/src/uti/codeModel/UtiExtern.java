@@ -9,8 +9,8 @@ public class UtiExtern extends UtiCommand implements BaseName {
 	public void read(Element xml, int version) {
 		// TODO Auto-generated method stub
 		super.read(xml, version);
-		type = UtiOB.readString(xml, "type");
-		code = UtiOB.readString(xml, "code");
+		type = UtiOB.readString(xml, "type", "C++");
+		code = UtiOB.readString(xml, "code", "");
 	}
 
 	public void write(Element xml, int version) {

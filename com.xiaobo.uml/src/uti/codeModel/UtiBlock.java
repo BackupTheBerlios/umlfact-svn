@@ -115,4 +115,9 @@ public class UtiBlock extends UtiCommand implements BaseCollection {
 		//UtiOB.writeList(xml, "children", children, version);
 		UtiOB.writeList(xml, "commands", commands, version);
 	}
+	public void searchImports(ImportList list){
+	    for (int i = 0; i < commands.size(); i++) {
+	    	((BaseCode)commands.elementAt(i)).searchImports(list);
+	    }
+	}
 }

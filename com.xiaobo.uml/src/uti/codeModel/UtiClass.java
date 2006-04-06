@@ -5,6 +5,11 @@ import java.util.Vector;
 import org.w3c.dom.Element;
 import uti.java.*;
 
+/**
+ * Diese Klasse repräsentiert ein Objekt
+ * @author staud
+ *
+ */
 public class UtiClass extends UtiCollection {
 	boolean utiabstract=false;
 	boolean utipublic=false;;
@@ -16,6 +21,10 @@ public class UtiClass extends UtiCollection {
 		super(p);
 		// TODO Auto-generated constructor stub
 	}
+	/**
+	 * Setzt das Objekt von dem geerbt wird
+	 * @param cl
+	 */
 	public void setExtends(UtiClass cl)
 	{
 		extendsobj.setObject(cl);
@@ -45,9 +54,9 @@ public class UtiClass extends UtiCollection {
 		super.read(xml, version);
 		UtiOB.readObject(xml, "extends", extendsobj, version);
 		UtiOB.readList(xml, "implements", implementsobj, version, this);
-		setAbstract(UtiOB.readBoolean(xml, "abstract"));
-		setPublic(UtiOB.readBoolean(xml, "public"));
-		setFinal(UtiOB.readBoolean(xml, "final"));
+		setAbstract(UtiOB.readBoolean(xml, "abstract", false));
+		setPublic(UtiOB.readBoolean(xml, "public", false));
+		setFinal(UtiOB.readBoolean(xml, "final", false));
 	}
 	public void write(Element xml, int version) {
 		// TODO Auto-generated method stub
@@ -95,5 +104,12 @@ public class UtiClass extends UtiCollection {
 		// TODO Auto-generated method stub
 		super.addChild(obj);
 		System.out.println("class "+getName()+" "+obj.getName());
+	}
+	public void searchImports(ImportList list){
+	   list.addPrimary(getExtends());
+	   for (int i = 0; i < implementsobj.size(); i++) {
+		   list.addSecondary((UtiType)implementsobj.elementAt(i));
+	   }
+       super.searchImports(list);
 	}
 }

@@ -6,7 +6,7 @@ import org.w3c.dom.Element;
 
 import uti.java.*;
 /** Veraltet nicht benutzen*/
-public class UtiDesignator extends UtiCommand {
+/*public class UtiDesignator extends UtiCommand {
     Vector steps = new Vector();
     Link basevar= new Link();
 	public UtiDesignator(BaseCode p) {
@@ -46,4 +46,4 @@ public class UtiDesignator extends UtiCommand {
 		UtiOB.writeObject(xml, "base", basevar, version);
 	}
 
-}
+}*/

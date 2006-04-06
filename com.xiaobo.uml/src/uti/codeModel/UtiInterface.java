@@ -12,4 +12,8 @@ public class UtiInterface extends UtiCollection {
 		addChild(m);
 		return m;
 	}
+	public void searchImports(ImportList list){
+		  
+	       super.searchImports(list);
+	}
 }

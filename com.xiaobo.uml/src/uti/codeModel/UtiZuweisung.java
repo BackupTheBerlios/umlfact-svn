@@ -4,7 +4,7 @@ import org.w3c.dom.Element;
 
 import uti.java.UtiOB;
 /** Veraltet nicht benutzen*/
-public class UtiZuweisung extends UtiCommand {
+/*public class UtiZuweisung extends UtiCommand {
 	UtiDesignator target;
 
 	UtiAusdruck expression;
@@ -81,4 +81,4 @@ public class UtiZuweisung extends UtiCommand {
 	public void setType(int type) {
 		this.type = type;
 	}
-}
+}*/

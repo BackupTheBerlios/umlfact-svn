@@ -22,7 +22,7 @@ public class BaseExporter extends UtiOB{
    {
 	   
    }
-   public void generateType(TypeDescription desc)
+   public void generateType(UtiType desc)
    {
 	   
    }
@@ -46,6 +46,10 @@ public class BaseExporter extends UtiOB{
    {
 	   
    }
+   public void generateFor(UtiFor f)
+   {
+	   
+   }
    public void generateBlock(UtiBlock b)
    {
 	   for (int i = 0; i< b.getCommandCount(); i++) {
@@ -61,6 +65,8 @@ public class BaseExporter extends UtiOB{
 			   generateIf((UtiIf)o);
 		   } else if (o instanceof UtiWhile) {
 			   generateWhile((UtiWhile)o);
+		   } else if (o instanceof UtiFor) {
+			   generateFor((UtiFor)o);
 		   } else if (o instanceof UtiExtern) {
 			   generateExtern((UtiExtern)o);
 		   } else if (o instanceof UtiSpecialCommand) {
@@ -84,6 +90,11 @@ public class BaseExporter extends UtiOB{
 public String getPackageDir(UtiPackage pack) {
 	if (pack == null) return "";
 	String dir = getPackageDir((UtiPackage)pack.getObjParent());
+	return dir + pack.getName()+"/";
+}
+public String getPackageIncDir(UtiPackage pack) {
+	if (pack == null || pack.getObjParent() == null) return "";
+	String dir = getPackageIncDir((UtiPackage)pack.getObjParent());
 	return dir + pack.getName()+"/";
 }
 }

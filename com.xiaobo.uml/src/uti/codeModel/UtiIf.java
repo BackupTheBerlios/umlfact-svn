@@ -58,6 +58,14 @@ public class UtiIf extends UtiCommand {
 		UtiOB.writeObject(xml, "then_block", then_block, version);
 		UtiOB.writeObject(xml, "else_block", else_block, version);
 	}
-	
+	public void searchImports(ImportList list){
+		expression.searchImports(list);
+		if (then_block != null) {
+		   then_block.searchImports(list);
+		}
+		if (else_block != null) {
+		   else_block.searchImports(list);
+		}
+   }
 	
 }

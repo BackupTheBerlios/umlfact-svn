@@ -5,7 +5,7 @@ import org.w3c.dom.Element;
 import uti.java.Link;
 import uti.java.UtiOB;
 /** Veraltet nicht benutzen*/
-public class UtiDesField extends UtiDesStep {
+/*public class UtiDesField extends UtiDesStep {
     Link field=new Link();
 	public UtiDesField(BaseCode p, UtiVariable v) {
 		super(p);
@@ -32,4 +32,4 @@ public class UtiDesField extends UtiDesStep {
 	}
 	
 
-}
+}*/

@@ -37,7 +37,7 @@ public class UtiWhile extends UtiCommand {
 		super.read(xml, version);
 		UtiOB.readObject(xml, "block", block, version);
 		UtiOB.readObject(xml, "expression", expression, version);
-		setDoWhile(UtiOB.readBoolean(xml, "dowhile"));
+		setDoWhile(UtiOB.readBoolean(xml, "dowhile", false));
 		
 	}
 
@@ -48,4 +48,8 @@ public class UtiWhile extends UtiCommand {
 		UtiOB.writeObject(xml, "expression", expression, version);
 		UtiOB.writeBoolean(xml, "dowhile", isDoWhile());
 	}
+	public void searchImports(ImportList list){		
+		expression.searchImports(list);
+		block.searchImports(list);
+    }
 }

@@ -5,16 +5,8 @@ import org.w3c.dom.Element;
 import uti.java.Link;
 import uti.java.UtiOB;
 /** Veraltet nicht benutzen*/
-public class UtiDesStep extends BaseCode {
-   /* TypeDesc result=new Link();
-    UtiType getResult()
-    {
-    	return (UtiType)result.getObject();
-    }
-    void setResult(UtiType t) 
-    {
-    	result.setObject(t);
-    }*/
+/*public class UtiDesStep extends BaseCode {
+  
 	public UtiDesStep(BaseCode p) {
 		super(p);
 		
@@ -32,3 +24,4 @@ public class UtiDesStep extends BaseCode {
 
 	
 }
+*/

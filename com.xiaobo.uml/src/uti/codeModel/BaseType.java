@@ -43,7 +43,7 @@ public class BaseType extends UtiType {
 	public void read(Element xml, int version) {
 		// TODO Auto-generated method stub
 		super.read(xml, version);
-		type = UtiOB.readInteger(xml, "type");
+		type = UtiOB.readInteger(xml, "type", 0);
 	}
 
 	public void setName(String name) {

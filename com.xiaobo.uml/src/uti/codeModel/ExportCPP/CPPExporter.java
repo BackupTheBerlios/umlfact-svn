@@ -1,18 +1,37 @@
 package uti.codeModel.ExportCPP;
 
+
+
 import uti.codeModel.*;
 import uti.codeModel.UtiPackage;
 import uti.codeModel.ExportBase.BaseExporter;
 import uti.codeModel.ExportBase.CodeSys;
 import uti.java.*;
+import java.util.*;
+
+class MakeTarget
+{
+	String name;
+	Vector depends= new Vector();
+}
 
 public class CPPExporter extends BaseExporter {
-
+    MakeTarget currenttarget = null;
+    Vector targets = new Vector();
 	public CPPExporter() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
+    void addTarget(String str)
+    {
+    	currenttarget = new MakeTarget();
+    	currenttarget.name = str;
+    	targets.addElement(currenttarget);
+    }
+    void addDepends(String str)
+    {
+    	currenttarget.depends.addElement(str);
+    }
 	public String createPreview(BaseCode obj) {
 		// TODO Auto-generated method stub
 		return super.createPreview(obj);
@@ -33,7 +52,90 @@ public class CPPExporter extends BaseExporter {
 			CodeSys.o().println("namespace " + pack.getName() + "{");
 		return v + 1;
 	}
-
+	public int generateUsingIntern(UtiPackage pack) {
+		if (pack == null)
+			return 0;
+		int v = generateUsingIntern((UtiPackage) pack.getObjParent());
+		if (v != 0) {
+			if (v != 1) CodeSys.o().print("::");
+			CodeSys.o().print(pack.getName());
+		}
+		return v + 1;
+	}
+	void generateUsing(UtiPackage pack) {
+		CodeSys.o().print("using namespace ");
+		generateUsingIntern(pack);
+		CodeSys.o().println(";");
+	}
+    void generateHeaderImport(UtiPackage own, ImportList l)
+    {
+    	//getPackageDir(pack)
+    	Object [] p = l.getPrimary();
+    	for (int i = 0; i < p.length; i++) {
+    		if (p[i] instanceof UtiCollection) {
+    		   UtiCollection cl = (UtiCollection)p[i];
+   			   UtiPackage parent=null;
+			   if (cl.getObjParent() instanceof UtiPackage)
+		          parent = (UtiPackage)cl.getObjParent();
+    		   if (parent != null) {
+    			   String s = getPackageIncDir(parent)+cl.getName();
+    			   addDepends(s);
+    			   CodeSys.o().println("#include \"" + s + ".h\"");
+    			   if (parent != own) {
+    				   generateUsing(parent);
+    			   }
+    		   }
+    		   
+    		}
+    	}
+    	
+    	p = l.getSecondary();
+    	for (int i = 0; i < p.length; i++) {
+    		if (p[i] instanceof UtiCollection) {
+    			UtiCollection cl = (UtiCollection)p[i];
+    			UtiPackage parent=null;
+    			if (cl.getObjParent() instanceof UtiPackage)
+    		       parent = (UtiPackage)cl.getObjParent();
+    		   if (parent != null) {
+    			   int level = generateNameSpaces(parent);
+    			   CodeSys.o().println("class "+cl.getName()+";");
+    			   for (int j = 0; j < level-1; j++) {
+    					CodeSys.o().println("}");
+    				}
+    			   if (parent != own) {
+    				   generateUsing(parent);
+    			   }
+    		   }
+    		}
+    	}
+    	for (int i = 0; i < p.length; i++) {
+    		if (p[i] instanceof UtiArray) {
+    			UtiArray a = (UtiArray)p[i];
+    			String Base = getTypeName(a.getBasetype());
+    			String Name = getTypeNameIntern(a);
+    			CodeSys.o().println("typedef _array<"+Base+"> "+Name+";");
+    		}
+    	}
+    }
+    
+    void generateCppImport(UtiPackage own,ImportList l)
+    {
+    	Object [] p = l.getSecondary();
+    	for (int i = 0; i < p.length; i++) {
+    		if (p[i] instanceof UtiCollection) {
+    			UtiCollection cl = (UtiCollection)p[i];
+    			UtiPackage parent=null;
+    			if (cl.getObjParent() instanceof UtiPackage)
+    		       parent = (UtiPackage)cl.getObjParent();
+    		   if (parent != null) {
+    			   String s = getPackageIncDir(parent)+cl.getName()+"";
+    			   addDepends(s);
+    			   CodeSys.o().println("#include \"" + s + ".h\"");
+    			   
+    		   }
+    		}
+    	}
+    }
 	public void generateClass(UtiClass cl) {
 		CodeSys.output(cl.getName() + ".h");
 
@@ -42,6 +144,8 @@ public class CPPExporter extends BaseExporter {
 		CodeSys.o().println("#ifndef " + def);
 		CodeSys.o().println("#define " + def);
 		CodeSys.o().println();
+		CodeSys.o().println("#include \"basesystem.h\"");
+		addTarget(getPackageIncDir(p)+cl.getName());
 		for (int i = 0; i < cl.getChildCount(); i++) {
 			   Object o = cl.getChild(i);
 			   if (o instanceof UtiExtern) {
@@ -49,21 +153,32 @@ public class CPPExporter extends BaseExporter {
 			   }
 		}
 		CodeSys.o().println();
+		ImportList l = new ImportList();
+		cl.searchImports(l);
+		generateHeaderImport(p, l);			CodeSys.o().println();
 		int level = generateNameSpaces(p);
 		CodeSys.o().println();
-		CodeSys.o().println("class " + cl.getName() + " {");
+		CodeSys.o().print("class " + cl.getName());
+		if (cl.getExtends() != null) {
+			CodeSys.o().print(" : public " + cl.getExtends().getName());
+		}
+		
+		CodeSys.o().println(" {");
+		CodeSys.o().incDepth();
+		CodeSys.o().println("public:");
 		super.generateClass(cl);
-
-		CodeSys.o().println("}");
+		CodeSys.o().decDepth();
+		CodeSys.o().println("");
+		CodeSys.o().println("};");
 		CodeSys.o().println();
-		for (int i = 0; i < level; i++) {
+		for (int i = 0; i < level-1; i++) {
 			CodeSys.o().println("}");
 		}
 		CodeSys.o().println();
 		CodeSys.o().println("#endif");
 		CodeSys.output(cl.getName() + ".cpp");
 		CodeSys.o().println("#include \"" + cl.getName() + ".h\"");
-
+		generateCppImport(p,l);
 		level = generateNameSpaces(p);
 		CodeSys.o().println();
 		for (int i = 0; i < cl.getChildCount(); i++) {
@@ -81,18 +196,20 @@ public class CPPExporter extends BaseExporter {
 	}
 
 	public void generateMethod(UtiMethod m) {
-		CodeSys.o().println();
-		generateType(m.getResultType());
-		CodeSys.o().print(" ");
-
-		printMethodHeader(m);
+		if (!m.isConstructor()) {
+			CodeSys.o().print("virtual ");
+		   generateType(m.getResultType());
+		   CodeSys.o().print(" ");
+		}		printMethodHeader(m);
 		CodeSys.o().println(";");
 	}
 
 	public void generateMethodBody(UtiClass parent, UtiMethod m) {
 		CodeSys.o().println();
-		generateType(m.getResultType());
-		CodeSys.o().print(" ");
+		if (!m.isConstructor()) {
+		   generateType(m.getResultType());
+		   CodeSys.o().print(" ");
+		}
 		CodeSys.o().print(parent.getName());
 		CodeSys.o().print("::");
 		printMethodHeader(m);
@@ -103,7 +220,7 @@ public class CPPExporter extends BaseExporter {
 	void printMethodHeader(UtiMethod m) {
 		CodeSys.o().print(m.getName() + "(");
 		for (int i = 0; i < m.getChildCount(); i++) {
-			generateVariable((UtiVariable) m.getChild(i));
+			printVar((UtiVariable) m.getChild(i));
 			if (i != m.getChildCount() - 1) {
 				CodeSys.o().print(", ");
 			}
@@ -114,25 +231,11 @@ public class CPPExporter extends BaseExporter {
 	public void generateElement(UtiOB o) {
 		if (o instanceof UtiAusdruck) {
 			generateAusdruck((UtiAusdruck) o);
-		} else if (o instanceof UtiDesignator) {
-			generateDesignator((UtiDesignator) o);
 		}
 	}
 
 	public void generateVarRef(UtiVariable v) {
 		CodeSys.o().print(v.getName());
-	}
-
-	public void generateDesignator(UtiDesignator des) {
-		BaseCommand com = des.getBase();
-		if (com instanceof UtiVariable) {
-			generateVarRef((UtiVariable) com);
-		} else {
-			System.out.print("(");
-			generateAusdruck((UtiAusdruck) com);
-			System.out.print(")");
-		}
-
 	}
 
 	public void gen2Ausdruck(UtiAusdruck a, String name) {
@@ -158,7 +261,7 @@ public class CPPExporter extends BaseExporter {
 		if (klammer1) {
 			CodeSys.o().print(") ");
 		}
-		CodeSys.o().print(name);
+		CodeSys.o().print(" "+name+" ");
 		if (klammer2) {
 			CodeSys.o().print(" (");
 		}
@@ -282,8 +385,10 @@ public class CPPExporter extends BaseExporter {
 
 		};
 		break;
-		case UtiAusdruck.BI_CALL: {
+		case UtiAusdruck.BI_CALL: 
+		case UtiAusdruck.BI_CONSTRUCTOR: {
 			Link n = (Link)a.getElement(0);
+			if (a.getType() == UtiAusdruck.BI_CONSTRUCTOR) CodeSys.o().print("new ");
 			CodeSys.o().print(((BaseName)n.getObject()).getName());
 			CodeSys.o().print("(");
 			for (int i = 1; i < a.getCount(); i++) {
@@ -296,6 +401,19 @@ public class CPPExporter extends BaseExporter {
 			CodeSys.o().print(")");
 		};
 		break;
+		case UtiAusdruck.BI_CONSTRUCTORARRAY: {
+			Link n = (Link)a.getElement(0);
+			int dimensions = a.getCount()-1;
+			UtiType typ = (UtiType)n.getObject();
+			UtiType a2= UtiProgram.MainProg.getArrayType(typ, dimensions);
+			if (dimensions == 1) {
+				String name = getTypeNameIntern(a2);
+				CodeSys.o().print("new "+name+"(");
+				generateAusdruck((UtiAusdruck)a.getElement(1));
+				CodeSys.o().print(")");
+			}
+			
+		}; break;
 		case UtiAusdruck.BI_ARRAY: {
 			UtiAusdruck b = (UtiAusdruck)a.getElement(0);
 			CodeSys.o().print("[");
@@ -427,9 +545,9 @@ public class CPPExporter extends BaseExporter {
 		case UtiAusdruck.BI_INSTANCEOF: {
 			// gen2Ausdruck(a, "(dy");
 			CodeSys.o().print("(dynamic_cast<");
-			generateType((TypeDescription) a.getElement(0));
+			generateType((UtiType)((Link) a.getElement(0)).getObject());
 			CodeSys.o().print(">(");
-			generateElement((TypeDescription) a.getElement(1));
+			generateAusdruck((UtiAusdruck) a.getElement(1));
 			CodeSys.o().print(")");
 		}
 			;
@@ -471,26 +589,26 @@ public class CPPExporter extends BaseExporter {
 			;
 			break;
 		case UtiAusdruck.BI_TRUE: {
-			CodeSys.o().println("true");
+			CodeSys.o().print("true");
 
 		}
 			;
 			break;
 		case UtiAusdruck.BI_FALSE: {
-			CodeSys.o().println("false");
+			CodeSys.o().print("false");
 
 		}
 			;
 			break;
 		case UtiAusdruck.BI_NULL: {
-			CodeSys.o().println("null");
+			CodeSys.o().print("NULL");
 
 		}
 			;
 			break;
 		case UtiAusdruck.BI_CAST: {
 			CodeSys.o().print("(");
-			generateType((TypeDescription) a.getElement(0));
+			generateType(((UtiType)((Link) a.getElement(0)).getObject()));
 			CodeSys.o().print(")");
 			genF2Ausdruck(a, "");
 
@@ -640,7 +758,41 @@ public class CPPExporter extends BaseExporter {
 	}
 
 	public void generateWhile(UtiWhile w) {
-
+		
+		if (w.isDoWhile()) {
+			CodeSys.o().print("do");
+			generateBlock(w.getBlock());
+			CodeSys.o().print("while (");
+			generateAusdruck(w.getExpression());
+			CodeSys.o().print(") ");
+		} else {
+		   CodeSys.o().print("while (");
+		   generateAusdruck(w.getExpression());
+		   CodeSys.o().print(") ");
+		   generateBlock(w.getBlock());
+		}
+	}
+	public void generateFor(UtiFor f)
+	{
+		CodeSys.o().print("for (");
+		for (int i = 0; i < f.getInitCount(); i++) {
+			if (i != 0) CodeSys.o().print(", ");
+			BaseCode c = f.getInit(i);
+			if (c instanceof UtiVariable) {
+				printVar((UtiVariable)c);
+			} else {
+				generateAusdruck((UtiAusdruck)c);
+			}
+		}
+		CodeSys.o().print(";");
+		generateAusdruck(f.getBedingung());
+		CodeSys.o().print(";");
+		for (int i = 0; i < f.getUpdateCount(); i++) {
+			if (i != 0) CodeSys.o().print(", ");
+			generateAusdruck(f.getUpdate(i));
+		}
+		CodeSys.o().print(")");
+		generateBlock(f.getBlock());
 	}
 	public void generateExtern(UtiExtern w)
 	{
@@ -655,7 +807,7 @@ public class CPPExporter extends BaseExporter {
 		  }
 	}
 	public void printVar(UtiVariable var) {
-		generateType(var.getDescription());
+		generateType(var.getType());
 		CodeSys.o().print(" " + var.getName());
 	}
 
@@ -663,13 +815,28 @@ public class CPPExporter extends BaseExporter {
 		printVar(var);
 		CodeSys.o().println(";");
 	}
+    
+	public void generateType(UtiType desc) {
+		String typename;
+		typename = getTypeName(desc);
+		
+		CodeSys.o().print(typename);
+	}
 
-	public void generateType(TypeDescription desc) {
+	String getTypeName(UtiType desc)
+	{
+		String s = getTypeNameIntern(desc);
+		if (desc instanceof UtiArray) {
+			s += "*";
+		}
+		return s;
+	}
+	String getTypeNameIntern(UtiType desc) {
 		String typename = "nix";
-		if (desc.getType() == null) {
+		if (desc == null) {
 			typename = "void";
-		} else if (desc.getType() instanceof BaseType) {
-			int type = ((BaseType) desc.getType()).getType();
+		} else if (desc instanceof BaseType) {
+			int type = ((BaseType) desc).getType();
 			if (type == BaseType.BT_BOOL)
 				typename = "bool";
 			if (type == BaseType.BT_BYTE)
@@ -686,16 +853,20 @@ public class CPPExporter extends BaseExporter {
 				typename = "long long";
 			if (type == BaseType.BT_SHORT)
 				typename = "short";
-			typename = desc.getType().getName();
+			//typename = desc.getType().getName();
 
+		} else if (desc instanceof UtiArray) {
+			UtiArray a = (UtiArray)desc;
+           typename = "AR_"+getTypeName(a.getBasetype());
+           
 		} else {
-			typename = desc.getType().getName();
-			if (desc.getType() instanceof UtiCollection) {
+			typename = desc.getName();
+			if (desc instanceof UtiCollection) {
 				typename += "*";
 			}
 		}
 		;
-		CodeSys.o().print(typename);
+		return typename;
 	}
 
 	public void generateInterface(UtiInterface in) {
@@ -731,6 +902,77 @@ public class CPPExporter extends BaseExporter {
 	public void export(UtiPackage pack) {
 		// TODO Auto-generated method stub
 		generatePackage(pack);
+		
+		CodeSys.setOutputDir("Base/");
+		CodeSys.output("makefile");
+		CodeSys.o().println("CC = g++");
+		CodeSys.o().println("CFLAGS = -Wall -I./");
+		CodeSys.o().print("OBJ = ");
+		for (int i = 0; i < targets.size(); i++)
+		{
+			MakeTarget t = (MakeTarget)targets.elementAt(i);
+			CodeSys.o().print(t.name+".o ");
+		}
+		CodeSys.o().println("maincall.o");
+		CodeSys.o().println();
+		String progname="prog";
+		CodeSys.o().println(progname+": $(OBJ)"); //Später durch MainFunc
+		CodeSys.o().println("	$(CC) $(CFLAGS) -o "+progname+" $(OBJ)");
+		CodeSys.o().println();
+
+		for (int i = 0; i < targets.size(); i++)
+		{
+			MakeTarget t = (MakeTarget)targets.elementAt(i);
+			CodeSys.o().print(t.name+".o: "+t.name+".cpp ");
+			for (int j = 0; j < t.depends.size(); j++) {
+				String s = (String)t.depends.elementAt(j);
+				CodeSys.o().print(s+".h ");
+			}
+			CodeSys.o().println("basesystem.h");
+			CodeSys.o().println("	$(CC) $(CFLAGS) -c "+t.name+".cpp -o "+t.name+".o");
+			CodeSys.o().println();
+		}
+		CodeSys.o().println();
+		CodeSys.o().println("maincall.o: ");
+		CodeSys.o().println("	$(CC) $(CFLAGS) -c maincall.cpp");
+		CodeSys.o().println();
+		CodeSys.o().println(".PHONY: clean");
+		CodeSys.o().println();
+		CodeSys.o().println("clean:");
+		CodeSys.o().println("	rm -f $(OBJ)");
+		CodeSys.o().println();
+		CodeSys.output("maincall.cpp");
+		CodeSys.o().println("#include <iostream>");
+		CodeSys.o().println("using namespace std;");
+		CodeSys.o().println("int main(int argc, char* argv[]) ");
+		CodeSys.o().println("{");
+		CodeSys.o().println("   cout << \"Dies ist ein Test.\n\";");
+		CodeSys.o().println("   return 0;");
+		CodeSys.o().println("}");
+		CodeSys.output("basesystem.h");
+		CodeSys.o().println("#ifndef __BASESYSTEM__");
+		CodeSys.o().println("#define __BASESYSTEM__");
+		CodeSys.o().println("#include <stddef.h>");
+		CodeSys.o().println("template<class T> class _array {");
+		CodeSys.o().println("private:");
+		CodeSys.o().println("   T* array;");
+		CodeSys.o().println("public:");
+		CodeSys.o().println("   int length;");
+		CodeSys.o().println("   _array(int size)");
+		CodeSys.o().println("   {");
+		CodeSys.o().println("      array = new T[size];");
+		CodeSys.o().println("      size = length;");
+		CodeSys.o().println("   }");
+		CodeSys.o().println("   T &operator[](unsigned int p)");
+		CodeSys.o().println("   {");
+		CodeSys.o().println("      return array[p];");
+		CodeSys.o().println("   }");
+		CodeSys.o().println("   const T &operator[](unsigned int p) const");
+		CodeSys.o().println("   {");
+		CodeSys.o().println("      return array[p];");
+		CodeSys.o().println("   }");
+		CodeSys.o().println("};");
+		CodeSys.o().println("#endif");
 	}
 
 }

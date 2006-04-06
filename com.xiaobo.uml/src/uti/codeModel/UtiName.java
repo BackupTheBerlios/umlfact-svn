@@ -24,9 +24,6 @@ public class UtiName extends BaseCode implements BaseName {
 			   p.renameChild(this, name);		   
 		   }
 	   }
-	   /* (non-Javadoc)
-	 * @see codeModel.BaseName#getName()
-	 */
 	public String getName()
 	   {
 		   return sname;
@@ -34,7 +31,7 @@ public class UtiName extends BaseCode implements BaseName {
 	public void read(Element xml, int version) {
 		// TODO Auto-generated method stub
 		super.read(xml, version);
-		setName(UtiOB.readString(xml, "name"));
+		setName(UtiOB.readString(xml, "name", "unnamed"));
 	}
 	public void write(Element xml, int version) {
 		// TODO Auto-generated method stub

@@ -78,5 +78,10 @@ public class UtiCollection extends UtiType implements BaseCollection {
 		super.write(xml, version);
 		UtiOB.writeList(xml, "children", children, version);
 	}
+	public void searchImports(ImportList list){
+	    for (int i = 0; i < children.size(); i++) {
+	    	((BaseCode)children.elementAt(i)).searchImports(list);
+	    }
+	}
 	   
 }

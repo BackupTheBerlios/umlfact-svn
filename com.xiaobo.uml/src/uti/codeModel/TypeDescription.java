@@ -5,7 +5,7 @@ import org.w3c.dom.Element;
 import uti.java.Link;
 import uti.java.UtiOB;
 
-public class TypeDescription extends BaseCode {
+/*public class TypeDescription extends BaseCode {
 	Link type = new Link();
 	int arraysize=0;
 	public TypeDescription() {
@@ -52,4 +52,4 @@ public class TypeDescription extends BaseCode {
 		UtiOB.writeInteger(xml, "arraysize", arraysize);
 	}
 
-}
+}*/

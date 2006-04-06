@@ -8,19 +8,21 @@ import uti.java.*;
 
 public class UtiMethod extends UtiCollection {
     boolean utiabstract = true;
-    TypeDescription resulttype = new TypeDescription();
+    Link resulttype = new Link();
     boolean utifinal = false;
     boolean utistatic = false;
+    boolean constructor = false;
     UtiBlock block = null; 
     Vector utithrows = new Vector();
     Vector parameter = new Vector();
 	public void read(Element xml, int version) {
 		// TODO Auto-generated method stub
 		super.read(xml, version);
-		setAbstract(UtiOB.readBoolean(xml, "abstract"));
+		setAbstract(UtiOB.readBoolean(xml, "abstract", false));
 		UtiOB.readObject(xml, "resulttype", resulttype, version);
-		setFinal(UtiOB.readBoolean(xml, "final"));
-		setStatic(UtiOB.readBoolean(xml, "static"));
+		setFinal(UtiOB.readBoolean(xml, "final", false));
+		setStatic(UtiOB.readBoolean(xml, "static", false));
+		setConstructor(UtiOB.readBoolean(xml, "constructor", false));
 		block = (UtiBlock)UtiOB.readObjectMulti(xml, "block", version, this);
 		UtiOB.readList(xml, "throws", utithrows, version, this);
 		UtiOB.readList(xml, "parameter", parameter, version, this);
@@ -32,6 +34,7 @@ public class UtiMethod extends UtiCollection {
 		UtiOB.writeObject(xml, "resulttype", resulttype, version);
 		UtiOB.writeBoolean(xml, "final", isFinal());
 		UtiOB.writeBoolean(xml, "static", isStatic());
+		UtiOB.writeBoolean(xml, "constructor", isConstructor());
 		UtiOB.writeObject(xml, "block", block, version);
 		UtiOB.writeList(xml, "throws", utithrows, version);
 		UtiOB.writeList(xml, "parameter", parameter, version);
@@ -68,7 +71,7 @@ public class UtiMethod extends UtiCollection {
 	}
 	public Link intern_result()
 	{
-		return resulttype.type;
+		return resulttype;
 	}
 	public int getExceptionCount()
 	{
@@ -90,7 +93,7 @@ public class UtiMethod extends UtiCollection {
 	{
 		UtiVariable m = new UtiVariable(this);
 		m.setName(Name);
-		m.getDescription().setType(typ);
+		m.setType(typ);
 		addChild(m);
 		return m;
 	}
@@ -107,11 +110,11 @@ public class UtiMethod extends UtiCollection {
 		block.setObjParent(this);
 		this.block = block;
 	}
-	public TypeDescription getResultType() {
-		return resulttype;
+	public UtiType getResultType() {
+		return (UtiType)resulttype.getObject();
 	}
-	public void setResultType(TypeDescription r) {
-		this.resulttype = r;
+	public void setResultType(UtiType r) {
+		this.resulttype.setObject(r);
 	}
 	public boolean isAbstract() {
 		return utiabstract;
@@ -138,5 +141,20 @@ public class UtiMethod extends UtiCollection {
 		if (obj instanceof UtiVariable)
 		super.addChild(obj);
 	}
+	public boolean isConstructor() {
+		return constructor;
+	}
+	public void setConstructor(boolean constructor) {
+		this.constructor = constructor;
+	}
+	public void searchImports(ImportList list){
+		Object o = resulttype.getObject();
+		if (o != null && o instanceof BaseType)
+			list.addSecondary((BaseType)o);
+		for (int i = 0; i < parameter.size(); i++) {
+			((BaseCode)parameter.elementAt(i)).searchImports(list);
+		}
+		block.searchImports(list);
+   }
 	
 }

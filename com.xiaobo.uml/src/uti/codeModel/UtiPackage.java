@@ -12,6 +12,10 @@ public class UtiPackage extends UtiCollection {
    public void setName(String name)
    {
 	   if (sname.equals(name)) return;
+	   if (getObjParent() instanceof UtiProgram) {
+		   sname = name;
+		   return;
+	   }
 	   UtiPackage p = (UtiPackage)getObjParent();
 	   if (p == null) {
 	       sname = name;
@@ -72,6 +76,13 @@ public class UtiPackage extends UtiCollection {
 	{
 		return (UtiPackage)packages.elementAt(i);
 	}
+	public void searchImports(ImportList list){
+		
+		for (int i = 0; i < packages.size(); i++) {
+			((BaseCode)packages.elementAt(i)).searchImports(list);
+		}
+		super.searchImports(list);
+   }
    
    public UtiPackage(BaseCode p) {
 	super(p);

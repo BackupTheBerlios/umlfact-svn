@@ -27,6 +27,7 @@ public class UtiSpecialCommand extends UtiCommand {
 		return ausdruck;
 	}
 	public void setAusdruck(UtiAusdruck ausdruck) {
+		ausdruck.setObjParent(this);
 		this.ausdruck = ausdruck;
 	}
 	public int getType() {
@@ -35,5 +36,10 @@ public class UtiSpecialCommand extends UtiCommand {
 	public void setType(int type) {
 		this.type = type;
 	}
+	public void searchImports(ImportList list){
+		
+		if (ausdruck == null) 
+			ausdruck.searchImports(list);
+   }
 
 }

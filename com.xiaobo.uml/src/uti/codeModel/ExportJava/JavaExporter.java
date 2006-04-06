@@ -1,11 +1,11 @@
 package uti.codeModel.ExportJava;
 
 import uti.codeModel.BaseCode;
-import uti.codeModel.TypeDescription;
 import uti.codeModel.UtiClass;
 import uti.codeModel.UtiInterface;
 import uti.codeModel.UtiMethod;
 import uti.codeModel.UtiPackage;
+import uti.codeModel.UtiType;
 import uti.codeModel.UtiVariable;
 import uti.codeModel.ExportBase.BaseExporter;
 import uti.codeModel.ExportBase.CodeSys;
@@ -63,7 +63,7 @@ public class JavaExporter extends BaseExporter {
 	}
 	public void printVar(UtiVariable var)
 	{
-		generateType(var.getDescription());
+		generateType(var.getType());
 		CodeSys.o().print(" "+var.getName());
 	}
 	public void generateVariable(UtiVariable var)
@@ -71,12 +71,12 @@ public class JavaExporter extends BaseExporter {
 		   printVar(var);
 		   CodeSys.o().println(";");
 	}
-	public void generateType(TypeDescription desc)
+	public void generateType(UtiType desc)
 	{
-		if (desc.getType() == null) {
+		if (desc == null) {
 			CodeSys.o().print("void");
 		} else {
-			CodeSys.o().print(desc.getType().getName());
+			CodeSys.o().print(desc.getName());
 		};
 	}
 	public void generateInterface(UtiInterface in)

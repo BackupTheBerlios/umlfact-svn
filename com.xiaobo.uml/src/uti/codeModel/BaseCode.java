@@ -4,6 +4,12 @@ import org.w3c.dom.Element;
 
 import uti.java.*;
 
+/**
+ * Basisklasse aller Codeobjekte.
+ * @author staud
+ *
+ */
+
 public class BaseCode extends UtiOB {
 	 //  Link Parent=new Link();
 	   //String sname = "";
@@ -24,5 +30,12 @@ public class BaseCode extends UtiOB {
 	public void write(Element xml, int version) {
 		// TODO Auto-generated method stub
 		super.write(xml, version);
+	}
+	/**
+	 * Diese Methode sucht nach allen Typen die beim Export importiert werden müssen
+	 * @param list Liste der verwendeten externen Objekte.
+	 */
+	public void searchImports(ImportList list){
+		
 	}
 }

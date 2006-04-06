@@ -15,21 +15,14 @@ public class MainClass {
 	 */
 	public static void main(String[] args) {
 		
-        UtiPackage base = new UtiPackage(null);
-        base.setName("Base");
-        System.out.println("CodeModel");
-        File f = new File("/home/staud/test.java");
-        ModelGenerator.readSingleFile(f, base);
-        try {
-        LinkMemory.doLink();
-        } catch (SyntaxException e) {
-        	System.out.println(e.toString());
-        }
-        //UtiClass obj = base.addObject("MainClass");
-        base.saveToFile("Hamster.xml");
-        BaseExporter exp = new CPPExporter();
-        exp.export(base);
-        CodeSys.free();
+		UtiProgram prog = new UtiProgram();
+		prog.readFile("/home/staud/test.java");
+		prog.readFile("/home/staud/test2.java");
+		prog.readFile("/home/staud/BaseClasses.java");
+		prog.link();
+		prog.saveToFile("test.xml");
+	    prog.exportToCpp();
+        
 	}
 
 }

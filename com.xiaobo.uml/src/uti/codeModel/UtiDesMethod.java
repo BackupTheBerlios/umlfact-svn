@@ -6,7 +6,7 @@ import uti.java.Link;
 import uti.java.UtiOB;
 import java.util.*;
 /** Veraltet nicht benutzen*/
-public class UtiDesMethod extends UtiDesStep {
+/*public class UtiDesMethod extends UtiDesStep {
     Link method=new Link();
     Vector params = new Vector();
 	public UtiDesMethod(BaseCode p, UtiMethod m, Vector parameter) {
@@ -35,3 +35,4 @@ public class UtiDesMethod extends UtiDesStep {
 	}
 
 }
+*/
