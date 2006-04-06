@@ -5,6 +5,7 @@ import uti.java.*;
 
 public class UtiName extends BaseCode implements BaseName {
 	String sname="Unnamed";
+        public static final String NAME_PROP = "name";
 	public UtiName(BaseCode p) {
 		super(p);
 		// TODO Auto-generated constructor stub
@@ -31,11 +32,11 @@ public class UtiName extends BaseCode implements BaseName {
 	public void read(Element xml, int version) {
 		// TODO Auto-generated method stub
 		super.read(xml, version);
-		setName(UtiOB.readString(xml, "name", "unnamed"));
+		setName(UtiOB.readString(xml, NAME_PROP, "unnamed"));
 	}
 	public void write(Element xml, int version) {
 		// TODO Auto-generated method stub
 		super.write(xml, version);
-		UtiOB.writeString(xml, "name",getName());
+		UtiOB.writeString(xml, NAME_PROP,getName());
 	}
 }
