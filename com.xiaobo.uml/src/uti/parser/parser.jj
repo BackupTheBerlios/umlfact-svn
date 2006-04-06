@@ -1,6 +1,6 @@
  
 options {
-   LOOKAHEAD=2;
+   LOOKAHEAD=1;
    JAVA_UNICODE_ESCAPE=true;
 }
 
@@ -13,14 +13,25 @@ import uti.codeModel.*;
 import uti.java.*;
 import java.util.*;
 
+class TypeInfo 
+{
+   LinkName name;
+   int arraycount=0;
+}
+
 public class ModelGenerator {
    static public UtiPackage MainPackage=null;
+   static ModelGenerator mg=null;
    public static void readSingleFile(File f, UtiPackage m)
    {
        try {
        BufferedReader in =new BufferedReader(new FileReader(f.getAbsoluteFile()));
        System.out.println("Datei "+f.getAbsoluteFile()+" geladen");
-       ModelGenerator mg = new ModelGenerator(in);
+       if (mg == null) {
+          mg = new ModelGenerator(in);
+       } else {
+          mg.ReInit(in);
+       }
        System.out.println("ModelGenerator gestartet");
        mg.MainPackage = m;
        mg.program();
@@ -157,6 +168,7 @@ TOKEN:
    |<RETURN_TOK: "return">
    |<BREAK_TOK: "break">
    |<CONTINUE_TOK: "continue">
+   |<NEW_TOK: "new">
    
 }
 
@@ -200,7 +212,7 @@ void program():
    (
       c=StdClass() {currentpackage.addChild(c);}
       | i = StdInterface() {currentpackage.addChild(i);}
-      
+      | ";"
    )+
 }
 
@@ -300,13 +312,15 @@ UtiClass Klassendeklaration():
    (
       vis =  Sichtbarkeitsmod()
       (
+      LOOKAHEAD( MethodeLookahead() )
          bn=Methode() {
             cl.addChild(bn);
       }
-         | bn=Constructor() {
+         |  LOOKAHEAD( <IDENT> "(" )
+            bn=Constructor() {
             cl.addChild(bn);
       }
-         | blist=Deklaration(){
+         | blist=Deklaration() ";" {
             for (int i = 0; i < blist.size(); i++) {
                cl.addChild((BaseName)blist.elementAt(i));
             }
@@ -325,48 +339,58 @@ UtiClass Klassendeklaration():
    
 }
 
+void MethodeLookahead():
+{}
+{
+  TypeDeklaration() <IDENT> "("
+}
+
 Vector Deklaration():
 {
    LinkName typ;
    int arraycount=0;
    UtiVariable var;
    Vector l = new Vector();
-   TypeDescription d;
 }
 {
-   typ=name() ("[""]" {arraycount++;} )* 
-   var=Variablendeklaration() {
-      d= new TypeDescription(null);
-      LinkMemory.add(d.intern_type(), d, typ, UtiType.class);
-      d.addArray(arraycount);
-      var.setDescription(d);
+   (typ=name() ("[""]" {arraycount++;} )* 
+   var=Variablendeklaration() {      
+      LinkMemory.add(var.intern_type(), arraycount, var, typ, UtiType.class);
       l.addElement(var);
    }
    ( ","
    var=Variablendeklaration() {
-      d= new TypeDescription(null);
-      LinkMemory.add(d.intern_type(), d, typ, UtiType.class);
-      d.addArray(arraycount);
-      var.setDescription(d);
+      LinkMemory.add(var.intern_type(), arraycount, var, typ, UtiType.class);
       l.addElement(var);
    }
    
-   )*
+   )*)
    {return l;}
 }
 
-
-TypeDescription TypeDeklaration():
+UtiVariable SingleDeklaration():
 {
-   TypeDescription d= new TypeDescription(null);
-   int arraycount=0;
    LinkName typ;
+   int arraycount=0;
+   UtiVariable var;
 }
 {
    typ=name() ("[""]" {arraycount++;} )* 
+   var=Variablendeklaration() {
+      LinkMemory.add(var.intern_type(), arraycount, var, typ, UtiType.class);
+      
+   }
+   {return var;}
+}
+
+
+TypeInfo TypeDeklaration():
+{
+   TypeInfo d= new TypeInfo();
+}
+{
+   d.name=name() (LOOKAHEAD(3) "[""]" {d.arraycount++;} )* 
    {
-       LinkMemory.add(d.intern_type(), d, typ, UtiType.class);
-       d.addArray(arraycount);
        return d;
    }
 }
@@ -384,29 +408,24 @@ UtiVariable Variablendeklaration():
 
 Vector FormaleParameter():
 {
-   LinkName typ;
-   int arraycount=0;
    UtiVariable var;
    Vector l = new Vector();
-   TypeDescription t;
+   TypeInfo t;
 }
 {
    "("
    (
    t = TypeDeklaration()
    var=Variablendeklaration() {
-      var.setDescription(t);
-      t.addArray(arraycount);
+      LinkMemory.add(var.intern_type(), t.arraycount, var, t.name, UtiType.class);    
       l.addElement(var);
-      arraycount = 0;
    })?
    ( "," 
    t = TypeDeklaration()
    var=Variablendeklaration() {
-      var.setDescription(t);
-      t.addArray(arraycount);
+      LinkMemory.add(var.intern_type(), t.arraycount, var, t.name, UtiType.class);
       l.addElement(var);
-      arraycount = 0;
+
    }
    
    )*
@@ -456,7 +475,7 @@ UtiMethod Constructor():
 {
    m=MethodKopf()
    b=Block()
-   {m.setBlock(b); return m;}
+   {m.setConstructor(true); m.setBlock(b); return m;}
 }
 
 UtiMethod Methode():
@@ -473,14 +492,14 @@ UtiMethod Methode():
 UtiMethod Methodenrumpf():
 {
    UtiMethod m = null;
-   TypeDescription typ;
+   TypeInfo t;
 }
 {
-   typ=TypeDeklaration()
+   t=TypeDeklaration()
    m = MethodKopf()
    {
    //   LinkMemory.add(m.intern_result(), m, typ, UtiType.class);
-   m.setResultType(typ);
+   LinkMemory.add(m.intern_result(), t.arraycount, m, t.name, UtiType.class);
    return m;
    }
 }
@@ -493,8 +512,10 @@ UtiBlock Block():
    Vector v;
 }
 {
+   
    ("{"
    (
+      LOOKAHEAD(2)
       com=Basisanweisung()
       {
          b.addCommand(com);
@@ -510,6 +531,7 @@ UtiBlock Block():
    "}"
    |
    (
+      LOOKAHEAD(2)
       com=Basisanweisung()
       {
          b.addCommand(com);
@@ -624,6 +646,7 @@ UtiIf If():
    "if" "("d=Ausdruck() ")" {f.setExpression(d);}
    b=Block() {f.setThen_Block(b);}
    (
+   LOOKAHEAD("else")
       "else"
       b=Block() {f.setElse_Block(b);}
    )?
@@ -636,11 +659,25 @@ UtiFor For():
    UtiFor f = new UtiFor(null);
    UtiAusdruck d;
    UtiBlock b;
+   UtiVariable v;
 }
 {
-   "for" "(" b=Block() {f.setInit(b);}
+   "for" "(" 
+   [ 
+    (
+    LOOKAHEAD(2)
+    d=Ausdruck() {f.addInit(d);}
+    |v=SingleDeklaration() {f.addInit(v);}
+    )]
+    (","(LOOKAHEAD(2)
+    d=Ausdruck() {f.addInit(d);}
+        |v=SingleDeklaration() {f.addInit(v);}
+       ))*    
+       
    ";" d=Ausdruck() {f.setBedingung(d);}
-   ";" b=Block() {f.setStep(b);} ")"
+   ";" 
+   [d=Ausdruck() {f.addUpdate(d);}]
+    (","d=Ausdruck() {f.addUpdate(d);})* ")"
    b=Block() {f.setBlock(b);}
    {return f;}
 }
@@ -1038,8 +1075,9 @@ UtiAusdruck Ausdruck12():
 UtiAusdruck Ausdruck13():
 {
    UtiAusdruck a, b,c;
-   TypeDescription d;
+   TypeInfo t;
    int value;
+   Link l;
 }
 {
    (("~"  {value=UtiAusdruck.BI_BITNOT;}      |
@@ -1056,9 +1094,12 @@ UtiAusdruck Ausdruck13():
       a=b;
       }
    }
-   | "(" d=TypeDeklaration() ")" c= Ausdruck13()
+   |LOOKAHEAD(TypeDeklaration() Ausdruck13()) "(" t=TypeDeklaration() ")" c= Ausdruck13()
    {
-      a= new UtiAusdruck(d, c);
+      l = new Link();
+      a= new UtiAusdruck(l, c);
+      LinkMemory.add(l, t.arraycount, a, t.name, UtiType.class);
+      
    }
    | a=Ausdruck14() [("++"  {value=UtiAusdruck.BI_RIGHTINCREMENT;}   |
                      "--"  {value=UtiAusdruck.BI_RIGHTDECREMENT;}  
@@ -1073,8 +1114,8 @@ UtiAusdruck Ausdruck14():
 {
    UtiAusdruck a=null, b;
    Token t;
-   UtiDesignator d=null;
    LinkName link;
+   Link n;
    Vector v = null;
 }
 {
@@ -1095,7 +1136,7 @@ UtiAusdruck Ausdruck14():
         )*
        ")"])
      { 
-        Link n=new Link();
+        n=new Link();
         if (v == null) {
            a=new UtiAusdruck(UtiAusdruck.BI_VARIABLE);
            a.addData(n);
@@ -1109,6 +1150,35 @@ UtiAusdruck Ausdruck14():
            }
         }
      }
+   | LOOKAHEAD("new" singlename() "(") 
+               "new" link=singlename() "("
+        {v = new Vector();}
+        [b=Ausdruck() {v.addElement(b);}]
+        ("," b=Ausdruck() {v.addElement(b);}
+        )*
+       ")"
+     {
+        n=new Link();
+        a=new UtiAusdruck(UtiAusdruck.BI_CONSTRUCTOR);
+        a.addData(n);
+        LinkMemory.add(n, a, link, UtiType.class);
+        for (int i = 0; i < v.size(); i++) {
+              a.addData((UtiOB)v.elementAt(i));
+        }
+     }
+   | "new" link=singlename()
+       {v = new Vector();}
+       ("[" b=Ausdruck() "]" {v.addElement(b);} )+
+      {
+        n=new Link();
+        a=new UtiAusdruck(UtiAusdruck.BI_CONSTRUCTORARRAY);
+        a.addData(n);
+        LinkMemory.add(n, a, link, UtiType.class);
+        for (int i = 0; i < v.size(); i++) {
+              a.addData((UtiOB)v.elementAt(i));
+        }
+     } 
+   
    | "["a=Ausdruck()"]" {a = new UtiAusdruck(a, UtiAusdruck.BI_ARRAY);})
    {return a;}
 }

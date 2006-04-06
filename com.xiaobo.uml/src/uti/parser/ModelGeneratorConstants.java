@@ -37,16 +37,17 @@ public interface ModelGeneratorConstants {
   int RETURN_TOK = 38;
   int BREAK_TOK = 39;
   int CONTINUE_TOK = 40;
-  int IDENT = 41;
-  int LKLAMMER = 42;
-  int RKLAMMER = 43;
-  int LGKLAMMER = 44;
-  int RGKLAMMER = 45;
-  int LEKLAMMER = 46;
-  int REKLAMMER = 47;
-  int SEMICOLON = 48;
-  int COMMA = 49;
-  int DOT = 50;
+  int NEW_TOK = 41;
+  int IDENT = 42;
+  int LKLAMMER = 43;
+  int RKLAMMER = 44;
+  int LGKLAMMER = 45;
+  int RGKLAMMER = 46;
+  int LEKLAMMER = 47;
+  int REKLAMMER = 48;
+  int SEMICOLON = 49;
+  int COMMA = 50;
+  int DOT = 51;
 
   int DEFAULT = 0;
   int BIG_COMMENT = 1;
@@ -94,6 +95,7 @@ public interface ModelGeneratorConstants {
     "\"return\"",
     "\"break\"",
     "\"continue\"",
+    "\"new\"",
     "<IDENT>",
     "\"(\"",
     "\")\"",
