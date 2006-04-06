@@ -47,20 +47,6 @@ public class UtiCollection extends UtiType implements BaseCollection {
 	{
 		return (BaseName)children.elementAt(i);
 	}
-	  
-	public UtiClass addObject(String name) {
-		   UtiClass obj = new UtiClass(this);
-		   obj.setName(name);
-		   addChild(obj);
-		   return obj;
-	   }
-	  
-	public UtiInterface addInterface(String name) {
-		   UtiInterface obj = new UtiInterface(this);
-		   obj.setName(name);
-		   addChild(obj);
-		   return obj;
-	   }
 
 	public void read(Element xml, int version) {
 		// TODO Auto-generated method stub

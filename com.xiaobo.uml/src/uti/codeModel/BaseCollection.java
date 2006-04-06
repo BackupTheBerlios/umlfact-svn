@@ -10,10 +10,6 @@ public interface BaseCollection {
 
 	public abstract void addChild(BaseName obj);
 
-	public abstract UtiClass addObject(String name);
-
-	public abstract UtiInterface addInterface(String name);
-
 	public abstract int getChildCount();
 	public abstract BaseName getChild(int i);
 }

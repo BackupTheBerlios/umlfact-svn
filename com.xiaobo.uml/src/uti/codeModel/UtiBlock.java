@@ -59,17 +59,6 @@ public class UtiBlock extends UtiCommand implements BaseCollection {
 		((UtiOB)obj).setObjParent(this);
 
 	}
-
-	public UtiInterface addInterface(String name) {
-
-		return null;
-	}
-
-	public UtiClass addObject(String name) {
-
-		return null;
-	}
-
 	public BaseName getChildByName(String name) {
 
 		return (BaseName) childrenmap.get(name);

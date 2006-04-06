@@ -50,15 +50,6 @@ public class UtiMethod extends UtiCollection {
 		parameter.addElement(var);
 		return var;
 	}
-	public UtiInterface addInterface(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public UtiClass addObject(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	public void addException(UtiClass obj)
 	{
 		utithrows.addElement(new Link(obj));
