@@ -25,7 +25,7 @@ public class UtiString extends UtiOB {
 	public void read(Element xml, int version) {
 		// TODO Auto-generated method stub
 		super.read(xml, version);
-		value = UtiOB.readString(xml, "value");
+		value = UtiOB.readString(xml, "value","");
 	}
 	public void write(Element xml, int version) {
 		// TODO Auto-generated method stub

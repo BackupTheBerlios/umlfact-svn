@@ -29,7 +29,7 @@ public class UtiCharacter extends UtiOB  {
 	public void read(Element xml, int version) {
 		// TODO Auto-generated method stub
 		super.read(xml, version);
-		value = (char)UtiOB.readInteger(xml, "value");
+		value = (char)UtiOB.readInteger(xml, "value", ' ');
 	}
 
 	public void write(Element xml, int version) {

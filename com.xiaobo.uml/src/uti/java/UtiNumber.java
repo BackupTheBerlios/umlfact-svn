@@ -28,7 +28,7 @@ public class UtiNumber extends UtiOB {
 	public void read(Element xml, int version) {
 		// TODO Auto-generated method stub
 		super.read(xml, version);
-		value = UtiOB.readDouble(xml, "value");
+		value = UtiOB.readDouble(xml, "value", 0.0);
 	}
 
 	public void write(Element xml, int version) {

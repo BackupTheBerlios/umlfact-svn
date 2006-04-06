@@ -28,7 +28,7 @@ public class UtiBoolean extends UtiOB {
 	public void read(Element xml, int version) {
 		// TODO Auto-generated method stub
 		super.read(xml, version);
-	value =	UtiOB.readBoolean(xml, "value");
+	value =	UtiOB.readBoolean(xml, "value", false);
 	}
 
 	public void write(Element xml, int version) {
