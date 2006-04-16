@@ -14,11 +14,14 @@ public class UmlPaletteRoot extends PaletteRoot {
 
 	private PaletteDrawer defaultTools;
 
-	private PaletteDrawer umlTools;
+	private PaletteDrawer componentsTools;
+
+	private PaletteDrawer connectionTools;
 
 	public UmlPaletteRoot() {
 		add(createDefaultToolBox());
-		add(createUmlToolBox());
+		add(createConnectionDrawer());
+		add(createComponentDrawer());
 	}
 
 	private PaletteDrawer createDefaultToolBox() {
@@ -27,12 +30,18 @@ public class UmlPaletteRoot extends PaletteRoot {
 		return defaultTools;
 	}
 
-	private PaletteDrawer createUmlToolBox() {
-		umlTools = new PaletteDrawer("Uml tools");
-		umlTools.add(new TypeToolEntry());
-		umlTools.add(new ConnectionToolEntry());
-		umlTools.add(new CompartmentToolEntry());
-		umlTools.add(new MemberToolEntry());
-		return umlTools;
+	private PaletteDrawer createConnectionDrawer() {
+		connectionTools = new PaletteDrawer("Connection tools");
+		connectionTools.add(new InheritanceToolEntry());
+		connectionTools.add(new AggregationToolEntry());
+		return connectionTools;
+	}
+
+	private PaletteDrawer createComponentDrawer() {
+		componentsTools = new PaletteDrawer("Components tools");
+		componentsTools.add(new TypeToolEntry());
+		componentsTools.add(new CompartmentToolEntry());
+		componentsTools.add(new MemberToolEntry());
+		return componentsTools;
 	}
 }
