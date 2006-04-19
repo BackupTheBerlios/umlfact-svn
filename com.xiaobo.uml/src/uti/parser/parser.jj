@@ -135,7 +135,7 @@ TOKEN: {
     |
     <CODE_VALUE:  
       "§"
-      ( ~[])*
+      ( ~["§"])*
       "§"
     >  
 }
@@ -389,7 +389,7 @@ TypeInfo TypeDeklaration():
    TypeInfo d= new TypeInfo();
 }
 {
-   d.name=name() (LOOKAHEAD(3) "[""]" {d.arraycount++;} )* 
+   d.name=name() ( "[""]" {d.arraycount++;} )* 
    {
        return d;
    }
@@ -515,33 +515,31 @@ UtiBlock Block():
    
    ("{"
    (
-      LOOKAHEAD(2)
-      com=Basisanweisung()
-      {
-         b.addCommand(com);
-      }
-      |
-      v=Deklaration() ";"
+      LOOKAHEAD(Deklaration() ";") v=Deklaration() ";"
       {
          for (int i = 0; i < v.size(); i++)  {
             b.addCommand((UtiVariable)v.elementAt(i));
          }
+      }
+      |     
+      com=Basisanweisung()
+      {
+         b.addCommand(com);
       }
    )*
    "}"
    |
    (
-      LOOKAHEAD(2)
-      com=Basisanweisung()
-      {
-         b.addCommand(com);
-      }
-      |
-      v=Deklaration() ";"
+      LOOKAHEAD(Deklaration() ";") v=Deklaration() ";"
       {
          for (int i = 0; i < v.size(); i++)  {
             b.addCommand((UtiVariable)v.elementAt(i));
          }
+      }
+      |     
+      com=Basisanweisung()
+      {
+         b.addCommand(com);
       }
    )
    )
@@ -934,35 +932,6 @@ UtiAusdruck Ausdruck9():
    {return a;}
 }
 
-/*UtiAusdruck Ausdruck9():
-{
-   UtiAusdruck a, b,c;
-}
-{
-   b=Ausdruck10() "<" c= Ausdruck9()
-   {
-      a= new UtiAusdruck(b, c, UtiAusdruck.BI_LESS);
-   }
-   | b=Ausdruck10() "<=" c= Ausdruck9()
-   {
-      a= new UtiAusdruck(b, c, UtiAusdruck.BI_ELESS);
-   }
-   | b=Ausdruck10() ">" c= Ausdruck9()
-   {
-      a= new UtiAusdruck(b, c, UtiAusdruck.BI_GREATER);
-   }
-   | b=Ausdruck10() ">=" c= Ausdruck9()
-   {
-      a= new UtiAusdruck(b, c, UtiAusdruck.BI_EGREATER);
-   }
-   | b=Ausdruck10() "instanceof" c= Ausdruck9()
-   {
-      a= new UtiAusdruck(b, c, UtiAusdruck.BI_INSTANCEOF);
-   }
-   | a=Ausdruck10()
-   {return a;}
-}*/
-
 UtiAusdruck Ausdruck10():
 {
    UtiAusdruck a, c;
@@ -979,27 +948,7 @@ UtiAusdruck Ausdruck10():
        }]
    {return a;}
 }
-/*
-UtiAusdruck Ausdruck10():
-{
-   UtiAusdruck a, b,c;
-}
-{
-   b=Ausdruck11() "<<" c= Ausdruck10()
-   {
-      a= new UtiAusdruck(b, c, UtiAusdruck.BI_LSHIFT);
-   }
-   | b=Ausdruck11() ">>" c= Ausdruck10()
-   {
-      a= new UtiAusdruck(b, c, UtiAusdruck.BI_RSHIFT);
-   }
-   | b=Ausdruck11() ">>>" c= Ausdruck10()
-   {
-      a= new UtiAusdruck(b, c, UtiAusdruck.BI_SHIFTROUND);
-   }
-   | a=Ausdruck11()
-   {return a;}
-}*/
+
 
 UtiAusdruck Ausdruck11():
 {
@@ -1017,43 +966,6 @@ UtiAusdruck Ausdruck11():
    {return a;}
 }
 
-/*UtiAusdruck Ausdruck11():
-{
-   UtiAusdruck a, b,c;
-}
-{
-   b=Ausdruck12() "+" c= Ausdruck11()
-   {
-      a= new UtiAusdruck(b, c, UtiAusdruck.BI_PLUS);
-   }
-   | b=Ausdruck12() "-" c= Ausdruck11()
-   {
-      a= new UtiAusdruck(b, c, UtiAusdruck.BI_MINUS);
-   }
-   | a=Ausdruck12()
-   {return a;}
-}*/
-
-/*UtiAusdruck Ausdruck12():
-{
-   UtiAusdruck a, b,c;
-}
-{
-  b=Ausdruck13() "*" c= Ausdruck12()
-   {
-      a= new UtiAusdruck(b, c, UtiAusdruck.BI_MULTIPLY);
-   }
-   | b=Ausdruck13() "/" c= Ausdruck12()
-   {
-      a= new UtiAusdruck(b, c, UtiAusdruck.BI_DIVIDE);
-   }
-   | b=Ausdruck13() "%" c= Ausdruck12()
-   {
-      a= new UtiAusdruck(b, c, UtiAusdruck.BI_MOD);
-   }
-   | a=Ausdruck13()
-   {return a;}
-}*/
 
 UtiAusdruck Ausdruck12():
 {
@@ -1119,6 +1031,64 @@ UtiAusdruck Ausdruck14():
    Vector v = null;
 }
 {
+   
+   (LOOKAHEAD("new" singlename() "[") "new" link=singlename()
+       {v = new Vector();}
+       ("[" b=Ausdruck() "]" {v.addElement(b);} )+
+      {
+        n=new Link();
+        a=new UtiAusdruck(UtiAusdruck.BI_CONSTRUCTORARRAY);
+        a.addData(n);
+        LinkMemory.add(n, a, link, UtiType.class);
+        for (int i = 0; i < v.size(); i++) {
+              a.addData((UtiOB)v.elementAt(i));
+        }
+     }
+   |
+   
+   a=Ausdruck15()
+   
+   (
+   "." (link=singlename() ["("
+        {v = new Vector();}
+        [b=Ausdruck() {v.addElement(b);}]
+        ("," b=Ausdruck() {v.addElement(b);}
+        )*
+       ")"])
+     { 
+        n=new Link();
+        b=a;
+        if (v == null) {
+           a=new UtiAusdruck(UtiAusdruck.BI_FIELD);
+           a.addData(b);
+           a.addData(n);
+           LinkMemory.addBase(b,n, a, link, UtiVariable.class);
+        } else {
+           a=new UtiAusdruck(UtiAusdruck.BI_METHOD);
+           a.addData(b);
+           a.addData(n);
+           LinkMemory.addBase(b,n, a, link, UtiMethod.class);
+           for (int i = 0; i < v.size(); i++) {
+              a.addData((UtiOB)v.elementAt(i));
+           }
+        }
+     }
+   | "["b=Ausdruck() "]" {a = new UtiAusdruck(a, b, UtiAusdruck.BI_ARRAY);}
+   
+   )*)
+   {return a;}
+}
+
+UtiAusdruck Ausdruck15():
+{
+   UtiAusdruck a=null, b;
+   Token t;
+   LinkName link;
+   Link n;
+   Vector v = null;
+   String s;
+}
+{
    ("(" a=Ausdruck() ")" 
    | "true" {a = new UtiAusdruck(UtiAusdruck.BI_TRUE);}
    | "false" {a = new UtiAusdruck(UtiAusdruck.BI_FALSE);}
@@ -1127,7 +1097,7 @@ UtiAusdruck Ausdruck14():
    a = new UtiAusdruck(new Integer(Integer.parseInt(t.toString())));
    }
    | t=<FLOAT_VALUE> {a = new UtiAusdruck(new Double(Double.parseDouble(t.toString())));}
-   | t=<STRING_VALUE> {a= new UtiAusdruck(t.toString());}
+   | t=<STRING_VALUE> {s = t.toString(); s = s.substring(1, s.length()-1); a= new UtiAusdruck(s);}
    | t=<CHAR_VALUE> {a= new UtiAusdruck(new Character(t.toString().charAt(1)));}
    |  (link=singlename() ["("
         {v = new Vector();}
@@ -1165,20 +1135,6 @@ UtiAusdruck Ausdruck14():
         for (int i = 0; i < v.size(); i++) {
               a.addData((UtiOB)v.elementAt(i));
         }
-     }
-   | "new" link=singlename()
-       {v = new Vector();}
-       ("[" b=Ausdruck() "]" {v.addElement(b);} )+
-      {
-        n=new Link();
-        a=new UtiAusdruck(UtiAusdruck.BI_CONSTRUCTORARRAY);
-        a.addData(n);
-        LinkMemory.add(n, a, link, UtiType.class);
-        for (int i = 0; i < v.size(); i++) {
-              a.addData((UtiOB)v.elementAt(i));
-        }
-     } 
-   
-   | "["a=Ausdruck()"]" {a = new UtiAusdruck(a, UtiAusdruck.BI_ARRAY);})
+     })
    {return a;}
 }

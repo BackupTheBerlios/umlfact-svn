@@ -11,6 +11,7 @@ class SimpleLink {
 	BaseCode code;
 	LinkName ln;
 	Class expected;
+	UtiAusdruck base=null;
 	int arraysize;
 }
 
@@ -60,8 +61,20 @@ public class LinkMemory {
 		link.expected = expected;
 		links.addElement(link);
 	}
+	
+	static void addBase(UtiAusdruck base, Link l, BaseCode code, LinkName ln, Class expected) {
+		SimpleLink link = new SimpleLink();
+		link.l = l;
+		link.code = code;
+		link.ln = ln;
+		link.arraysize = -1;
+		link.expected = expected;
+		link.base = base;
+		links.addElement(link);
+	}
 
-	static UtiOB searchLink(UtiOB obj, LinkName name) throws SyntaxException {
+
+	static UtiOB searchLink(UtiOB obj, LinkName name, Class expected) throws SyntaxException {
 		if (name.getCount()==1) {
 			String str=name.getValue(0);
 			if (str.equals("char")) return BaseType.bt_char;
@@ -76,16 +89,16 @@ public class LinkMemory {
 			
 			
 		}
-		return searchLinkb(obj, name);
+		return searchLinkb(obj, name, expected);
 	}
 
-	static UtiOB searchLinkb(UtiOB obj, LinkName name) throws SyntaxException {
+	static UtiOB searchLinkb(UtiOB obj, LinkName name, Class expected) throws SyntaxException {
 		if (obj == null)
 			return null;
 		if (obj instanceof BaseCollection) {
 			BaseCollection coll = (BaseCollection) obj;
 			BaseName n = coll.getChildByName(name.getValue(0));
-			if (n != null) {
+			if (n != null && expected.isInstance(n)) {
 				if (name.getCount() == 1)
 					return (UtiOB) n;
 				// throw new SyntaxException("Unbekanntes Element:
@@ -108,16 +121,19 @@ public class LinkMemory {
 				}
 				return null;
 			} else {
-				return searchLinkb(obj.getObjParent(), name);
+				return searchLinkb(obj.getObjParent(), name, expected);
 
 			}
 
 		} else {
-			return searchLinkb(obj.getObjParent(), name);
+			return searchLinkb(obj.getObjParent(), name, expected);
 
 		}
 	}
-
+    public static String getPos(Token t)
+    {
+    	return ""+t.beginLine+":"+t.beginColumn+"-"+t.endLine+":"+t.endColumn; 
+    }
 	public static void doLink() throws SyntaxException {
 		for (int i = 0; i < links.size(); i++) {
 			Object o = links.elementAt(i);
@@ -128,10 +144,28 @@ public class LinkMemory {
 					link.l.setObject(null);
 					continue;
 				}
-				UtiOB ob = searchLink((UtiOB) link.code, link.ln);
+				if (link.base != null) {
+					UtiType t = link.base.getReturnType();
+					if (!(t instanceof BaseCollection)) {
+						throw new SyntaxException("Klasse erwartet: ");
+					}
+					BaseCollection coll = (BaseCollection)t;
+					BaseName n = coll.getChildByName(link.ln.getValue(0));
+					if (n == null) {
+						throw new SyntaxException("Unbekanntes Feld: " +
+								link.ln.getValue(0)+ " an " + 
+								getPos(link.ln.getToken(0)));
+					}
+					if (!link.expected.isInstance(n)) {
+						throw new SyntaxException("Erwartet: "
+								+ link.expected.toString() +" statt " +n.toString() + " an " + getPos(link.ln.getToken(0))+" statt "+link.ln.getValue(0));
+					}
+					link.l.setObject((UtiOB)n);
+				} else {
+				UtiOB ob = searchLink((UtiOB) link.code, link.ln, link.expected);
 				if (ob == null) {
 					throw new SyntaxException("Unbekannter Bezeichner: "
-							+ link.ln.toString());
+							+ link.ln.toString()+ " an " + getPos(link.ln.getToken(0)));
 				} else if (!link.expected.isInstance(ob)) {
 					throw new SyntaxException("Erwartet: "
 							+ link.expected.toString());
@@ -140,6 +174,7 @@ public class LinkMemory {
 						ob = UtiProgram.MainProg.getArrayType((UtiType)ob, link.arraysize);
 					}
 					link.l.setObject(ob);
+				}
 				}
 			}
 		}
