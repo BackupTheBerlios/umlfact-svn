@@ -43,6 +43,10 @@ public class UtiClass extends UtiCollection {
 		implementsobj.addElement(l);
 		return l;
 	}
+	/**
+	 * Diese Methode fügt Interfaces hinzu die implementiert werden
+	 * @param i Das neue Interface
+	 */
 	public void addImplement(UtiInterface i)
 	{
 		implementsobj.addElement(new Link(i));
@@ -67,6 +71,11 @@ public class UtiClass extends UtiCollection {
 		UtiOB.writeBoolean(xml, "public", isPublic());
 		UtiOB.writeBoolean(xml, "final", isFinal());
 	}
+	/**
+	 * Diese Funktion fügt eine neue Methode dieser Klasse hinzu
+	 * @param Name Name der neuen Methode
+	 * @return Die neue Methode
+	 */
 	public UtiMethod addMethod(String Name)
 	{
 		UtiMethod m = new UtiMethod(this);

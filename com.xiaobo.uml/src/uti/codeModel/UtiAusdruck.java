@@ -4,6 +4,7 @@ import java.util.*;
 
 import org.w3c.dom.Element;
 
+import uti.codeModel.ExportBase.CodeSys;
 import uti.java.*;
 
 public class UtiAusdruck extends UtiCommand {	
@@ -58,11 +59,12 @@ public class UtiAusdruck extends UtiCommand {
 	public final static int BI_SETOR=100+48;
 	public final static int BI_SETXOR=100+49;
 	public final static int BI_VARIABLE=1400+50;
-//	public final static int BI_FIELD=1400+51;
+	public final static int BI_FIELD=1400+51;
 	public final static int BI_CALL=1400+52;
 	public final static int BI_ARRAY=1400+53;
 	public final static int BI_CONSTRUCTOR=1400+54;
 	public final static int BI_CONSTRUCTORARRAY=1400+55;
+	public final static int BI_METHOD=1400+56;
     Vector data=new Vector();
     int type=0;
 	public void read(Element xml, int version) {
@@ -226,6 +228,9 @@ public class UtiAusdruck extends UtiCommand {
 		return type;
 	}
 	public void searchImports(ImportList list) {
+		if (type == BI_STRING) {
+			list.addSecondary((UtiType)UtiProgram.MainProg.getBase().getPackageByName("java").getPackageByName("lang").getChildByName("String"));
+		}
 		for (int i = 0; i < data.size(); i++) {
 			if (data.elementAt(i) instanceof Link) {
 				Object o = ((Link)data.elementAt(i)).getObject();
@@ -235,7 +240,333 @@ public class UtiAusdruck extends UtiCommand {
 			if (data.elementAt(i) instanceof BaseCode) {
 				((BaseCode)data.elementAt(i)).searchImports(list);
 			}
+			
 		}
 	       
+	}
+	public UtiType getReturnType() {
+		
+	
+	switch (getType()) {
+	case UtiAusdruck.BI_VARIABLE: {Link n = (Link)getElement(0);return ((UtiVariable)n.getObject()).getType();
+	}
+	case UtiAusdruck.BI_CALL: 
+	case UtiAusdruck.BI_CONSTRUCTOR: {Link n = (Link)getElement(0);	return ((UtiMethod)n.getObject()).getResultType();
+	}
+	case UtiAusdruck.BI_CONSTRUCTORARRAY: {
+		Link n = (Link)getElement(0);
+		int dimensions = getCount()-1;
+		UtiType typ = (UtiType)n.getObject();
+		UtiType a2= UtiProgram.MainProg.getArrayType(typ, dimensions);
+		return a2;
+	}
+	case UtiAusdruck.BI_ARRAY: {UtiAusdruck base = (UtiAusdruck)getElement(0);
+		UtiArray ar = (UtiArray)base.getReturnType();return ar.getBasetype();
+	}
+	case UtiAusdruck.BI_METHOD: {UtiAusdruck base = (UtiAusdruck)getElement(0);
+		Link n = (Link)getElement(1);return ((UtiMethod)n.getObject()).getResultType();
+	}
+	case UtiAusdruck.BI_FIELD: {UtiAusdruck base = (UtiAusdruck)getElement(0);
+		Link n = (Link)getElement(1);return ((UtiVariable)n.getObject()).getType();
+	}
+	/*case UtiAusdruck.BI_PLUS: {
+		gen2Ausdruck(a, "+");
+
+	}
+		;
+		break;
+	case UtiAusdruck.BI_MINUS: {
+		gen2Ausdruck(a, "-");
+
+	}
+		;
+		break;
+	case UtiAusdruck.BI_MULTIPLY: {
+		gen2Ausdruck(a, "*");
+
+	}
+		;
+		break;
+	case UtiAusdruck.BI_DIVIDE: {
+		gen2Ausdruck(a, "/");
+
+	}
+		;
+		break;
+	case UtiAusdruck.BI_NEG: {
+		gen2Ausdruck(a, "-");
+
+	}
+		;
+		break;
+	case UtiAusdruck.BI_OR: {
+		gen2Ausdruck(a, "|");
+
+	}
+		;
+		break;
+	case UtiAusdruck.BI_LOGICOR: {
+		gen2Ausdruck(a, "||");
+
+	}
+		;
+		break;
+	case UtiAusdruck.BI_LOGICAND: {
+		gen2Ausdruck(a, "&&");
+
+	}
+		;
+		break;
+	case UtiAusdruck.BI_AND: {
+		gen2Ausdruck(a, "&");
+
+	}
+		;
+		break;
+	case UtiAusdruck.BI_NOT: {
+		genFAusdruck(a, "!");
+
+	}
+		;
+		break;
+	case UtiAusdruck.BI_XOR: {
+		gen2Ausdruck(a, "^");
+
+	}
+		;
+		break;
+	case UtiAusdruck.BI_LSHIFT: {
+		gen2Ausdruck(a, "<<");
+
+	}
+		;
+		break;
+	case UtiAusdruck.BI_RSHIFT: {
+		gen2Ausdruck(a, ">>");
+
+	}
+		;
+		break;
+	case UtiAusdruck.BI_SHIFTROUND: {
+		gen2Ausdruck(a, ">>>");
+
+	}
+		;
+		break;
+	case UtiAusdruck.BI_EQUAL: {
+		gen2Ausdruck(a, "==");
+
+	}
+		;
+		break;
+	case UtiAusdruck.BI_NOTEQUAL: {
+		gen2Ausdruck(a, "!=");
+
+	}
+		;
+		break;
+	case UtiAusdruck.BI_LESS: {
+		gen2Ausdruck(a, "<");
+
+	}
+		;
+		break;
+	case UtiAusdruck.BI_ELESS: {
+		gen2Ausdruck(a, "<=");
+
+	}
+		;
+		break;
+	case UtiAusdruck.BI_GREATER: {
+		gen2Ausdruck(a, ">");
+
+	}
+		;
+		break;
+	case UtiAusdruck.BI_EGREATER: {
+		gen2Ausdruck(a, ">=");
+
+	}
+		;
+		break;
+	case UtiAusdruck.BI_INSTANCEOF: {
+		// gen2Ausdruck(a, "(dy");
+		CodeSys.o().print("(dynamic_cast<");
+		generateType((UtiType)((Link) a.getElement(0)).getObject());
+		CodeSys.o().print(">(");
+		generateAusdruck((UtiAusdruck) a.getElement(1));
+		CodeSys.o().print(")");
+	}
+		;
+		break;
+	case UtiAusdruck.BI_MOD: {
+		gen2Ausdruck(a, "%");
+
+	}
+		;
+		break;
+	case UtiAusdruck.BI_BITNOT: {
+		genFAusdruck(a, "~");
+
+	}
+		;
+		break;
+	case UtiAusdruck.BI_LEFTINCREMENT: {
+		genFAusdruck(a, "++");
+
+	}
+		;
+		break;
+	case UtiAusdruck.BI_RIGHTINCREMENT: {
+
+		genBAusdruck(a, "++");
+	}
+		;
+		break;
+		;
+		break;
+	case UtiAusdruck.BI_LEFTDECREMENT: {
+
+		genFAusdruck(a, "--");
+	}
+		;
+		break;
+	case UtiAusdruck.BI_RIGHTDECREMENT: {
+		genBAusdruck(a, "--");
+
+	}		CodeSys.o().print("(");
+		generateType(((UtiType)((Link) a.getElement(0)).getObject()));
+		CodeSys.o().print(")");
+		genF2Ausdruck(a, "");
+		;
+		break;
+	case UtiAusdruck.BI_TRUE: {
+		CodeSys.o().print("true");
+
+	}
+		;
+		break;
+	case UtiAusdruck.BI_FALSE: {
+		CodeSys.o().print("false");
+
+	}
+		;
+		break;
+	case UtiAusdruck.BI_NULL: {
+		CodeSys.o().print("NULL");
+
+	}
+		;
+		break;*/
+	case UtiAusdruck.BI_CAST: {	return ((UtiType)((Link) getElement(0)).getObject());}
+	/*
+	case UtiAusdruck.BI_INT: {
+		CodeSys.o().print(a.getElement(0).toString());
+
+	}
+		;
+		break;
+	case UtiAusdruck.BI_FLOAT: {
+		CodeSys.o().print(a.getElement(0).toString());
+
+	}
+		;
+		break;
+	case UtiAusdruck.BI_STRING: {
+		CodeSys.o().print("\"" + a.getElement(0).toString() + "\"");
+
+	}
+		;
+		break;
+	case UtiAusdruck.BI_CHAR: {
+		CodeSys.o().print("'" + a.getElement(0).toString() + "'");
+
+	}
+		;
+		break;
+	
+	case UtiAusdruck.BI_QUESTION: {
+		gen3Ausdruck(a);
+
+	}
+		;
+		break;
+	case UtiAusdruck.BI_SET: {
+		gen2Ausdruck(a, "=");
+
+	}
+		;
+		break;
+	case UtiAusdruck.BI_SETADD: {
+		gen2Ausdruck(a, "+=");
+
+	}
+		;
+		break;
+	case UtiAusdruck.BI_SETSUB: {
+		gen2Ausdruck(a, "-=");
+
+	}
+		;
+		break;
+	case UtiAusdruck.BI_SETMUL: {
+		gen2Ausdruck(a, "*=");
+
+	}
+		;
+		break;
+	case UtiAusdruck.BI_SETDIV: {
+		gen2Ausdruck(a, "/=");
+
+	}
+		;
+		break;
+	case UtiAusdruck.BI_SETMODULO: {
+		gen2Ausdruck(a, "%=");
+
+	}
+		;
+		break;
+	case UtiAusdruck.BI_SETRSHIFT: {
+		gen2Ausdruck(a, ">>=");
+
+	}
+		;
+		break;
+	case UtiAusdruck.BI_SETRROUNDSHIFT: {
+		gen2Ausdruck(a, ">>>=");
+
+	}
+		;
+		break;
+	case UtiAusdruck.BI_SETLSHIFT: {
+		gen2Ausdruck(a, "<<=");
+
+	}
+		;
+		break;
+	case UtiAusdruck.BI_SETAND: {
+		gen2Ausdruck(a, "&=");
+
+	}
+		;
+		break;
+	case UtiAusdruck.BI_SETOR: {
+		gen2Ausdruck(a, "|=");
+
+	}
+		;
+		break;
+	case UtiAusdruck.BI_SETXOR: {
+		gen2Ausdruck(a, "^=");
+
+	}
+		;
+		break;*/
+	default: {
+       return null;
+	}
+
+	}
 	}
 }

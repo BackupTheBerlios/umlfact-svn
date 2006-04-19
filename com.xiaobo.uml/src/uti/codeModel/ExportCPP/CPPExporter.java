@@ -415,11 +415,58 @@ public class CPPExporter extends BaseExporter {
 			
 		}; break;
 		case UtiAusdruck.BI_ARRAY: {
-			UtiAusdruck b = (UtiAusdruck)a.getElement(0);
+			UtiAusdruck base = (UtiAusdruck)a.getElement(0);
+			UtiAusdruck a1 = (UtiAusdruck)a.getElement(1);
+			CodeSys.o().print("(*");
+			if (base.getPrecedenceLevel() < 14) {
+				CodeSys.o().print("(");
+			}
+			generateAusdruck(base);
+			if (base.getPrecedenceLevel() < 14) {
+				CodeSys.o().print(")");
+			}
+			CodeSys.o().print(")");
 			CodeSys.o().print("[");
-			generateAusdruck(b);
+			generateAusdruck(a1);
 			CodeSys.o().print("]");
 
+		};
+		break;
+		case UtiAusdruck.BI_METHOD: {
+			UtiAusdruck base = (UtiAusdruck)a.getElement(0);
+			if (base.getPrecedenceLevel() < 14) {
+				CodeSys.o().print("(");
+			}
+			generateAusdruck(base);
+			if (base.getPrecedenceLevel() < 14) {
+				CodeSys.o().print(")");
+			}
+			CodeSys.o().print("->");
+			Link n = (Link)a.getElement(1);
+			CodeSys.o().print(((BaseName)n.getObject()).getName());
+			CodeSys.o().print("(");
+			for (int i = 1; i < a.getCount(); i++) {
+				UtiAusdruck b = (UtiAusdruck)a.getElement(i);
+				generateAusdruck(b);
+				if (i != a.getCount()-1) {
+					CodeSys.o().print(", ");
+				}
+			}
+			CodeSys.o().print(")");
+		};
+		break;
+		case UtiAusdruck.BI_FIELD: {
+			UtiAusdruck base = (UtiAusdruck)a.getElement(0);
+			if (base.getPrecedenceLevel() < 14) {
+				CodeSys.o().print("(");
+			}
+			generateAusdruck(base);
+			if (base.getPrecedenceLevel() < 14) {
+				CodeSys.o().print(")");
+			}
+			CodeSys.o().print("->");
+			Link n = (Link)a.getElement(1);
+			CodeSys.o().print(((BaseName)n.getObject()).getName());
 		};
 		break;
 		case UtiAusdruck.BI_PLUS: {
@@ -628,7 +675,7 @@ public class CPPExporter extends BaseExporter {
 			;
 			break;
 		case UtiAusdruck.BI_STRING: {
-			CodeSys.o().print("\"" + a.getElement(0).toString() + "\"");
+			CodeSys.o().print("new String(new _array<wchar_t>(L\"" + a.getElement(0).toString() + "\", "+a.getElement(0).toString().length()+"))");
 
 		}
 			;
@@ -735,7 +782,7 @@ public class CPPExporter extends BaseExporter {
 		if (w.getType() == UtiSpecialCommand.RETURN) {
 			CodeSys.o().print("return");
 			if (w.getAusdruck() != null) {
-				CodeSys.o().print("return ");
+				CodeSys.o().print(" ");
 				generateAusdruck(w.getAusdruck());
 			}
 			CodeSys.o().println(";");
@@ -970,6 +1017,12 @@ public class CPPExporter extends BaseExporter {
 		CodeSys.o().println("   const T &operator[](unsigned int p) const");
 		CodeSys.o().println("   {");
 		CodeSys.o().println("      return array[p];");
+		CodeSys.o().println("   }");
+		CodeSys.o().println("   _array(T* a, int size)");
+		CodeSys.o().println("   {");
+		CodeSys.o().println("      array = new T[size];");
+		CodeSys.o().println("      size = length;");
+		CodeSys.o().println("      for (int i = 0; i < size; i++) array[i] = a[i];");
 		CodeSys.o().println("   }");
 		CodeSys.o().println("};");
 		CodeSys.o().println("#endif");

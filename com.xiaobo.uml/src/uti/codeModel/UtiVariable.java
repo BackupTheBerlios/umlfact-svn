@@ -63,7 +63,7 @@ public class UtiVariable extends UtiName implements BaseCommand{
 	}
 	public void searchImports(ImportList list){
 		Object o = type.getObject();
-		((BaseCode)o).searchImports(list);
+		//((BaseCode)o).searchImports(list);
 		if (o instanceof UtiType)
 			list.addSecondary((UtiType)o);
 		

@@ -8,13 +8,14 @@ import uti.java.*;
 
 
 
-public class UtiArray extends UtiType {
+public class UtiArray extends UtiType implements BaseCollection {
     Link basetype = new Link();
-    static final int FIXED = 0;
-    static final int DYNAMIC = 1;
-    static final int HASHMAP = 2;
+    UtiVariable l;
 	public UtiArray(BaseCode p) {
 		super(p);
+		l = new UtiVariable(this);
+		l.setName("length");
+		l.setType(BaseType.bt_int);
 		
 	};
 	public UtiType getBasetype() {
@@ -40,6 +41,32 @@ public class UtiArray extends UtiType {
 			list.addSecondary((BaseType)o);
 		((BaseCode)o).searchImports(list);
 		list.addSecondary(this);
+	}
+	public void addChild(BaseName obj) {
+		// TODO Auto-generated method stub
+		
+	}
+	public BaseName getChild(int i) {
+		// TODO Auto-generated method stub
+		return l;
+	}
+	public BaseName getChildByName(String name) {
+		if (name.equals("length")) {
+			return l;
+		}
+		return null;
+	}
+	public int getChildCount() {
+		// TODO Auto-generated method stub
+		return 1;
+	}
+	public void removeChild(BaseName pack) {
+		// TODO Auto-generated method stub
+		
+	}
+	public void renameChild(BaseName pack, String newname) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 

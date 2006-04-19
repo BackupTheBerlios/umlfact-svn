@@ -6,18 +6,64 @@ import org.w3c.dom.Element;
 
 import uti.java.*;
 
-public class UtiMethod extends UtiCollection {
+/**
+ * Diese Klasse repräsentiert eine Methode. 
+ * @author staud
+ *
+ */
+public class UtiMethod extends UtiName implements BaseCollection {
     boolean utiabstract = true;
     Link resulttype = new Link();
     boolean utifinal = false;
     boolean utistatic = false;
     boolean constructor = false;
     UtiBlock block = null; 
+    UtiVariable localthis = null;
     Vector utithrows = new Vector();
     Vector parameter = new Vector();
+    UtiVariable getThis()
+    {
+    	if (localthis != null) return localthis;
+    	UtiVariable m = new UtiVariable(null);
+		m.setName("this");
+		m.setType((UtiType)this.getObjParent());
+		localthis = m;
+		return m;
+    }
+    Vector children = new Vector();
+	HashMap childrenmap = new HashMap();
+
+	public void removeChild(BaseName pack) {
+		   children.remove(pack);
+		   childrenmap.remove(pack.getName());
+	}
+	
+	public void renameChild(BaseName pack, String newname)
+	   {
+		   if (!childrenmap.containsKey(pack.getName())) return;
+		   childrenmap.remove(pack.getName());
+		   pack.setName(newname);
+		   childrenmap.put(newname, pack);
+	   }
+	
+	public int getChildCount()
+	{
+		return children.size();
+		
+	}
+	public BaseName getChild(int i)
+	{
+		return (BaseName)children.elementAt(i);
+	}
 	public void read(Element xml, int version) {
 		// TODO Auto-generated method stub
 		super.read(xml, version);
+		childrenmap.clear();
+		UtiOB.readList(xml, "children", children, version, this);
+		for (int i = 0; i < children.size(); i++) {
+			BaseName name = (BaseName)children.elementAt(i);
+			childrenmap.put(name.getName(), name);
+		}
 		setAbstract(UtiOB.readBoolean(xml, "abstract", false));
 		UtiOB.readObject(xml, "resulttype", resulttype, version);
 		setFinal(UtiOB.readBoolean(xml, "final", false));
@@ -30,6 +76,7 @@ public class UtiMethod extends UtiCollection {
 	public void write(Element xml, int version) {
 		// TODO Auto-generated method stub
 		super.write(xml, version);
+		UtiOB.writeList(xml, "children", children, version);
 		UtiOB.writeBoolean(xml, "abstract", isAbstract());
 		UtiOB.writeObject(xml, "resulttype", resulttype, version);
 		UtiOB.writeBoolean(xml, "final", isFinal());
@@ -43,12 +90,6 @@ public class UtiMethod extends UtiCollection {
 	public UtiMethod(BaseCode p) {
 		super(p);
 		// TODO Auto-generated constructor stub
-	}
-	public UtiVariable addParam()
-	{
-		UtiVariable var = new UtiVariable(this);
-		parameter.addElement(var);
-		return var;
 	}
 	public void addException(UtiClass obj)
 	{
@@ -80,6 +121,12 @@ public class UtiMethod extends UtiCollection {
 	{
 		return (UtiVariable)children.elementAt(i);
 	}
+	/**
+	 * Fügt einen neuen Parameter dieser Methode hinzu
+	 * @param Name Der neue Parameter
+	 * @param typ Der Typ dieses Parameters
+	 * @return Die neue Variable
+	 */
 	public UtiVariable addParam(String Name, UtiType typ)
 	{
 		UtiVariable m = new UtiVariable(this);
@@ -127,10 +174,12 @@ public class UtiMethod extends UtiCollection {
 	}
 
 	public void addChild(BaseName obj) {
-		// TODO Auto-generated method stub
+		
 		((UtiOB)obj).setObjParent(this);
 		if (obj instanceof UtiVariable)
-		super.addChild(obj);
+			children.addElement(obj);
+		   childrenmap.put(obj.getName(), obj);
+		   ((UtiOB)obj).setObjParent(this);
 	}
 	public boolean isConstructor() {
 		return constructor;
@@ -139,6 +188,9 @@ public class UtiMethod extends UtiCollection {
 		this.constructor = constructor;
 	}
 	public void searchImports(ImportList list){
+		for (int i = 0; i < children.size(); i++) {
+	    	((BaseCode)children.elementAt(i)).searchImports(list);
+	    }
 		Object o = resulttype.getObject();
 		if (o != null && o instanceof BaseType)
 			list.addSecondary((BaseType)o);
@@ -147,5 +199,9 @@ public class UtiMethod extends UtiCollection {
 		}
 		block.searchImports(list);
    }
+	public BaseName getChildByName(String name) {
+		if (name.equals("this")) return getThis();
+		return (BaseName)childrenmap.get(name);
+	}
 	
 }
