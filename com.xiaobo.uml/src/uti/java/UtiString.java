@@ -22,6 +22,10 @@ public class UtiString extends UtiOB {
 	public void setValue(String value) {
 		this.value = value;
 	}
+	public String toString()
+	{
+		return value;
+	}
 	public void read(Element xml, int version) {
 		// TODO Auto-generated method stub
 		super.read(xml, version);
