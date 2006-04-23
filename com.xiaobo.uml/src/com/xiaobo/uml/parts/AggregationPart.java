@@ -33,7 +33,6 @@ public class AggregationPart extends AbstractConnectionEditPart {
 		conn.setTargetDecoration(decoration);
 
 		// conn.setConnectionRouter(new ManhattanConnectionRouter());
-
 		return conn;
 	}
 

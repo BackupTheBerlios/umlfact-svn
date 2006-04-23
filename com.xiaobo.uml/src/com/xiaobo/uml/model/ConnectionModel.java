@@ -6,7 +6,8 @@ package com.xiaobo.uml.model;
  * 
  * Copyright 2006 by Xiaobo Sun. All Rights Reserved.
  */
-public class ConnectionModel extends UmlElement implements IUmlConnection {
+public abstract class ConnectionModel extends UmlElement implements
+		IUmlConnection {
 
 	private TypeModel source;
 
@@ -18,10 +19,10 @@ public class ConnectionModel extends UmlElement implements IUmlConnection {
 	public ConnectionModel() {
 	}
 
-//	public ConnectionModel(TypeModel source, TypeModel target) {
-//		setSource(source);
-//		setTarget(target);
-//	}
+	// public ConnectionModel(TypeModel source, TypeModel target) {
+	// setSource(source);
+	// setTarget(target);
+	// }
 
 	public IUmlConnectionNode getSource() {
 		return source;

@@ -2,8 +2,9 @@ package com.xiaobo.uml.editor.palette;
 
 import org.eclipse.gef.requests.CreationFactory;
 
+import com.xiaobo.uml.model.Aggregation;
 import com.xiaobo.uml.model.CompartmentModel;
-import com.xiaobo.uml.model.ConnectionModel;
+import com.xiaobo.uml.model.Inheritance;
 import com.xiaobo.uml.model.MemberModel;
 import com.xiaobo.uml.model.TypeModel;
 
@@ -31,10 +32,10 @@ public class UmlCreationFactory implements CreationFactory {
 			methods.setName("                 ");
 			type.addChild(methods);
 			return type;
-		} else if (type == ConnectionModel.class) {
-			return new ConnectionModel();
-		} else if (type == CompartmentModel.class) {
-			return new CompartmentModel();
+		} else if (type == Inheritance.class) {
+			return new Inheritance();
+		} else if (type == Aggregation.class) {
+			return new Aggregation();
 		} else if (type == MemberModel.class) {
 			return new MemberModel();
 		}
