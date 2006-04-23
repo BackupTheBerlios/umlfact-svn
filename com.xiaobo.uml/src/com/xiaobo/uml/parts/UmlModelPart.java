@@ -5,6 +5,7 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 
 import org.eclipse.draw2d.ConnectionLayer;
+import org.eclipse.draw2d.FanRouter;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.ShortestPathConnectionRouter;
@@ -26,9 +27,14 @@ public class UmlModelPart extends UmlElementPart implements
 
 	protected IFigure createFigure() {
 		Figure figure = new UmlModelFigure();
+
 		ConnectionLayer connectionLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
-		connectionLayer.setConnectionRouter(new ShortestPathConnectionRouter(
-				figure));
+		FanRouter router = new FanRouter();
+		router.setSeparation(20);
+		ShortestPathConnectionRouter spRouter = new ShortestPathConnectionRouter(
+				figure);
+		router.setNextRouter(spRouter);
+		connectionLayer.setConnectionRouter(router);
 
 		// Figure figure = new Figure();
 		// figure.setLayoutManager(new GraphLayout(this));

@@ -26,6 +26,10 @@ public class InheritancePart extends AbstractConnectionEditPart {
 		decoration.setTemplate(decorationPointList);
 		conn.setTargetDecoration(decoration);
 
+		// FanRouter router = new FanRouter();
+		// router.setSeparation(40);
+		// conn.setConnectionRouter(router);
+
 		return conn;
 	}
 

@@ -32,6 +32,8 @@ public class AggregationPart extends AbstractConnectionEditPart {
 		decoration.setTemplate(decorationPointList);
 		conn.setTargetDecoration(decoration);
 
+		// conn.setConnectionRouter(new ManhattanConnectionRouter());
+
 		return conn;
 	}
 
