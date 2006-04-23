@@ -11,8 +11,10 @@ import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
+import org.eclipse.gef.requests.CreateConnectionRequest;
 
-import com.xiaobo.uml.connect.AwayAnchor;
+import com.xiaobo.uml.connect.LeftRightAnchor;
+import com.xiaobo.uml.connect.TopBottomAnchor;
 import com.xiaobo.uml.figure.TypeFigure;
 import com.xiaobo.uml.model.CompartmentModel;
 import com.xiaobo.uml.model.IUmlContainer;
@@ -105,7 +107,11 @@ public class TypePart extends PositionableElementPart implements NodeEditPart {
 
 	public ConnectionAnchor getTargetConnectionAnchor(
 			ConnectionEditPart connection) {
-		return new AwayAnchor(getFigure());
+		if (connection instanceof InheritancePart) {
+			return new TopBottomAnchor(getFigure());
+		} else {
+			return new LeftRightAnchor(getFigure());
+		}
 	}
 
 	public ConnectionAnchor getSourceConnectionAnchor(Request request) {
@@ -113,6 +119,10 @@ public class TypePart extends PositionableElementPart implements NodeEditPart {
 	}
 
 	public ConnectionAnchor getTargetConnectionAnchor(Request request) {
-		return new AwayAnchor(getFigure());
+		if (((CreateConnectionRequest) request).getNewObject() instanceof InheritancePart) {
+			return new TopBottomAnchor(getFigure());
+		} else {
+			return new LeftRightAnchor(getFigure());
+		}
 	}
 }
