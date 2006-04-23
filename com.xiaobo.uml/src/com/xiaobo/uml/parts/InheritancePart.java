@@ -25,6 +25,7 @@ public class InheritancePart extends AbstractConnectionEditPart {
 		decorationPointList.addPoint(0, 0);
 		decoration.setTemplate(decorationPointList);
 		conn.setTargetDecoration(decoration);
+
 		return conn;
 	}
 

@@ -29,24 +29,16 @@ public class UmlModelPart extends UmlElementPart implements
 		ConnectionLayer connectionLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
 		connectionLayer.setConnectionRouter(new ShortestPathConnectionRouter(
 				figure));
-		/**
-		 * this is for the graph layout
-		 * 
-		 * Figure figure = new Figure(); figure.setLayoutManager(new
-		 * GraphLayout(this));
-		 */
+
+		// Figure figure = new Figure();
+		// figure.setLayoutManager(new GraphLayout(this));
 		return figure;
 	}
 
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.LAYOUT_ROLE,
 				new UmlModelXYLayoutEditPolicy());
-		/**
-		 * this is for the graph layout
-		 * 
-		 * installEditPolicy(EditPolicy.CONTAINER_ROLE, new GraphEditPolicy());
-		 */
-
+		// installEditPolicy(EditPolicy.CONTAINER_ROLE, new GraphEditPolicy());
 	}
 
 	/**

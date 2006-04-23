@@ -16,7 +16,7 @@ import com.xiaobo.uml.policies.UmlComponentEditPolicy;
  * 
  * Copyright 2006 by Xiaobo Sun. All Rights Reserved.
  */
-public class ConnectionPart extends AbstractConnectionEditPart {
+public abstract class ConnectionPart extends AbstractConnectionEditPart {
 
 	protected IFigure createFigure() {
 		PolylineConnection conn = new ConnectionFigure();
