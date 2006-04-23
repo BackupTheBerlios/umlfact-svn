@@ -4,13 +4,16 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
+import org.eclipse.draw2d.ConnectionLayer;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.ShortestPathConnectionRouter;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.LayerConstants;
 
-import com.xiaobo.uml.layout.GraphLayout;
+import com.xiaobo.uml.figure.UmlModelFigure;
 import com.xiaobo.uml.model.UmlModel;
-import com.xiaobo.uml.policies.GraphEditPolicy;
+import com.xiaobo.uml.policies.UmlModelXYLayoutEditPolicy;
 
 /**
  * 
@@ -22,20 +25,28 @@ public class UmlModelPart extends UmlElementPart implements
 		PropertyChangeListener {
 
 	protected IFigure createFigure() {
-		// Figure figure = new UmlModelFigure();
-		// ConnectionLayer connectionLayer = (ConnectionLayer)
-		// getLayer(LayerConstants.CONNECTION_LAYER);
-		// connectionLayer.setConnectionRouter(new ShortestPathConnectionRouter(
-		// figure));
-		Figure figure = new Figure();
-		figure.setLayoutManager(new GraphLayout(this));
+		Figure figure = new UmlModelFigure();
+		ConnectionLayer connectionLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
+		connectionLayer.setConnectionRouter(new ShortestPathConnectionRouter(
+				figure));
+		/**
+		 * this is for the graph layout
+		 * 
+		 * Figure figure = new Figure(); figure.setLayoutManager(new
+		 * GraphLayout(this));
+		 */
 		return figure;
 	}
 
 	protected void createEditPolicies() {
-		// installEditPolicy(EditPolicy.LAYOUT_ROLE,
-		// new UmlModelXYLayoutEditPolicy());
-		installEditPolicy(EditPolicy.CONTAINER_ROLE, new GraphEditPolicy());
+		installEditPolicy(EditPolicy.LAYOUT_ROLE,
+				new UmlModelXYLayoutEditPolicy());
+		/**
+		 * this is for the graph layout
+		 * 
+		 * installEditPolicy(EditPolicy.CONTAINER_ROLE, new GraphEditPolicy());
+		 */
+
 	}
 
 	/**
