@@ -30,7 +30,8 @@ import com.xiaobo.uml.policies.TypeNodeEditPolicy;
  * Copyright 2006 by Xiaobo Sun. All Rights Reserved.
  */
 
-public class TypeModelPart extends PositionableElementPart implements NodeEditPart {
+public class TypeModelPart extends PositionableElementPart implements
+		NodeEditPart {
 
 	public void activate() {
 		if (!isActive()) {
