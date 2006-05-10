@@ -15,7 +15,7 @@ import org.eclipse.gef.requests.CreateConnectionRequest;
 
 import com.xiaobo.uml.connect.LeftRightAnchor;
 import com.xiaobo.uml.connect.TopBottomAnchor;
-import com.xiaobo.uml.figure.TypeFigure;
+import com.xiaobo.uml.figure.TypeModelFigure;
 import com.xiaobo.uml.model.CompartmentModel;
 import com.xiaobo.uml.model.IUmlContainer;
 import com.xiaobo.uml.model.TypeModel;
@@ -58,7 +58,7 @@ public class TypePart extends PositionableElementPart implements NodeEditPart {
 	}
 
 	protected IFigure createFigure() {
-		return new TypeFigure();
+		return new TypeModelFigure();
 	}
 
 	protected void createEditPolicies() {
