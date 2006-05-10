@@ -2,7 +2,6 @@ package com.xiaobo.uml.parts;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.draw2d.ConnectionLayer;
@@ -11,7 +10,6 @@ import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.ShortestPathConnectionRouter;
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.LayerConstants;
 
 import com.xiaobo.uml.figure.UmlModelFigure;
@@ -58,13 +56,5 @@ public class UmlModelPart extends UmlElementPart implements
 
 	public void propertyChange(PropertyChangeEvent evt) {
 		refreshChildren();
-	}
-
-	protected void refreshChildren() {
-		super.refreshChildren();
-		for (Iterator i = getChildren().iterator(); i.hasNext();) {
-			GraphicalEditPart child = (GraphicalEditPart) i.next();
-			child.refresh();
-		}
 	}
 }
