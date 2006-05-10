@@ -72,10 +72,10 @@ public class TypeModelPart extends PositionableElementPart implements
 	 * prefer at first refresh...() then super.propertyChange(event)
 	 */
 	public void propertyChange(PropertyChangeEvent event) {
+		super.propertyChange(event);
 		refreshSourceConnections();
 		refreshTargetConnections();
 		refreshChildren();
-		super.propertyChange(event);
 	}
 
 	/**
