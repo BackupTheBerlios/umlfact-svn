@@ -13,7 +13,7 @@ import com.xiaobo.uml.parts.AggregationPart;
 import com.xiaobo.uml.parts.CompartmentPart;
 import com.xiaobo.uml.parts.InheritancePart;
 import com.xiaobo.uml.parts.MemberPart;
-import com.xiaobo.uml.parts.TypePart;
+import com.xiaobo.uml.parts.TypeModelPart;
 import com.xiaobo.uml.parts.UmlModelPart;
 
 /**
@@ -34,7 +34,7 @@ public class UmlEditPartFactory implements EditPartFactory {
 		if (model instanceof UmlModel) {
 			return new UmlModelPart();
 		} else if (model instanceof TypeModel) {
-			return new TypePart();
+			return new TypeModelPart();
 		} else if (model instanceof CompartmentModel) {
 			return new CompartmentPart();
 		} else if (model instanceof MemberModel) {
