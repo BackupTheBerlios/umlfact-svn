@@ -11,4 +11,4 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.draw2d,
  org.eclipse.gef,
  org.eclipse.ui.views
-Eclipse-AutoStart: true
+Eclipse-LazyStart: true
