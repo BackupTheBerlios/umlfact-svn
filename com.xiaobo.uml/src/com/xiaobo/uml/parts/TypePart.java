@@ -15,7 +15,7 @@ import org.eclipse.gef.requests.CreateConnectionRequest;
 
 import com.xiaobo.uml.connect.LeftRightAnchor;
 import com.xiaobo.uml.connect.TopBottomAnchor;
-import com.xiaobo.uml.figure.TypeModelFigure;
+import com.xiaobo.uml.figure.TypeFigure;
 import com.xiaobo.uml.model.CompartmentModel;
 import com.xiaobo.uml.model.IUmlContainer;
 import com.xiaobo.uml.model.TypeModel;
@@ -30,16 +30,19 @@ import com.xiaobo.uml.policies.TypeNodeEditPolicy;
  * Copyright 2006 by Xiaobo Sun. All Rights Reserved.
  */
 
-public class TypeModelPart extends PositionableElementPart implements
-		NodeEditPart {
+public class TypePart extends PositionableElementPart implements NodeEditPart {
 
 	public void activate() {
 		if (!isActive()) {
 			super.activate();
 			((UmlModel) getParent().getModel()).addPropertyChangeListener(this);
+			/**
+			 * This works, only because the typeModel contains the compartments
+			 * before the typepart is created.
+			 */
 			for (Iterator i = getChildren().iterator(); i.hasNext();) {
-				CompartmentPart child = (CompartmentPart) i.next();
-				((CompartmentModel) child.getModel())
+				CompartmentPart compartmentPart = (CompartmentPart) i.next();
+				((CompartmentModel) compartmentPart.getModel())
 						.addPropertyChangeListener(this);
 			}
 		}
@@ -48,8 +51,8 @@ public class TypeModelPart extends PositionableElementPart implements
 	public void deactivate() {
 		if (isActive()) {
 			for (Iterator i = getChildren().iterator(); i.hasNext();) {
-				CompartmentPart child = (CompartmentPart) i.next();
-				((CompartmentModel) child.getModel())
+				CompartmentPart compartmentPart = (CompartmentPart) i.next();
+				((CompartmentModel) compartmentPart.getModel())
 						.removePropertyChangeListener(this);
 			}
 			((UmlModel) getParent().getModel())
@@ -59,7 +62,7 @@ public class TypeModelPart extends PositionableElementPart implements
 	}
 
 	protected IFigure createFigure() {
-		return new TypeModelFigure();
+		return new TypeFigure();
 	}
 
 	protected void createEditPolicies() {

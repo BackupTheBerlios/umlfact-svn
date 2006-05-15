@@ -12,9 +12,9 @@ import com.xiaobo.uml.UmlPlugin;
  * Copyright 2006 by Xiaobo Sun. All Rights Reserved.
  */
 
-public class TypeModelFigure extends LabeledFigure {
+public class TypeFigure extends LabeledFigure {
 
-	public TypeModelFigure() {
+	public TypeFigure() {
 		ToolbarLayout layout = new ToolbarLayout(false);
 		layout.setStretchMinorAxis(true);
 		layout.setSpacing(0);
