@@ -8,7 +8,8 @@ the inheritance and aggregation are done on Apr 17
 5.0) varios types of memebers to implement( Apr 17)
 =================Bug List========================
 1.) cann't refresh the Type automatically( Mar 21) 
-done with the solution: add TypeEditPart as children models' listener
+done with the solution: add TypeEditPart as children models' listener (deprecated)
+it's the bug of the eclipse. update to 3.2 no such issue.
 1.1) how can refresh the current created Type( Mar 21)
 1.3) the length of the line above the compartment( Mar 21)
 1.4) delete the label of the compartment( Mar 21)
