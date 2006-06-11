@@ -6,8 +6,9 @@
          point="org.eclipse.ui.editors">
       <editor
             class="com.xiaobo.uml.editor.UmlEditor"
+            contributorClass="com.xiaobo.uml.editor.UmlEditorContributor"
             default="false"
-            extensions="cd"
+            extensions="uml,cd"
             icon="icons/type.gif"
             id="com.xiaobo.uml.editor"
             name="Class Diagram"/>
