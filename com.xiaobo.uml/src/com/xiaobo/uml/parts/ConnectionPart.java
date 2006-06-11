@@ -1,5 +1,7 @@
 package com.xiaobo.uml.parts;
 
+import java.beans.PropertyChangeListener;
+
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.PolylineConnection;
@@ -7,6 +9,7 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 
 import com.xiaobo.uml.figure.ConnectionFigure;
+import com.xiaobo.uml.model.ConnectionModel;
 import com.xiaobo.uml.policies.ConnectionSelectEditPolicy;
 import com.xiaobo.uml.policies.UmlComponentEditPolicy;
 
@@ -16,7 +19,22 @@ import com.xiaobo.uml.policies.UmlComponentEditPolicy;
  * 
  * Copyright 2006 by Xiaobo Sun. All Rights Reserved.
  */
-public abstract class ConnectionPart extends AbstractConnectionEditPart {
+public abstract class ConnectionPart extends AbstractConnectionEditPart
+		implements PropertyChangeListener {
+
+	public void activate() {
+		if (!isActive()) {
+			super.activate();
+			((ConnectionModel) getModel()).addPropertyChangeListener(this);
+		}
+	}
+
+	public void deactivate() {
+		if (isActive()) {
+			((ConnectionModel) getModel()).removePropertyChangeListener(this);
+			super.deactivate();
+		}
+	}
 
 	protected IFigure createFigure() {
 		PolylineConnection conn = new ConnectionFigure();

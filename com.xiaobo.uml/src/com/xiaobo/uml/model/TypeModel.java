@@ -3,6 +3,9 @@ package com.xiaobo.uml.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jface.viewers.ICellEditorValidator;
+import org.eclipse.ui.views.properties.TextPropertyDescriptor;
+
 /**
  * 
  * @author Xiaobo Sun
@@ -18,14 +21,28 @@ public class TypeModel extends PositionableElement implements
 
 	private static final String CHILD_PROP = "child";
 
+	private static final String STEREOTYPE_PROP = "stereotype";
+
 	private List outs = new ArrayList();
 
 	private List ins = new ArrayList();
 
 	private List children = new ArrayList();
 
+	private transient TextPropertyDescriptor stereoTypePropertyDescriptor;
+
+	private String stereotype;
+
 	public TypeModel() {
 		setName("Type");
+		setStereotype("");
+	}
+
+	protected void createPropertyDescriptors() {
+		super.createPropertyDescriptors();
+		stereoTypePropertyDescriptor = new TextPropertyDescriptor(
+				STEREOTYPE_PROP, "Stereo type");
+		addPropertyDescriptor(stereoTypePropertyDescriptor);
 	}
 
 	public void addOut(IUmlConnection out) {
@@ -82,5 +99,43 @@ public class TypeModel extends PositionableElement implements
 		}
 		children.remove(element);
 		firePropertyChange(CHILD_PROP);
+	}
+
+	public String getStereotype() {
+		return stereotype;
+	}
+
+	public void setStereotype(String stereotype) {
+		this.stereotype = stereotype;
+		firePropertyChange(STEREOTYPE_PROP);
+	}
+
+	public Object getPropertyValue(Object id) {
+		if (STEREOTYPE_PROP.equals((id))) {
+			return getStereotype();
+		}
+		return super.getPropertyValue(id);
+	}
+
+	public boolean isPropertySet(Object id) {
+		if (id.equals(STEREOTYPE_PROP)) {
+			return true;
+		}
+		return super.isPropertySet(id);
+	}
+
+	public void resetPropertyValue(Object id) {
+		super.resetPropertyValue(id);
+	}
+
+	public void setPropertyValue(Object id, Object value) {
+		super.setPropertyValue(id, value);
+		if (STEREOTYPE_PROP.equals((id))) {
+			setStereotype((String) value);
+		}
+	}
+
+	public void setNameValidator(ICellEditorValidator validator) {
+		stereoTypePropertyDescriptor.setValidator(validator);
 	}
 }

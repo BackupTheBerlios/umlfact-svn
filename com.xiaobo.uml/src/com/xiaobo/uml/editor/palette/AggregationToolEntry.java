@@ -1,7 +1,6 @@
 package com.xiaobo.uml.editor.palette;
 
 import org.eclipse.gef.palette.ConnectionCreationToolEntry;
-import org.eclipse.gef.requests.SimpleFactory;
 
 import com.xiaobo.uml.IIconConstants;
 import com.xiaobo.uml.UmlPlugin;
@@ -16,7 +15,7 @@ import com.xiaobo.uml.model.Aggregation;
 public class AggregationToolEntry extends ConnectionCreationToolEntry {
 
 	public AggregationToolEntry() {
-		super("Aggregation", "Create a Aggregation", new SimpleFactory(
+		super("Aggregation", "Create a Aggregation", new UmlCreationFactory(
 				Aggregation.class), UmlPlugin
 				.getImageDescriptor(IIconConstants.ARROW_ICON), UmlPlugin
 				.getImageDescriptor(IIconConstants.ARROW_ICON));

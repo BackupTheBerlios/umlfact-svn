@@ -4,8 +4,10 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
 
+import com.xiaobo.uml.model.AttributeModel;
 import com.xiaobo.uml.model.CompartmentModel;
 import com.xiaobo.uml.model.MemberModel;
+import com.xiaobo.uml.model.MethodModel;
 import com.xiaobo.uml.model.command.UmlElementAddCommand;
 import com.xiaobo.uml.model.command.UmlElementCreateCommand;
 import com.xiaobo.uml.model.command.UmlElementMoveCommand;
@@ -17,9 +19,12 @@ import com.xiaobo.uml.model.command.UmlElementMoveCommand;
  * Copyright 2006 by Xiaobo Sun. All Rights reserved.
  */
 public class CompartmentLayoutEditPolicy extends ToolbarLayoutEditPolicy {
-
+	/**
+	 * from one compartment to the other, TODO: distinguish the attribute and
+	 * method.
+	 */
 	protected Command createAddCommand(EditPart child, EditPart after) {
-		if (child.getModel().getClass() == MemberModel.class) {
+		if (child.getModel() instanceof MemberModel) {
 			MemberModel member = (MemberModel) child.getModel();
 			CompartmentModel newCompartment = (CompartmentModel) getHost()
 					.getModel();
@@ -35,8 +40,11 @@ public class CompartmentLayoutEditPolicy extends ToolbarLayoutEditPolicy {
 		return null;
 	}
 
+	/**
+	 * inside a compartment, TODO: distinguish the attribute and method.
+	 */
 	protected Command createMoveChildCommand(EditPart child, EditPart after) {
-		if (child.getModel().getClass() == MemberModel.class) {
+		if (child.getModel() instanceof MemberModel) {
 			if (after != null) {
 				return new UmlElementMoveCommand(
 						(MemberModel) child.getModel(),
@@ -49,9 +57,22 @@ public class CompartmentLayoutEditPolicy extends ToolbarLayoutEditPolicy {
 		return null;
 	}
 
+	/**
+	 * Instead of using the "instanceof", here the "getNewObjectType()" must be
+	 * used!
+	 */
 	protected Command getCreateCommand(CreateRequest request) {
-		if (request.getNewObjectType() == MemberModel.class) {
-			return new UmlElementCreateCommand((MemberModel) request
+		if (request.getNewObjectType() == AttributeModel.class
+				&& ((CompartmentModel) getHost().getModel()).getId().equals(
+						CompartmentModel.ATTRIBUTE_ID)) {
+			return new UmlElementCreateCommand((AttributeModel) request
+					.getNewObject(), (CompartmentModel) getHost().getModel(),
+					getHost().getChildren().indexOf(
+							getInsertionReference(request)));
+		} else if (request.getNewObjectType() == MethodModel.class
+				&& ((CompartmentModel) getHost().getModel()).getId().equals(
+						CompartmentModel.METHOD_ID)) {
+			return new UmlElementCreateCommand((MethodModel) request
 					.getNewObject(), (CompartmentModel) getHost().getModel(),
 					getHost().getChildren().indexOf(
 							getInsertionReference(request)));

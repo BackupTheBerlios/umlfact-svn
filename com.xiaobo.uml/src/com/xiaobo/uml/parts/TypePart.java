@@ -7,14 +7,13 @@ import java.util.List;
 import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.Label;
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
-import org.eclipse.gef.requests.CreateConnectionRequest;
 
-import com.xiaobo.uml.connect.LeftRightAnchor;
-import com.xiaobo.uml.connect.TopBottomAnchor;
+import com.xiaobo.uml.figure.ILabeledFigure;
 import com.xiaobo.uml.figure.TypeFigure;
 import com.xiaobo.uml.model.CompartmentModel;
 import com.xiaobo.uml.model.IUmlContainer;
@@ -104,6 +103,18 @@ public class TypePart extends PositionableElementPart implements NodeEditPart {
 		return type.getIns();
 	}
 
+	protected void refreshVisuals() {
+		super.refreshVisuals();
+		ILabeledFigure figure = (ILabeledFigure) getFigure();
+		Label figureLabel = figure.getLabel();
+		TypeModel model = (TypeModel) getModel();
+		if (model.getStereotype().equals("")) {
+			figureLabel.setText(model.getName());
+		} else
+			figureLabel.setText("<<" + model.getStereotype() + ">>  "
+					+ model.getName());
+	}
+
 	public ConnectionAnchor getSourceConnectionAnchor(
 			ConnectionEditPart connection) {
 		return new ChopboxAnchor(getFigure());
@@ -111,11 +122,7 @@ public class TypePart extends PositionableElementPart implements NodeEditPart {
 
 	public ConnectionAnchor getTargetConnectionAnchor(
 			ConnectionEditPart connection) {
-		if (connection instanceof InheritancePart) {
-			return new TopBottomAnchor(getFigure());
-		} else {
-			return new LeftRightAnchor(getFigure());
-		}
+		return new ChopboxAnchor(getFigure());
 	}
 
 	public ConnectionAnchor getSourceConnectionAnchor(Request request) {
@@ -123,10 +130,6 @@ public class TypePart extends PositionableElementPart implements NodeEditPart {
 	}
 
 	public ConnectionAnchor getTargetConnectionAnchor(Request request) {
-		if (((CreateConnectionRequest) request).getNewObject() instanceof InheritancePart) {
-			return new TopBottomAnchor(getFigure());
-		} else {
-			return new LeftRightAnchor(getFigure());
-		}
+		return new ChopboxAnchor(getFigure());
 	}
 }

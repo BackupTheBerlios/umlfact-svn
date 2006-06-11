@@ -40,8 +40,10 @@ public class UmlPaletteRoot extends PaletteRoot {
 	private PaletteDrawer createComponentDrawer() {
 		componentsTools = new PaletteDrawer("Components tools");
 		componentsTools.add(new TypeToolEntry());
-		componentsTools.add(new CompartmentToolEntry());
-		componentsTools.add(new MemberToolEntry());
+		// componentsTools.add(new CompartmentToolEntry());
+		// componentsTools.add(new MemberToolEntry());
+		componentsTools.add(new AttributeToolEntry());
+		componentsTools.add(new MethodToolEntry());
 		return componentsTools;
 	}
 }

@@ -29,10 +29,10 @@ public class NamedElement extends UmlElement implements INamedElement {
 
 	protected void createPropertyDescriptors() {
 		super.createPropertyDescriptors();
-		descriptionPropertyDescriptor = new TextPropertyDescriptor(
-				DESCRIPTION_PROP, "Description");
 		namePropertyDescriptor = new TextPropertyDescriptor(NAME_PROP, "Name");
 		addPropertyDescriptor(namePropertyDescriptor);
+		descriptionPropertyDescriptor = new TextPropertyDescriptor(
+				DESCRIPTION_PROP, "Description");
 		addPropertyDescriptor(descriptionPropertyDescriptor);
 	}
 
@@ -90,5 +90,4 @@ public class NamedElement extends UmlElement implements INamedElement {
 	public void setNameValidator(ICellEditorValidator validator) {
 		namePropertyDescriptor.setValidator(validator);
 	}
-
 }

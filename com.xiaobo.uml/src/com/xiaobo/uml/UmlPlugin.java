@@ -8,7 +8,7 @@ import org.osgi.framework.BundleContext;
 /**
  * 
  * @author xiaobo
- *
+ * 
  * Copyright 2006 by Xiaobo Sun. All Rights reserved.
  */
 public class UmlPlugin extends AbstractUIPlugin {
@@ -57,6 +57,10 @@ public class UmlPlugin extends AbstractUIPlugin {
 				getDescriptor("icons/arrow.gif"));
 		getImageRegistry().put(IIconConstants.COMPARTMENT_ICON,
 				getDescriptor("icons/compartment.gif"));
+		getImageRegistry().put(IIconConstants.ATTRIBUTE_ICON,
+				getDescriptor("icons/attribute.gif"));
+		getImageRegistry().put(IIconConstants.METHOD_ICON,
+				getDescriptor("icons/method.gif"));
 	}
 
 	private ImageDescriptor getDescriptor(String path) {

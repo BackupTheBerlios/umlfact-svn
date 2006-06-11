@@ -6,10 +6,9 @@ package com.xiaobo.uml.model;
  * 
  * Copyright 2006 by Xiaobo Sun. All Rights reserved.
  */
-public class AttributeModel extends MemberModel {
+public class MethodModel extends MemberModel {
 
-	public AttributeModel() {
-		setName("-attribute:datatype");
+	public MethodModel() {
+		setName("+method(paramtype):returntype");
 	}
-
 }

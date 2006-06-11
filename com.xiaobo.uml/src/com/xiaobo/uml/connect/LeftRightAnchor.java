@@ -11,6 +11,7 @@ import org.eclipse.draw2d.geometry.Point;
  * Copyright 2006 by Xiaobo Sun. All Rights Reserved.
  */
 public class LeftRightAnchor extends ChopboxAnchor {
+
 	public LeftRightAnchor(IFigure owner) {
 		super(owner);
 	}
@@ -21,10 +22,8 @@ public class LeftRightAnchor extends ChopboxAnchor {
 		getOwner().translateToAbsolute(p);
 		if (reference.x < p.x) {
 			p = getOwner().getBounds().getLeft();
-			p.x -= 6;
 		} else {
 			p = getOwner().getBounds().getRight();
-			p.x += 6;
 		}
 		getOwner().translateToAbsolute(p);
 		return p;

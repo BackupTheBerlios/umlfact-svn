@@ -11,12 +11,23 @@ import java.util.List;
  */
 public class CompartmentModel extends NamedElement implements IUmlContainer {
 
+	public static final String ATTRIBUTE_ID = "attribute_compartment";
+
+	public static final String METHOD_ID = "method_compartment";
+
 	public static final String CHILD_PROP = "child";
 
 	private List children = new ArrayList();
 
-	public CompartmentModel() {
+	private String id;
+
+	public CompartmentModel(String id) {
 		setName("others:");
+		this.id = id;
+	}
+
+	public String getId() {
+		return this.id;
 	}
 
 	public List getChildren() {

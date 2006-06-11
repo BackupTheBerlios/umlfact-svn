@@ -9,11 +9,12 @@ import com.xiaobo.uml.UmlPlugin;
  * 
  * Copyright 2006 by Xiaobo Sun. All Rights reserved.
  */
-public class MemberFigure extends LabeledFigure {
-	public MemberFigure() {
+public class AttributeFigure extends LabeledFigure {
+
+	public AttributeFigure() {
 		setBorder(null);
 		setBackgroundColor(ColorFactory.getMemberColor());
-		getLabel().setIcon(UmlPlugin.getImage(IIconConstants.MEMBER_ICON));
-		getLabel().setTooltipText("Member");
+		getLabel().setIcon(UmlPlugin.getImage(IIconConstants.ATTRIBUTE_ICON));
+		getLabel().setTooltipText("Attribute");
 	}
 }

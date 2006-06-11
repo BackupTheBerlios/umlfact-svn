@@ -1,13 +1,12 @@
 package com.xiaobo.uml.parts;
 
-import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.PolylineConnection;
-import org.eclipse.draw2d.PolylineDecoration;
-import org.eclipse.draw2d.geometry.PointList;
-import org.eclipse.gef.EditPolicy;
-import org.eclipse.gef.editparts.AbstractConnectionEditPart;
+import java.beans.PropertyChangeEvent;
 
-import com.xiaobo.uml.figure.ConnectionFigure;
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.gef.EditPolicy;
+
+import com.xiaobo.uml.figure.AggregationFigure;
+import com.xiaobo.uml.model.Aggregation;
 import com.xiaobo.uml.policies.ConnectionSelectEditPolicy;
 import com.xiaobo.uml.policies.UmlComponentEditPolicy;
 
@@ -17,21 +16,12 @@ import com.xiaobo.uml.policies.UmlComponentEditPolicy;
  * 
  * Copyright 2006 by Xiaobo Sun. All Rights reserved.
  */
-public class AggregationPart extends AbstractConnectionEditPart {
+public class AggregationPart extends ConnectionPart {
 
 	protected IFigure createFigure() {
-		PolylineConnection conn = new ConnectionFigure();
-
-		PolylineDecoration decoration = new PolylineDecoration();
-		PointList decorationPointList = new PointList();
-		decorationPointList.addPoint(0, 0);
-		decorationPointList.addPoint(1, 1);
-		decorationPointList.addPoint(2, 0);
-		decorationPointList.addPoint(1, -1);
-		decorationPointList.addPoint(0, 0);
-		decoration.setTemplate(decorationPointList);
-		conn.setTargetDecoration(decoration);
-
+		Aggregation aggr = (Aggregation) getModel();
+		AggregationFigure conn = new AggregationFigure(aggr.isComposition(),
+				aggr.getSourceString());
 		// conn.setConnectionRouter(new ManhattanConnectionRouter());
 		return conn;
 	}
@@ -43,4 +33,15 @@ public class AggregationPart extends AbstractConnectionEditPart {
 				new ConnectionSelectEditPolicy());
 	}
 
+	protected void refreshVisuals() {
+		super.refreshVisuals();
+		Aggregation aggr = (Aggregation) getModel();
+		AggregationFigure conn = (AggregationFigure) getFigure();
+		conn.setComposition(aggr.isComposition());
+		conn.setSourceString(aggr.getSourceString());
+	}
+
+	public void propertyChange(PropertyChangeEvent event) {
+		refreshVisuals();
+	}
 }
