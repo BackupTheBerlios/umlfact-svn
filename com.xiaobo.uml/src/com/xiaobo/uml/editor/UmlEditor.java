@@ -58,4 +58,8 @@ public class UmlEditor extends GraphicalEditorWithFlyoutPalette {
 		return new UmlFlyoutPreferences();
 	}
 
+	protected void createActions() {
+		super.createActions();
+	}
+
 }
