@@ -49,4 +49,5 @@ public class ConnectionCreateCommand extends Command {
 	public IUmlConnectionNode getTarget() {
 		return target;
 	}
+
 }

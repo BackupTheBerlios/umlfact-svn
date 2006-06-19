@@ -10,7 +10,7 @@ import com.xiaobo.uml.model.NamedElement;
  * 
  * Copyright 2006 by Xiaobo Sun. All Rights Reserved.
  */
-public class ChangeNameCommand extends Command {
+public class NameChangeCommand extends Command {
 
 	private String name;
 
@@ -18,7 +18,7 @@ public class ChangeNameCommand extends Command {
 
 	private NamedElement element;
 
-	public ChangeNameCommand(NamedElement element, String name) {
+	public NameChangeCommand(NamedElement element, String name) {
 		this.element = element;
 		this.name = name;
 	}

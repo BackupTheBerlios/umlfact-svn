@@ -10,7 +10,7 @@ import org.eclipse.swt.SWT;
  * 
  * Copyright 2006 by Xiaobo Sun. All Rights reserved.
  */
-public class ConnectionFigure extends PolylineConnection {
+public abstract class ConnectionFigure extends PolylineConnection {
 
 	public void paintFigure(Graphics graphics) {
 		graphics.setAntialias(SWT.DEFAULT);

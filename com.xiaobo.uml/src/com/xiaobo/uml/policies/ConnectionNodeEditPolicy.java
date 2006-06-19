@@ -8,6 +8,8 @@ import org.eclipse.gef.requests.ReconnectRequest;
 import com.xiaobo.uml.model.ConnectionModel;
 import com.xiaobo.uml.model.TypeModel;
 import com.xiaobo.uml.model.command.ConnectionCreateCommand;
+import com.xiaobo.uml.model.command.ConnectionSourceReconnectCommand;
+import com.xiaobo.uml.model.command.ConnectionTargetReconnectCommand;
 
 /**
  * 
@@ -15,8 +17,7 @@ import com.xiaobo.uml.model.command.ConnectionCreateCommand;
  * 
  * Copyright 2006 by Xiaobo Sun. All Rights Reserved.
  */
-
-public class TypeNodeEditPolicy extends GraphicalNodeEditPolicy {
+public class ConnectionNodeEditPolicy extends GraphicalNodeEditPolicy {
 
 	protected Command getConnectionCreateCommand(CreateConnectionRequest request) {
 		ConnectionCreateCommand command = new ConnectionCreateCommand(
@@ -41,13 +42,38 @@ public class TypeNodeEditPolicy extends GraphicalNodeEditPolicy {
 	}
 
 	protected Command getReconnectTargetCommand(ReconnectRequest request) {
-		// TODO Auto-generated method stub
-		return null;
+		if (request.getConnectionEditPart().getSource().equals(
+				request.getTarget())) {
+			return null;
+		}
+		if (request.getConnectionEditPart().getTarget().equals(
+				request.getTarget())) {
+			return null;
+		}
+		if (!request.getConnectionEditPart().getTarget().getParent().equals(
+				request.getTarget().getParent())) {
+			return null;
+		}
+		return new ConnectionTargetReconnectCommand((ConnectionModel) request
+				.getConnectionEditPart().getModel(), (TypeModel) request
+				.getTarget().getModel());
 	}
 
 	protected Command getReconnectSourceCommand(ReconnectRequest request) {
-		// TODO Auto-generated method stub
-		return null;
+		if (request.getConnectionEditPart().getTarget().equals(
+				request.getTarget())) {
+			return null;
+		}
+		if (request.getConnectionEditPart().getSource().equals(
+				request.getTarget())) {
+			return null;
+		}
+		if (!request.getConnectionEditPart().getSource().getParent().equals(
+				request.getTarget().getParent())) {
+			return null;
+		}
+		return new ConnectionSourceReconnectCommand((ConnectionModel) request
+				.getConnectionEditPart().getModel(), (TypeModel) request
+				.getTarget().getModel());
 	}
-
 }

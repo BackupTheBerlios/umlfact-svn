@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jface.viewers.ICellEditorValidator;
-import org.eclipse.ui.views.properties.TextPropertyDescriptor;
+
+import com.xiaobo.uml.model.propertyDescriptor.UmlTextPropertyDescriptor;
 
 /**
  * 
@@ -14,6 +15,8 @@ import org.eclipse.ui.views.properties.TextPropertyDescriptor;
  */
 public class TypeModel extends PositionableElement implements
 		IUmlConnectionNode, IUmlContainer {
+
+	private static final long serialVersionUID = 1L;
 
 	private static final String CONNS_OUT_PROP = "Out";
 
@@ -29,7 +32,7 @@ public class TypeModel extends PositionableElement implements
 
 	private List children = new ArrayList();
 
-	private transient TextPropertyDescriptor stereoTypePropertyDescriptor;
+	private UmlTextPropertyDescriptor stereoTypePropertyDescriptor;
 
 	private String stereotype;
 
@@ -40,7 +43,7 @@ public class TypeModel extends PositionableElement implements
 
 	protected void createPropertyDescriptors() {
 		super.createPropertyDescriptors();
-		stereoTypePropertyDescriptor = new TextPropertyDescriptor(
+		stereoTypePropertyDescriptor = new UmlTextPropertyDescriptor(
 				STEREOTYPE_PROP, "Stereo type");
 		addPropertyDescriptor(stereoTypePropertyDescriptor);
 	}

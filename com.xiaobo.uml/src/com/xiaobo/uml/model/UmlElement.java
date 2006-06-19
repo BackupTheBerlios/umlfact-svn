@@ -1,9 +1,12 @@
 package com.xiaobo.uml.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
+
+import com.xiaobo.uml.model.propertyDescriptor.IUmlPropertyDescriptor;
 
 /**
  * 
@@ -11,11 +14,15 @@ import org.eclipse.ui.views.properties.IPropertyDescriptor;
  * 
  * Copyright 2006 by Xiaobo Sun. All Rights Reserved.
  */
-public class UmlElement extends UmlPropertySource implements IUmlElement {
+public class UmlElement extends UmlPropertySource implements IUmlElement,
+		Serializable {
+
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * for the property sheet.
 	 */
-	private transient List propertyDescriptors = new ArrayList();
+	private List propertyDescriptors = new ArrayList();
 
 	public UmlElement() {
 		createPropertyDescriptors();
@@ -25,10 +32,10 @@ public class UmlElement extends UmlPropertySource implements IUmlElement {
 	}
 
 	public IPropertyDescriptor[] getPropertyDescriptors() {
-		IPropertyDescriptor[] pD = new IPropertyDescriptor[propertyDescriptors
+		IUmlPropertyDescriptor[] pD = new IUmlPropertyDescriptor[propertyDescriptors
 				.size()];
 		for (int i = 0; i < propertyDescriptors.size(); i++) {
-			pD[i] = (IPropertyDescriptor) propertyDescriptors.get(i);
+			pD[i] = (IUmlPropertyDescriptor) propertyDescriptors.get(i);
 		}
 		return pD;
 	}

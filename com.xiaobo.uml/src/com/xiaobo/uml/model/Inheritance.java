@@ -8,4 +8,6 @@ package com.xiaobo.uml.model;
  */
 public class Inheritance extends ConnectionModel {
 
+	private static final long serialVersionUID = 1L;
+
 }

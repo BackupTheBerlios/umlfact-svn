@@ -1,5 +1,10 @@
 package com.xiaobo.uml.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.draw2d.geometry.Point;
+
 /**
  * 
  * @author Xiaobo Sun
@@ -9,12 +14,17 @@ package com.xiaobo.uml.model;
 public abstract class ConnectionModel extends UmlElement implements
 		IUmlConnection {
 
+	public static final String P_BEND_POINT = "bend_point";
+
+	private List bendpoints = new ArrayList();
+
 	private TypeModel source;
 
 	private TypeModel target;
 
 	/**
-	 * in order to store the no argument constructor from super.
+	 * in order to store the no argument constructor from super. because there's
+	 * also the constructor with argus.
 	 */
 	public ConnectionModel() {
 	}
@@ -50,6 +60,25 @@ public abstract class ConnectionModel extends UmlElement implements
 		if (this.target != null) {
 			this.target.addIn(this);
 		}
+	}
+
+	public List getBendpoints() {
+		return bendpoints;
+	}
+
+	public void addBendpoints(int index, Point point) {
+		bendpoints.add(index, point);
+		firePropertyChange(P_BEND_POINT);
+	}
+
+	public void removeBendpoints(int index) {
+		bendpoints.remove(index);
+		firePropertyChange(P_BEND_POINT);
+	}
+
+	public void replaceBendpoints(int index, Point point) {
+		bendpoints.set(index, point);
+		firePropertyChange(P_BEND_POINT);
 	}
 
 }

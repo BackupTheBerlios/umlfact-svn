@@ -11,6 +11,8 @@ import java.util.List;
  */
 public class CompartmentModel extends NamedElement implements IUmlContainer {
 
+	private static final long serialVersionUID = 1L;
+
 	public static final String ATTRIBUTE_ID = "attribute_compartment";
 
 	public static final String METHOD_ID = "method_compartment";

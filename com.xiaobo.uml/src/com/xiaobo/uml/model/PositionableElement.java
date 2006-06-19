@@ -11,6 +11,8 @@ import org.eclipse.draw2d.geometry.Point;
 public class PositionableElement extends NamedElement implements
 		IPositionableElement {
 
+	private static final long serialVersionUID = 1L;
+
 	private static final String LOCATION_PROP = "Farm::Location";
 
 	private Point location = new Point(10, 10);

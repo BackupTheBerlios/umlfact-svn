@@ -18,6 +18,7 @@ import com.xiaobo.uml.model.command.UmlElementMoveCommand;
  */
 
 public class TypeLayoutEditPolicy extends ToolbarLayoutEditPolicy {
+
 	protected Command createAddCommand(EditPart child, EditPart after) {
 		if (child.getModel().getClass() == CompartmentModel.class) {
 			CompartmentModel compartment = (CompartmentModel) child.getModel();

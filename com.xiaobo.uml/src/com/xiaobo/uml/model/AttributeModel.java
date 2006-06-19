@@ -8,6 +8,8 @@ package com.xiaobo.uml.model;
  */
 public class AttributeModel extends MemberModel {
 
+	private static final long serialVersionUID = 1L;
+
 	public AttributeModel() {
 		setName("-attribute:datatype");
 	}

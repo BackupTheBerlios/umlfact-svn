@@ -34,6 +34,7 @@ public class UmlPaletteRoot extends PaletteRoot {
 		connectionTools = new PaletteDrawer("Connection tools");
 		connectionTools.add(new InheritanceToolEntry());
 		connectionTools.add(new AggregationToolEntry());
+		connectionTools.add(new AssociationToolEntry());
 		return connectionTools;
 	}
 

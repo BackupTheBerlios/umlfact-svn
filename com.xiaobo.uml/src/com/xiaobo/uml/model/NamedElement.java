@@ -1,7 +1,8 @@
 package com.xiaobo.uml.model;
 
 import org.eclipse.jface.viewers.ICellEditorValidator;
-import org.eclipse.ui.views.properties.TextPropertyDescriptor;
+
+import com.xiaobo.uml.model.propertyDescriptor.UmlTextPropertyDescriptor;
 
 /**
  * 
@@ -11,13 +12,15 @@ import org.eclipse.ui.views.properties.TextPropertyDescriptor;
  */
 public class NamedElement extends UmlElement implements INamedElement {
 
+	private static final long serialVersionUID = 1L;
+
 	private static final String NAME_PROP = "name";
 
 	private static final String DESCRIPTION_PROP = "description";
 
-	private transient TextPropertyDescriptor namePropertyDescriptor;
+	private UmlTextPropertyDescriptor namePropertyDescriptor;
 
-	private transient TextPropertyDescriptor descriptionPropertyDescriptor;
+	private UmlTextPropertyDescriptor descriptionPropertyDescriptor;
 
 	private String name;
 
@@ -29,9 +32,10 @@ public class NamedElement extends UmlElement implements INamedElement {
 
 	protected void createPropertyDescriptors() {
 		super.createPropertyDescriptors();
-		namePropertyDescriptor = new TextPropertyDescriptor(NAME_PROP, "Name");
+		namePropertyDescriptor = new UmlTextPropertyDescriptor(NAME_PROP,
+				"Name");
 		addPropertyDescriptor(namePropertyDescriptor);
-		descriptionPropertyDescriptor = new TextPropertyDescriptor(
+		descriptionPropertyDescriptor = new UmlTextPropertyDescriptor(
 				DESCRIPTION_PROP, "Description");
 		addPropertyDescriptor(descriptionPropertyDescriptor);
 	}

@@ -1,8 +1,9 @@
 package com.xiaobo.uml.model;
 
 import org.eclipse.jface.viewers.ICellEditorValidator;
-import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
-import org.eclipse.ui.views.properties.TextPropertyDescriptor;
+
+import com.xiaobo.uml.model.propertyDescriptor.UmlComboBoxPropertyDescriptor;
+import com.xiaobo.uml.model.propertyDescriptor.UmlTextPropertyDescriptor;
 
 /**
  * 
@@ -12,13 +13,15 @@ import org.eclipse.ui.views.properties.TextPropertyDescriptor;
  */
 public class Aggregation extends ConnectionModel {
 
+	private static final long serialVersionUID = 1L;
+
 	private static final String SOURCESTRING_PROP = "sourcestring";
 
 	private static final String ISCOMPOSITION_PROP = "iscomposition";
 
-	private transient TextPropertyDescriptor sourceStringPropertyDescriptor;
+	private UmlTextPropertyDescriptor sourceStringPropertyDescriptor;
 
-	private transient ComboBoxPropertyDescriptor isCompositionPropertyDecriptor;
+	private UmlComboBoxPropertyDescriptor isCompositionPropertyDecriptor;
 
 	private String sourceString;
 
@@ -31,10 +34,10 @@ public class Aggregation extends ConnectionModel {
 
 	protected void createPropertyDescriptors() {
 		super.createPropertyDescriptors();
-		sourceStringPropertyDescriptor = new TextPropertyDescriptor(
+		sourceStringPropertyDescriptor = new UmlTextPropertyDescriptor(
 				SOURCESTRING_PROP, "Source string");
 		addPropertyDescriptor(sourceStringPropertyDescriptor);
-		isCompositionPropertyDecriptor = new ComboBoxPropertyDescriptor(
+		isCompositionPropertyDecriptor = new UmlComboBoxPropertyDescriptor(
 				ISCOMPOSITION_PROP, "isComposition", new String[] { "true",
 						"false" });
 		addPropertyDescriptor(isCompositionPropertyDecriptor);

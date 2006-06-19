@@ -20,7 +20,7 @@ import com.xiaobo.uml.model.IUmlContainer;
 import com.xiaobo.uml.model.TypeModel;
 import com.xiaobo.uml.model.UmlModel;
 import com.xiaobo.uml.policies.TypeLayoutEditPolicy;
-import com.xiaobo.uml.policies.TypeNodeEditPolicy;
+import com.xiaobo.uml.policies.ConnectionNodeEditPolicy;
 
 /**
  * 
@@ -66,7 +66,7 @@ public class TypePart extends PositionableElementPart implements NodeEditPart {
 
 	protected void createEditPolicies() {
 		super.createEditPolicies();
-		installEditPolicy(EditPolicy.CONNECTION_ROLE, new TypeNodeEditPolicy());
+		installEditPolicy(EditPolicy.CONNECTION_ROLE, new ConnectionNodeEditPolicy());
 		installEditPolicy(EditPolicy.CONTAINER_ROLE, new TypeLayoutEditPolicy());
 	}
 

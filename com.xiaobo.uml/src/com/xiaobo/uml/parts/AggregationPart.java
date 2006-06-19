@@ -1,14 +1,10 @@
 package com.xiaobo.uml.parts;
 
-import java.beans.PropertyChangeEvent;
-
+import org.eclipse.draw2d.BendpointConnectionRouter;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.gef.EditPolicy;
 
 import com.xiaobo.uml.figure.AggregationFigure;
 import com.xiaobo.uml.model.Aggregation;
-import com.xiaobo.uml.policies.ConnectionSelectEditPolicy;
-import com.xiaobo.uml.policies.UmlComponentEditPolicy;
 
 /**
  * 
@@ -22,15 +18,8 @@ public class AggregationPart extends ConnectionPart {
 		Aggregation aggr = (Aggregation) getModel();
 		AggregationFigure conn = new AggregationFigure(aggr.isComposition(),
 				aggr.getSourceString());
-		// conn.setConnectionRouter(new ManhattanConnectionRouter());
+		conn.setConnectionRouter(new BendpointConnectionRouter());
 		return conn;
-	}
-
-	protected void createEditPolicies() {
-		installEditPolicy(EditPolicy.COMPONENT_ROLE,
-				new UmlComponentEditPolicy());
-		installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE,
-				new ConnectionSelectEditPolicy());
 	}
 
 	protected void refreshVisuals() {
@@ -39,9 +28,5 @@ public class AggregationPart extends ConnectionPart {
 		AggregationFigure conn = (AggregationFigure) getFigure();
 		conn.setComposition(aggr.isComposition());
 		conn.setSourceString(aggr.getSourceString());
-	}
-
-	public void propertyChange(PropertyChangeEvent event) {
-		refreshVisuals();
 	}
 }

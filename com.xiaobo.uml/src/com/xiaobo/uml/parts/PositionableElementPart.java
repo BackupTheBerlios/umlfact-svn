@@ -16,9 +16,12 @@ public abstract class PositionableElementPart extends NamedElementPart {
 
 	protected void refreshVisuals() {
 		super.refreshVisuals();
-		Rectangle bounds = new Rectangle(((IPositionableElement) getModel())
-				.getLocation(), getFigure().getPreferredSize());
-		((GraphicalEditPart) getParent()).setLayoutConstraint(this,
-				getFigure(), bounds);
+		if (getParent() != null) {
+			Rectangle bounds = new Rectangle(
+					((IPositionableElement) getModel()).getLocation(),
+					getFigure().getPreferredSize());
+			((GraphicalEditPart) getParent()).setLayoutConstraint(this,
+					getFigure(), bounds);
+		}
 	}
 }

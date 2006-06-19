@@ -1,9 +1,10 @@
-package com.xiaobo.uml.editor;
+package com.xiaobo.uml.factories;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
 
 import com.xiaobo.uml.model.Aggregation;
+import com.xiaobo.uml.model.Association;
 import com.xiaobo.uml.model.AttributeModel;
 import com.xiaobo.uml.model.CompartmentModel;
 import com.xiaobo.uml.model.Inheritance;
@@ -11,6 +12,7 @@ import com.xiaobo.uml.model.MethodModel;
 import com.xiaobo.uml.model.TypeModel;
 import com.xiaobo.uml.model.UmlModel;
 import com.xiaobo.uml.parts.AggregationPart;
+import com.xiaobo.uml.parts.AssociationPart;
 import com.xiaobo.uml.parts.AttributePart;
 import com.xiaobo.uml.parts.CompartmentPart;
 import com.xiaobo.uml.parts.InheritancePart;
@@ -47,6 +49,8 @@ public class UmlEditPartFactory implements EditPartFactory {
 			return new InheritancePart();
 		} else if (model instanceof Aggregation) {
 			return new AggregationPart();
+		} else if (model instanceof Association) {
+			return new AssociationPart();
 		}
 		return null;
 	}

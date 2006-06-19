@@ -7,7 +7,7 @@ import org.eclipse.jface.viewers.CellEditor;
 
 import com.xiaobo.uml.figure.ILabeledFigure;
 import com.xiaobo.uml.model.NamedElement;
-import com.xiaobo.uml.model.command.ChangeNameCommand;
+import com.xiaobo.uml.model.command.NameChangeCommand;
 
 /**
  * 
@@ -22,7 +22,7 @@ public class LabelDirectEditPolicy extends DirectEditPolicy {
 		NamedElement element = (NamedElement) getHost().getModel();
 		CellEditor cellEditor = request.getCellEditor();
 		if (cellEditor.isValueValid()) {
-			return new ChangeNameCommand(element, (String) cellEditor
+			return new NameChangeCommand(element, (String) cellEditor
 					.getValue());
 		}
 		return null;

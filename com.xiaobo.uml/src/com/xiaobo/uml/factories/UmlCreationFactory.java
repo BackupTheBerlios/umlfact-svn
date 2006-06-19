@@ -1,8 +1,9 @@
-package com.xiaobo.uml.editor.palette;
+package com.xiaobo.uml.factories;
 
 import org.eclipse.gef.requests.CreationFactory;
 
 import com.xiaobo.uml.model.Aggregation;
+import com.xiaobo.uml.model.Association;
 import com.xiaobo.uml.model.AttributeModel;
 import com.xiaobo.uml.model.CompartmentModel;
 import com.xiaobo.uml.model.Inheritance;
@@ -28,11 +29,11 @@ public class UmlCreationFactory implements CreationFactory {
 			TypeModel type = new TypeModel();
 			CompartmentModel fields = new CompartmentModel(
 					CompartmentModel.ATTRIBUTE_ID);
-			fields.setName("                  ");
+			fields.setName("                              ");
 			type.addChild(fields);
 			CompartmentModel methods = new CompartmentModel(
 					CompartmentModel.METHOD_ID);
-			methods.setName("                 ");
+			methods.setName("                              ");
 			type.addChild(methods);
 			return type;
 		} else if (type == AttributeModel.class) {
@@ -43,6 +44,8 @@ public class UmlCreationFactory implements CreationFactory {
 			return new Inheritance();
 		} else if (type == Aggregation.class) {
 			return new Aggregation(true, "1..*");
+		} else if (type == Association.class) {
+			return new Association("", "", false, false);
 		}
 		return null;
 	}

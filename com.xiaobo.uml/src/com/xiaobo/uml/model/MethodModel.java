@@ -8,6 +8,8 @@ package com.xiaobo.uml.model;
  */
 public class MethodModel extends MemberModel {
 
+	private static final long serialVersionUID = 1L;
+
 	public MethodModel() {
 		setName("+method(paramtype):returntype");
 	}

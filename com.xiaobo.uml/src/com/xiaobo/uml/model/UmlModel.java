@@ -11,6 +11,8 @@ import java.util.List;
  */
 public class UmlModel extends UmlElement implements IUmlContainer {
 
+	private static final long serialVersionUID = 1L;
+
 	private static final String CHILD_PROP = "child";
 
 	private List types = new ArrayList();
