@@ -6,9 +6,12 @@ Bundle-Version: 1.0.0
 Bundle-Activator: com.xiaobo.uml.UmlPlugin
 Bundle-Vendor: XIAOBO
 Bundle-Localization: plugin
-Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime,
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ org.eclipse.ui,
+ org.eclipse.ui.views,
+ org.eclipse.ui.ide,
+ org.eclipse.ui.workbench.texteditor,
  org.eclipse.draw2d,
- org.eclipse.gef,
- org.eclipse.ui.views
+ org.eclipse.gef
 Eclipse-LazyStart: true

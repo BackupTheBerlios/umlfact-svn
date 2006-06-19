@@ -2,17 +2,28 @@
 1.0) refine the figures. (done by xiaobo on Mar 21)
 2.0) add GraphLayout to the UmlModelPart (done by xiaobo on Mar 21)
 2.1) delete everything about the position (Mar 21)
+deprecated! because instead of GraphicalLayout the XYLayout is used.
 3.0) combination the model to the uti package (Mar 21)
+deprecated!
 4.0) various types of connection to implement (Mar 21)
 the inheritance and aggregation are done on Apr 17
 5.0) varios types of memebers to implement (Apr 17)
+done on Jun 10.
 6.0) distinguish attributes and methods in the CompartmentLayoutEditPolicy. (Jun 10)
 --Jun 10) undelining, multiline and properties
 multiline isn't to be needed any more, properties is partly done. (Jun 10)
 --Jun 10) connection anchor, connection locator, connection bendpoint
+chopAnchors, connection locators are done on Jun 11.
+bendpoint is done on Jun 15.
 --Jun 10) action: delete, undo
+delete, undo, undo in the toolbar are done on Jun 11.
 --Jun 10) wizard
+done on 18.06.06.
 --Jun 10) save/load using with the serializable
+done on Jun 13.
+--Jun 13) outlinetree.
+donw on Jun 19.
+--Jun 19) add association connection
 =================Bug List========================
 1.) cann't refresh the Type automatically (Mar 21) 
 done with the solution: add TypeEditPart as children models' listener (deprecated)
@@ -22,4 +33,9 @@ it's the bug of the eclipse. update to 3.2 no such issue.
 1.4) delete the label of the compartment (Mar 21)
 1.5) add margin border for the member (Mar 21)
 2.) there are some errors in the uti package (Mar 21)
+changed by Micheal.
 Jun 10) why first comes the description property then name property ?
+in one class the last added propertydescriptor appears first.
+Jun 13) the dirty key of the editor is broken.
+Jun 13) by loading the umlModelPart should be refreshed.
+Jun 16) how to use bendpoint delete command?
