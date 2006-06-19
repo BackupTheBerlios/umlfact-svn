@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+   <extension
+         id="umleditor"
+         point="org.eclipse.ui.editors">
+      <editor
+            class="com.xiaobo.uml.editor.UmlEditor"
+            contributorClass="com.xiaobo.uml.editor.UmlEditorContributor"
+            default="false"
+            extensions="uml,cd"
+            icon="icons/type.gif"
+            id="com.xiaobo.uml.editor"
+            name="Class Diagram"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <wizard
+            category="com.xiaobo.uml.category"
+            class="com.xiaobo.uml.UmlClassDiagramNewWizard"
+            icon="icons/type.gif"
+            id="com.xiaobo.uml.UmlClassDiagramNewWizard"
+            name="Class Diagram"
+            project="false"/>
+      <category
+            id="com.xiaobo.uml.category"
+            name="Uml"/>
+   </extension>
+
+</plugin>
