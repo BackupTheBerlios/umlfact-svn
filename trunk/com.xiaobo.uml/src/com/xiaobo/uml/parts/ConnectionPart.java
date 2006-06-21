@@ -48,7 +48,7 @@ public abstract class ConnectionPart extends AbstractConnectionEditPart
 	}
 
 	public void propertyChange(PropertyChangeEvent evt) {
-		refreshBendpoints();
+		refreshVisuals();
 	}
 
 	private void refreshBendpoints() {

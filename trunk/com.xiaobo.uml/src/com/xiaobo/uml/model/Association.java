@@ -73,7 +73,6 @@ public class Association extends ConnectionModel {
 	public void setSourceNavigation(boolean sourceNavigation) {
 		this.sourceNavigation = sourceNavigation;
 		firePropertyChange(SOURCENAVIGATION_PROP);
-		System.out.println("dupa");
 	}
 
 	public boolean isTargetNavigation() {
