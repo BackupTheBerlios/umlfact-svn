@@ -20,8 +20,8 @@ import com.xiaobo.uml.model.command.UmlElementMoveCommand;
  */
 public class CompartmentLayoutEditPolicy extends ToolbarLayoutEditPolicy {
 	/**
-	 * TODO: from one compartment to the other, TODO: distinguish the attribute
-	 * and method.
+	 * TODO: from one compartment to the other, distinguish the attribute and
+	 * method.
 	 */
 	protected Command createAddCommand(EditPart child, EditPart after) {
 		if (child.getModel() instanceof MemberModel) {
@@ -41,7 +41,7 @@ public class CompartmentLayoutEditPolicy extends ToolbarLayoutEditPolicy {
 	}
 
 	/**
-	 * TODO: inside a compartment, TODO: distinguish the attribute and method.
+	 * TODO: inside a compartment, distinguish the attribute and method.
 	 */
 	protected Command createMoveChildCommand(EditPart child, EditPart after) {
 		if (child.getModel() instanceof MemberModel) {

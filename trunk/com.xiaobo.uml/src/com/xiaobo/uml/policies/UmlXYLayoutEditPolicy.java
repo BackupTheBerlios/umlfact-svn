@@ -7,7 +7,6 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
 import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
-import org.eclipse.gef.requests.CreateRequest;
 
 import com.xiaobo.uml.model.IPositionableElement;
 import com.xiaobo.uml.model.command.PositionChangeCommand;
@@ -18,7 +17,7 @@ import com.xiaobo.uml.model.command.PositionChangeCommand;
  * 
  * Copyright 2006 by Xiaobo Sun. All Rights Reserved.
  */
-public class UmlXYLayoutEditPolicy extends XYLayoutEditPolicy {
+public abstract class UmlXYLayoutEditPolicy extends XYLayoutEditPolicy {
 
 	protected EditPolicy createChildEditPolicy(EditPart child) {
 		return new NonResizableEditPolicy();
@@ -47,10 +46,4 @@ public class UmlXYLayoutEditPolicy extends XYLayoutEditPolicy {
 	protected Command getDeleteDependantCommand(Request request) {
 		return null;
 	}
-
-	protected Command getCreateCommand(CreateRequest request) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

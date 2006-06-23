@@ -14,7 +14,7 @@ import com.xiaobo.uml.model.propertyDescriptor.IUmlPropertyDescriptor;
  * 
  * Copyright 2006 by Xiaobo Sun. All Rights Reserved.
  */
-public class UmlElement extends UmlPropertySource implements IUmlElement,
+public abstract class UmlElement extends UmlPropertySource implements IUmlElement,
 		Serializable {
 
 	private static final long serialVersionUID = 1L;

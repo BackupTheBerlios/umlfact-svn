@@ -12,7 +12,7 @@ import org.eclipse.ui.views.properties.IPropertySource;
  * 
  * Copyright 2006 by Xiaobo Sun. All Rights Reserved.
  */
-public class UmlPropertySource implements IPropertySource {
+public abstract class UmlPropertySource implements IPropertySource {
 
 	private transient PropertyChangeSupport pcsDelegate;
 
