@@ -6,7 +6,7 @@ import org.eclipse.gef.requests.CreateConnectionRequest;
 import org.eclipse.gef.requests.ReconnectRequest;
 
 import com.xiaobo.uml.model.ConnectionModel;
-import com.xiaobo.uml.model.TypeModel;
+import com.xiaobo.uml.model.Type;
 import com.xiaobo.uml.model.command.ConnectionCreateCommand;
 import com.xiaobo.uml.model.command.ConnectionSourceReconnectCommand;
 import com.xiaobo.uml.model.command.ConnectionTargetReconnectCommand;
@@ -22,7 +22,7 @@ public class ConnectionNodeEditPolicy extends GraphicalNodeEditPolicy {
 	protected Command getConnectionCreateCommand(CreateConnectionRequest request) {
 		ConnectionCreateCommand command = new ConnectionCreateCommand(
 				(ConnectionModel) request.getNewObject());
-		command.setSource((TypeModel) getHost().getModel());
+		command.setSource((Type) getHost().getModel());
 		request.setStartCommand(command);
 		return command;
 	}
@@ -37,7 +37,7 @@ public class ConnectionNodeEditPolicy extends GraphicalNodeEditPolicy {
 		if (request.getSourceEditPart().equals(request.getTargetEditPart())) {
 			return null;
 		}
-		command.setTarget((TypeModel) getHost().getModel());
+		command.setTarget((Type) getHost().getModel());
 		return command;
 	}
 
@@ -55,7 +55,7 @@ public class ConnectionNodeEditPolicy extends GraphicalNodeEditPolicy {
 			return null;
 		}
 		return new ConnectionTargetReconnectCommand((ConnectionModel) request
-				.getConnectionEditPart().getModel(), (TypeModel) request
+				.getConnectionEditPart().getModel(), (Type) request
 				.getTarget().getModel());
 	}
 
@@ -73,7 +73,7 @@ public class ConnectionNodeEditPolicy extends GraphicalNodeEditPolicy {
 			return null;
 		}
 		return new ConnectionSourceReconnectCommand((ConnectionModel) request
-				.getConnectionEditPart().getModel(), (TypeModel) request
+				.getConnectionEditPart().getModel(), (Type) request
 				.getTarget().getModel());
 	}
 }

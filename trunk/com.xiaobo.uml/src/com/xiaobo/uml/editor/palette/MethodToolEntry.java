@@ -5,7 +5,7 @@ import org.eclipse.gef.palette.CreationToolEntry;
 import com.xiaobo.uml.IIconConstants;
 import com.xiaobo.uml.UmlPlugin;
 import com.xiaobo.uml.factories.UmlCreationFactory;
-import com.xiaobo.uml.model.MethodModel;
+import com.xiaobo.uml.model.Method;
 
 /**
  * 
@@ -17,7 +17,7 @@ public class MethodToolEntry extends CreationToolEntry {
 
 	public MethodToolEntry() {
 		super("Method", "create a method", new UmlCreationFactory(
-				MethodModel.class), UmlPlugin
+				Method.class), UmlPlugin
 				.getImageDescriptor(IIconConstants.METHOD_ICON), null);
 	}
 }

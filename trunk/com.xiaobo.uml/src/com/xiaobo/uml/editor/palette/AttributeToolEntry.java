@@ -5,7 +5,7 @@ import org.eclipse.gef.palette.CreationToolEntry;
 import com.xiaobo.uml.IIconConstants;
 import com.xiaobo.uml.UmlPlugin;
 import com.xiaobo.uml.factories.UmlCreationFactory;
-import com.xiaobo.uml.model.AttributeModel;
+import com.xiaobo.uml.model.Attribute;
 
 /**
  * 
@@ -17,7 +17,7 @@ public class AttributeToolEntry extends CreationToolEntry {
 
 	public AttributeToolEntry() {
 		super("Attribute", "create a attribute", new UmlCreationFactory(
-				AttributeModel.class), UmlPlugin
+				Attribute.class), UmlPlugin
 				.getImageDescriptor(IIconConstants.ATTRIBUTE_ICON), null);
 	}
 }

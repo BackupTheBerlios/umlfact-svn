@@ -12,13 +12,15 @@ import com.xiaobo.uml.model.UmlElement;
  * 
  * Copyright 2006 by Xiaobo Sun. All Rights Reserved.
  */
-public abstract class UmlElementPart extends AbstractGraphicalEditPart implements
-		PropertyChangeListener {
+public abstract class UmlElementPart extends AbstractGraphicalEditPart
+		implements PropertyChangeListener {
+
 	public void activate() {
 		if (!isActive()) {
 			super.activate();
 			((UmlElement) getModel()).addPropertyChangeListener(this);
 		}
+		refreshChildren();
 	}
 
 	public void deactivate() {

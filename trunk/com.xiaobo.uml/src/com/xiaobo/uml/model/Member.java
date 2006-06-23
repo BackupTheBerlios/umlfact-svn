@@ -6,9 +6,9 @@ package com.xiaobo.uml.model;
  * 
  * Copyright 2006 by Xiaobo Sun. All Rights Reserved.
  */
-public abstract class MemberModel extends NamedElement {
+public abstract class Member extends NamedElement {
 
-	public MemberModel() {
+	public Member() {
 		setName("member");
 	}
 }

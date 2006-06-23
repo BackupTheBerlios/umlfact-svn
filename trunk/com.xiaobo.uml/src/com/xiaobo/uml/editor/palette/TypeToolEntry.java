@@ -5,7 +5,7 @@ import org.eclipse.gef.palette.CreationToolEntry;
 import com.xiaobo.uml.IIconConstants;
 import com.xiaobo.uml.UmlPlugin;
 import com.xiaobo.uml.factories.UmlCreationFactory;
-import com.xiaobo.uml.model.TypeModel;
+import com.xiaobo.uml.model.Type;
 
 /**
  * 
@@ -16,7 +16,7 @@ import com.xiaobo.uml.model.TypeModel;
 public class TypeToolEntry extends CreationToolEntry {
 
 	public TypeToolEntry() {
-		super("Type", "create a type", new UmlCreationFactory(TypeModel.class),
+		super("Type", "create a type", new UmlCreationFactory(Type.class),
 				UmlPlugin.getImageDescriptor(IIconConstants.TYPE_ICON), null);
 	}
 }

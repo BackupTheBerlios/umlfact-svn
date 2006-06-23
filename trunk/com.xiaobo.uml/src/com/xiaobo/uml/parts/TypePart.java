@@ -12,15 +12,18 @@ import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
 
+import com.xiaobo.uml.IIconConstants;
+import com.xiaobo.uml.UmlPlugin;
 import com.xiaobo.uml.figure.ILabeledFigure;
 import com.xiaobo.uml.figure.TypeFigure;
-import com.xiaobo.uml.model.CompartmentModel;
+import com.xiaobo.uml.model.Compartment;
 import com.xiaobo.uml.model.IUmlContainer;
-import com.xiaobo.uml.model.TypeModel;
+import com.xiaobo.uml.model.Type;
 import com.xiaobo.uml.model.UmlModel;
-import com.xiaobo.uml.policies.TypeLayoutEditPolicy;
 import com.xiaobo.uml.policies.ConnectionNodeEditPolicy;
+import com.xiaobo.uml.policies.TypeLayoutEditPolicy;
 
 /**
  * 
@@ -34,14 +37,21 @@ public class TypePart extends PositionableElementPart implements NodeEditPart {
 	public void activate() {
 		if (!isActive()) {
 			super.activate();
+			/**
+			 * cause to refreshVisuals of type when properties of parent
+			 * umlmodel are changed.
+			 */
 			((UmlModel) getParent().getModel()).addPropertyChangeListener(this);
 			/**
 			 * This works, only because the typeModel contains the compartments
 			 * before the typepart is created.
+			 * 
+			 * cause to refreshVisuals of type when properies of child
+			 * compartment are changed.
 			 */
 			for (Iterator i = getChildren().iterator(); i.hasNext();) {
 				CompartmentPart compartmentPart = (CompartmentPart) i.next();
-				((CompartmentModel) compartmentPart.getModel())
+				((Compartment) compartmentPart.getModel())
 						.addPropertyChangeListener(this);
 			}
 		}
@@ -51,7 +61,7 @@ public class TypePart extends PositionableElementPart implements NodeEditPart {
 		if (isActive()) {
 			for (Iterator i = getChildren().iterator(); i.hasNext();) {
 				CompartmentPart compartmentPart = (CompartmentPart) i.next();
-				((CompartmentModel) compartmentPart.getModel())
+				((Compartment) compartmentPart.getModel())
 						.removePropertyChangeListener(this);
 			}
 			((UmlModel) getParent().getModel())
@@ -64,9 +74,21 @@ public class TypePart extends PositionableElementPart implements NodeEditPart {
 		return new TypeFigure();
 	}
 
+	public void performRequest(Request req) {
+		super.performRequest(req);
+		if (req.getType() == RequestConstants.REQ_OPEN) {
+			getType().setCollapsed(!getType().isCollapsed());
+		}
+	}
+
+	public Type getType() {
+		return (Type) getModel();
+	}
+
 	protected void createEditPolicies() {
 		super.createEditPolicies();
-		installEditPolicy(EditPolicy.CONNECTION_ROLE, new ConnectionNodeEditPolicy());
+		installEditPolicy(EditPolicy.CONNECTION_ROLE,
+				new ConnectionNodeEditPolicy());
 		installEditPolicy(EditPolicy.CONTAINER_ROLE, new TypeLayoutEditPolicy());
 	}
 
@@ -74,10 +96,18 @@ public class TypePart extends PositionableElementPart implements NodeEditPart {
 	 * prefer at first refresh...() then super.propertyChange(event)
 	 */
 	public void propertyChange(PropertyChangeEvent event) {
-		super.propertyChange(event);
+		if (event.getPropertyName() == Type.COLLAPSED_PROP) {
+			TypeFigure figure = (TypeFigure) getFigure();
+			if (getType().isCollapsed()) {
+				figure.remove(getContentPane());
+			} else {
+				figure.add(getContentPane());
+			}
+		}
 		refreshSourceConnections();
 		refreshTargetConnections();
 		refreshChildren();
+		super.propertyChange(event);
 	}
 
 	/**
@@ -91,7 +121,7 @@ public class TypePart extends PositionableElementPart implements NodeEditPart {
 	 * caused the out-connections editparts to be created or updated.
 	 */
 	public List getModelSourceConnections() {
-		TypeModel type = (TypeModel) getModel();
+		Type type = (Type) getModel();
 		return type.getOuts();
 	}
 
@@ -99,20 +129,27 @@ public class TypePart extends PositionableElementPart implements NodeEditPart {
 	 * caused the out-connections editparts to be created or updated.
 	 */
 	public List getModelTargetConnections() {
-		TypeModel type = (TypeModel) getModel();
+		Type type = (Type) getModel();
 		return type.getIns();
 	}
 
 	protected void refreshVisuals() {
 		super.refreshVisuals();
 		ILabeledFigure figure = (ILabeledFigure) getFigure();
-		Label figureLabel = figure.getLabel();
-		TypeModel model = (TypeModel) getModel();
-		if (model.getStereotype().equals("")) {
-			figureLabel.setText(model.getName());
-		} else
-			figureLabel.setText("<<" + model.getStereotype() + ">>  "
-					+ model.getName());
+		Label label = figure.getLabel();
+
+		if (getType().getStereotype().equals("")) {
+			label.setText(getType().getName());
+		} else {
+			label.setText("<<" + getType().getStereotype() + ">>  "
+					+ getType().getName());
+		}
+
+		if (getType().isCollapsed()) {
+			label.setIcon(UmlPlugin.getImage(IIconConstants.FOLDER_ICON));
+		} else {
+			label.setIcon(UmlPlugin.getImage(IIconConstants.TYPE_ICON));
+		}
 	}
 
 	public ConnectionAnchor getSourceConnectionAnchor(

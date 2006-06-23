@@ -22,7 +22,7 @@ public class UmlModel extends UmlElement implements IUmlContainer {
 	}
 
 	public void addChild(IUmlElement element) {
-		if (!(element instanceof TypeModel)) {
+		if (!(element instanceof Type)) {
 			throw new IllegalArgumentException();
 		}
 		types.add(element);
@@ -30,7 +30,7 @@ public class UmlModel extends UmlElement implements IUmlContainer {
 	}
 
 	public void addChild(IUmlElement element, int index) {
-		if (!(element instanceof TypeModel)) {
+		if (!(element instanceof Type)) {
 			throw new IllegalArgumentException();
 		}
 		types.add(index, element);
@@ -38,11 +38,10 @@ public class UmlModel extends UmlElement implements IUmlContainer {
 	}
 
 	public void removeChild(IUmlElement element) {
-		if (!(element instanceof TypeModel)) {
+		if (!(element instanceof Type)) {
 			throw new IllegalArgumentException();
 		}
 		types.remove(element);
 		firePropertyChange(CHILD_PROP);
 	}
-
 }

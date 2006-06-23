@@ -22,7 +22,7 @@ public class NamedElement extends UmlElement implements INamedElement {
 
 	private UmlTextPropertyDescriptor descriptionPropertyDescriptor;
 
-	private String name;
+	protected String name;
 
 	private String description;
 

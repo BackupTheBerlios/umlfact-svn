@@ -4,11 +4,11 @@ import org.eclipse.gef.requests.CreationFactory;
 
 import com.xiaobo.uml.model.Aggregation;
 import com.xiaobo.uml.model.Association;
-import com.xiaobo.uml.model.AttributeModel;
-import com.xiaobo.uml.model.CompartmentModel;
+import com.xiaobo.uml.model.Attribute;
+import com.xiaobo.uml.model.Compartment;
 import com.xiaobo.uml.model.Inheritance;
-import com.xiaobo.uml.model.MethodModel;
-import com.xiaobo.uml.model.TypeModel;
+import com.xiaobo.uml.model.Method;
+import com.xiaobo.uml.model.Type;
 
 /**
  * 
@@ -25,21 +25,17 @@ public class UmlCreationFactory implements CreationFactory {
 	}
 
 	public Object getNewObject() {
-		if (type == TypeModel.class) {
-			TypeModel type = new TypeModel();
-			CompartmentModel fields = new CompartmentModel(
-					CompartmentModel.ATTRIBUTE_ID);
-			fields.setName("                              ");
+		if (type == Type.class) {
+			Type type = new Type();
+			Compartment fields = new Compartment(Compartment.ATTRIBUTE_ID);
 			type.addChild(fields);
-			CompartmentModel methods = new CompartmentModel(
-					CompartmentModel.METHOD_ID);
-			methods.setName("                              ");
+			Compartment methods = new Compartment(Compartment.METHOD_ID);
 			type.addChild(methods);
 			return type;
-		} else if (type == AttributeModel.class) {
-			return new AttributeModel();
-		} else if (type == MethodModel.class) {
-			return new MethodModel();
+		} else if (type == Attribute.class) {
+			return new Attribute();
+		} else if (type == Method.class) {
+			return new Method();
 		} else if (type == Inheritance.class) {
 			return new Inheritance();
 		} else if (type == Aggregation.class) {

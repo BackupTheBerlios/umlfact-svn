@@ -9,7 +9,7 @@ import java.util.List;
  * 
  * Copyright 2006 by Xiaobo Sun. All Rights Reserved.
  */
-public class CompartmentModel extends NamedElement implements IUmlContainer {
+public class Compartment extends NamedElement implements IUmlContainer {
 
 	private static final long serialVersionUID = 1L;
 
@@ -23,8 +23,8 @@ public class CompartmentModel extends NamedElement implements IUmlContainer {
 
 	private String id;
 
-	public CompartmentModel(String id) {
-		setName("others:");
+	public Compartment(String id) {
+		setName("");
 		this.id = id;
 	}
 
@@ -37,7 +37,7 @@ public class CompartmentModel extends NamedElement implements IUmlContainer {
 	}
 
 	public void addChild(IUmlElement element) {
-		if (!(element instanceof MemberModel)) {
+		if (!(element instanceof Member)) {
 			throw new IllegalArgumentException();
 		}
 		children.add(element);
@@ -45,7 +45,7 @@ public class CompartmentModel extends NamedElement implements IUmlContainer {
 	}
 
 	public void addChild(IUmlElement element, int index) {
-		if (!(element instanceof MemberModel)) {
+		if (!(element instanceof Member)) {
 			throw new IllegalArgumentException();
 		}
 		children.add(index, element);
@@ -53,10 +53,14 @@ public class CompartmentModel extends NamedElement implements IUmlContainer {
 	}
 
 	public void removeChild(IUmlElement element) {
-		if (!(element instanceof MemberModel)) {
+		if (!(element instanceof Member)) {
 			throw new IllegalArgumentException();
 		}
 		children.remove(element);
 		firePropertyChange(CHILD_PROP);
+	}
+
+	public void setName(String name, String prohibitFire) {
+		super.name = name;
 	}
 }

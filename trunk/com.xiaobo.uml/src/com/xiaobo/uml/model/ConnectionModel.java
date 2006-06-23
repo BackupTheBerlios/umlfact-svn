@@ -18,9 +18,9 @@ public abstract class ConnectionModel extends UmlElement implements
 
 	private List bendpoints = new ArrayList();
 
-	private TypeModel source;
+	private Type source;
 
-	private TypeModel target;
+	private Type target;
 
 	/**
 	 * in order to store the no argument constructor from super. because there's
@@ -42,7 +42,7 @@ public abstract class ConnectionModel extends UmlElement implements
 		if (this.source != null) {
 			this.source.removeOut(this);
 		}
-		this.source = (TypeModel) source;
+		this.source = (Type) source;
 		if (this.source != null) {
 			this.source.addOut(this);
 		}
@@ -56,7 +56,7 @@ public abstract class ConnectionModel extends UmlElement implements
 		if (this.target != null) {
 			this.target.removeIn(this);
 		}
-		this.target = (TypeModel) target;
+		this.target = (Type) target;
 		if (this.target != null) {
 			this.target.addIn(this);
 		}

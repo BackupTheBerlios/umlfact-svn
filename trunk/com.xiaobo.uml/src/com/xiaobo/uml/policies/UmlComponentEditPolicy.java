@@ -4,7 +4,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 
-import com.xiaobo.uml.model.CompartmentModel;
+import com.xiaobo.uml.model.Compartment;
 import com.xiaobo.uml.model.IUmlConnection;
 import com.xiaobo.uml.model.IUmlContainer;
 import com.xiaobo.uml.model.IUmlElement;
@@ -34,7 +34,7 @@ public class UmlComponentEditPolicy extends ComponentEditPolicy {
 		// (IFarmConnectionContainer) model, (IFarmContainer) parent);
 		// }
 		if (model instanceof IUmlElement
-				&& !(model instanceof CompartmentModel)) {
+				&& !(model instanceof Compartment)) {
 			return new UmlElementDeleteCommand((IUmlElement) model,
 					(IUmlContainer) parent);
 		}

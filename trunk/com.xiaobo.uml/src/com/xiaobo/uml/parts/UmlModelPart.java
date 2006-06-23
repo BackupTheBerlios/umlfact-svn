@@ -36,15 +36,12 @@ public class UmlModelPart extends UmlElementPart implements
 		router.setNextRouter(spRouter);
 		connectionLayer.setConnectionRouter(router);
 
-		// Figure figure = new Figure();
-		// figure.setLayoutManager(new GraphLayout(this));
 		return figure;
 	}
 
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.LAYOUT_ROLE,
 				new UmlModelXYLayoutEditPolicy());
-		// installEditPolicy(EditPolicy.CONTAINER_ROLE, new GraphEditPolicy());
 	}
 
 	/**

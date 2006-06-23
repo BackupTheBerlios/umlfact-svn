@@ -4,10 +4,10 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
 
-import com.xiaobo.uml.model.AttributeModel;
-import com.xiaobo.uml.model.CompartmentModel;
-import com.xiaobo.uml.model.MemberModel;
-import com.xiaobo.uml.model.MethodModel;
+import com.xiaobo.uml.model.Attribute;
+import com.xiaobo.uml.model.Compartment;
+import com.xiaobo.uml.model.Member;
+import com.xiaobo.uml.model.Method;
 import com.xiaobo.uml.model.command.UmlElementAddCommand;
 import com.xiaobo.uml.model.command.UmlElementCreateCommand;
 import com.xiaobo.uml.model.command.UmlElementMoveCommand;
@@ -24,15 +24,15 @@ public class CompartmentLayoutEditPolicy extends ToolbarLayoutEditPolicy {
 	 * method.
 	 */
 	protected Command createAddCommand(EditPart child, EditPart after) {
-		if (child.getModel() instanceof MemberModel) {
-			MemberModel member = (MemberModel) child.getModel();
-			CompartmentModel newCompartment = (CompartmentModel) getHost()
+		if (child.getModel() instanceof Member) {
+			Member member = (Member) child.getModel();
+			Compartment newCompartment = (Compartment) getHost()
 					.getModel();
-			CompartmentModel oldCompartment = (CompartmentModel) child
+			Compartment oldCompartment = (Compartment) child
 					.getParent().getModel();
 			if (after != null) {
 				return new UmlElementAddCommand(member, newCompartment,
-						oldCompartment, (CompartmentModel) after.getModel());
+						oldCompartment, (Compartment) after.getModel());
 			}
 			return new UmlElementAddCommand(member, newCompartment,
 					oldCompartment, null);
@@ -44,15 +44,15 @@ public class CompartmentLayoutEditPolicy extends ToolbarLayoutEditPolicy {
 	 * TODO: inside a compartment, distinguish the attribute and method.
 	 */
 	protected Command createMoveChildCommand(EditPart child, EditPart after) {
-		if (child.getModel() instanceof MemberModel) {
+		if (child.getModel() instanceof Member) {
 			if (after != null) {
 				return new UmlElementMoveCommand(
-						(MemberModel) child.getModel(),
-						(CompartmentModel) getHost().getModel(),
-						(MemberModel) after.getModel());
+						(Member) child.getModel(),
+						(Compartment) getHost().getModel(),
+						(Member) after.getModel());
 			}
-			return new UmlElementMoveCommand((MemberModel) child.getModel(),
-					(CompartmentModel) getHost().getModel(), null);
+			return new UmlElementMoveCommand((Member) child.getModel(),
+					(Compartment) getHost().getModel(), null);
 		}
 		return null;
 	}
@@ -62,18 +62,18 @@ public class CompartmentLayoutEditPolicy extends ToolbarLayoutEditPolicy {
 	 * used!
 	 */
 	protected Command getCreateCommand(CreateRequest request) {
-		if (request.getNewObjectType() == AttributeModel.class
-				&& ((CompartmentModel) getHost().getModel()).getId().equals(
-						CompartmentModel.ATTRIBUTE_ID)) {
-			return new UmlElementCreateCommand((AttributeModel) request
-					.getNewObject(), (CompartmentModel) getHost().getModel(),
+		if (request.getNewObjectType() == Attribute.class
+				&& ((Compartment) getHost().getModel()).getId().equals(
+						Compartment.ATTRIBUTE_ID)) {
+			return new UmlElementCreateCommand((Attribute) request
+					.getNewObject(), (Compartment) getHost().getModel(),
 					getHost().getChildren().indexOf(
 							getInsertionReference(request)));
-		} else if (request.getNewObjectType() == MethodModel.class
-				&& ((CompartmentModel) getHost().getModel()).getId().equals(
-						CompartmentModel.METHOD_ID)) {
-			return new UmlElementCreateCommand((MethodModel) request
-					.getNewObject(), (CompartmentModel) getHost().getModel(),
+		} else if (request.getNewObjectType() == Method.class
+				&& ((Compartment) getHost().getModel()).getId().equals(
+						Compartment.METHOD_ID)) {
+			return new UmlElementCreateCommand((Method) request
+					.getNewObject(), (Compartment) getHost().getModel(),
 					getHost().getChildren().indexOf(
 							getInsertionReference(request)));
 		}

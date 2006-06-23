@@ -61,6 +61,8 @@ public class UmlPlugin extends AbstractUIPlugin {
 				getDescriptor("icons/attribute.gif"));
 		getImageRegistry().put(IIconConstants.METHOD_ICON,
 				getDescriptor("icons/method.gif"));
+		getImageRegistry().put(IIconConstants.FOLDER_ICON,
+				getDescriptor("icons/folder.gif"));
 	}
 
 	private ImageDescriptor getDescriptor(String path) {

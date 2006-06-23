@@ -5,7 +5,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
 
-import com.xiaobo.uml.model.TypeModel;
+import com.xiaobo.uml.model.Type;
 import com.xiaobo.uml.model.UmlModel;
 import com.xiaobo.uml.model.command.PositionableElementCreateCommand;
 
@@ -19,12 +19,12 @@ import com.xiaobo.uml.model.command.PositionableElementCreateCommand;
 public class UmlModelXYLayoutEditPolicy extends UmlXYLayoutEditPolicy {
 
 	protected Command getCreateCommand(CreateRequest request) {
-		if (request.getNewObjectType() == TypeModel.class) {
+		if (request.getNewObjectType() == Type.class) {
 			UmlModel model = ((UmlModel) getHost().getModel());
 			Rectangle bounds = new Rectangle(
 					((Rectangle) getConstraintFor(request)).getLocation(),
 					new Dimension(0, 0));
-			return new PositionableElementCreateCommand((TypeModel) request
+			return new PositionableElementCreateCommand((Type) request
 					.getNewObject(), model, bounds);
 		}
 		return null;

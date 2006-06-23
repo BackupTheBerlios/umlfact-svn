@@ -5,7 +5,7 @@ import org.eclipse.gef.palette.CreationToolEntry;
 import com.xiaobo.uml.IIconConstants;
 import com.xiaobo.uml.UmlPlugin;
 import com.xiaobo.uml.factories.UmlCreationFactory;
-import com.xiaobo.uml.model.CompartmentModel;
+import com.xiaobo.uml.model.Compartment;
 
 /**
  * 
@@ -17,7 +17,7 @@ public class CompartmentToolEntry extends CreationToolEntry {
 
 	public CompartmentToolEntry() {
 		super("Compartment", "create a compartment", new UmlCreationFactory(
-				CompartmentModel.class), UmlPlugin
+				Compartment.class), UmlPlugin
 				.getImageDescriptor(IIconConstants.COMPARTMENT_ICON), null);
 	}
 

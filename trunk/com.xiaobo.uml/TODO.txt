@@ -32,6 +32,7 @@ done on Jun 20.
 done on Jun 22.
 15.0--Jun 22) man can't move, add, delete the compartment model.
 done on Jun 22.
+8.1--Jun 23) connect to itself.
 =================Bugs List========================
 1.) cann't refresh the Type automatically (Mar 21) 
 done with the solution: add TypeEditPart as children models' listener (deprecated)
@@ -51,3 +52,5 @@ in one class the last added propertydescriptor appears first.
 11.0--Jun 13) the dirty key of the editor is broken.
 11.0--Jun 13) by loading the umlModelPart should be refreshed.
 8.0--Jun 16) how to use bendpoint delete command?
+1.0--Jun 23) calculate the compartmentfigure depending on the labelfigure.
+done on Jun 23

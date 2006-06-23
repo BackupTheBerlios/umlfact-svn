@@ -18,6 +18,8 @@ public interface IIconConstants {
 	public static final String COMPARTMENT_ICON = "compartment";
 
 	public static final String ATTRIBUTE_ICON = "attribute";
-	
+
 	public static final String METHOD_ICON = "method";
+
+	public static final String FOLDER_ICON = "folder";
 }

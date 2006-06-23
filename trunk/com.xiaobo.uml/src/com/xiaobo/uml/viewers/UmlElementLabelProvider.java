@@ -5,10 +5,10 @@ import org.eclipse.swt.graphics.Image;
 
 import com.xiaobo.uml.IIconConstants;
 import com.xiaobo.uml.UmlPlugin;
-import com.xiaobo.uml.model.AttributeModel;
-import com.xiaobo.uml.model.CompartmentModel;
-import com.xiaobo.uml.model.MethodModel;
-import com.xiaobo.uml.model.TypeModel;
+import com.xiaobo.uml.model.Attribute;
+import com.xiaobo.uml.model.Compartment;
+import com.xiaobo.uml.model.Method;
+import com.xiaobo.uml.model.Type;
 
 /**
  * 
@@ -19,13 +19,13 @@ import com.xiaobo.uml.model.TypeModel;
 public class UmlElementLabelProvider extends LabelProvider {
 
 	public Image getImage(Object element) {
-		if (element instanceof TypeModel) {
+		if (element instanceof Type) {
 			return UmlPlugin.getImage(IIconConstants.TYPE_ICON);
-		} else if (element instanceof CompartmentModel) {
+		} else if (element instanceof Compartment) {
 			return UmlPlugin.getImage(IIconConstants.COMPARTMENT_ICON);
-		} else if (element instanceof AttributeModel) {
+		} else if (element instanceof Attribute) {
 			return UmlPlugin.getImage(IIconConstants.ATTRIBUTE_ICON);
-		} else if (element instanceof MethodModel) {
+		} else if (element instanceof Method) {
 			return UmlPlugin.getImage(IIconConstants.METHOD_ICON);
 		}
 		return super.getImage(element);

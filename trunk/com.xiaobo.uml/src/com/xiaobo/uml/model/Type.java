@@ -13,8 +13,8 @@ import com.xiaobo.uml.model.propertyDescriptor.UmlTextPropertyDescriptor;
  * 
  * Copyright 2006 by Xiaobo Sun. All Rights Reserved.
  */
-public class TypeModel extends PositionableElement implements
-		IUmlConnectionNode, IUmlContainer {
+public class Type extends PositionableElement implements IUmlConnectionNode,
+		IUmlContainer {
 
 	private static final long serialVersionUID = 1L;
 
@@ -26,6 +26,8 @@ public class TypeModel extends PositionableElement implements
 
 	private static final String STEREOTYPE_PROP = "stereotype";
 
+	public static final String COLLAPSED_PROP = "collapsed";
+
 	private List outs = new ArrayList();
 
 	private List ins = new ArrayList();
@@ -36,7 +38,18 @@ public class TypeModel extends PositionableElement implements
 
 	private String stereotype;
 
-	public TypeModel() {
+	private boolean collapsed;
+
+	public boolean isCollapsed() {
+		return collapsed;
+	}
+
+	public void setCollapsed(boolean collapsed) {
+		this.collapsed = collapsed;
+		firePropertyChange(COLLAPSED_PROP);
+	}
+
+	public Type() {
 		setName("Type");
 		setStereotype("");
 	}
@@ -81,7 +94,7 @@ public class TypeModel extends PositionableElement implements
 	}
 
 	public void addChild(IUmlElement element) {
-		if (!(element instanceof CompartmentModel)) {
+		if (!(element instanceof Compartment)) {
 			throw new IllegalArgumentException();
 		}
 		children.add(element);
@@ -89,7 +102,7 @@ public class TypeModel extends PositionableElement implements
 	}
 
 	public void addChild(IUmlElement element, int index) {
-		if (!(element instanceof CompartmentModel)) {
+		if (!(element instanceof Compartment)) {
 			throw new IllegalArgumentException();
 		}
 		children.add(index, element);
@@ -97,7 +110,7 @@ public class TypeModel extends PositionableElement implements
 	}
 
 	public void removeChild(IUmlElement element) {
-		if (!(element instanceof CompartmentModel)) {
+		if (!(element instanceof Compartment)) {
 			throw new IllegalArgumentException();
 		}
 		children.remove(element);

@@ -6,12 +6,11 @@ package com.xiaobo.uml.model;
  * 
  * Copyright 2006 by Xiaobo Sun. All Rights reserved.
  */
-public class AttributeModel extends MemberModel {
+public class Method extends Member {
 
 	private static final long serialVersionUID = 1L;
 
-	public AttributeModel() {
-		setName("-attribute:datatype");
+	public Method() {
+		setName("+method(paramtype):returntype");
 	}
-
 }
