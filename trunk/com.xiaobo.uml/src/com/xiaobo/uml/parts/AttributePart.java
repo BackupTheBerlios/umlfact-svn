@@ -1,6 +1,9 @@
 package com.xiaobo.uml.parts;
 
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.Label;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Font;
 
 import com.xiaobo.uml.figure.AttributeFigure;
 
@@ -13,6 +16,10 @@ import com.xiaobo.uml.figure.AttributeFigure;
 public class AttributePart extends NamedElementPart {
 
 	protected IFigure createFigure() {
-		return new AttributeFigure();
+		AttributeFigure figure = new AttributeFigure();
+		Label label = figure.getLabel();
+		Font f = new Font(null, "Arial", 8, SWT.NORMAL);
+		label.setFont(f);
+		return figure;
 	}
 }
