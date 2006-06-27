@@ -15,3 +15,15 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.draw2d,
  org.eclipse.gef
 Eclipse-LazyStart: true
+Export-Package: com.xiaobo.uml,
+ com.xiaobo.uml.connect,
+ com.xiaobo.uml.editor,
+ com.xiaobo.uml.editor.palette,
+ com.xiaobo.uml.factories,
+ com.xiaobo.uml.figure,
+ com.xiaobo.uml.model,
+ com.xiaobo.uml.model.command,
+ com.xiaobo.uml.model.propertyDescriptor,
+ com.xiaobo.uml.parts,
+ com.xiaobo.uml.policies,
+ com.xiaobo.uml.viewers
