@@ -53,8 +53,6 @@ public class UmlPlugin extends AbstractUIPlugin {
 				getDescriptor("icons/type.gif"));
 		getImageRegistry().put(IIconConstants.MEMBER_ICON,
 				getDescriptor("icons/member.gif"));
-		getImageRegistry().put(IIconConstants.ARROW_ICON,
-				getDescriptor("icons/arrow.gif"));
 		getImageRegistry().put(IIconConstants.COMPARTMENT_ICON,
 				getDescriptor("icons/compartment.gif"));
 		getImageRegistry().put(IIconConstants.ATTRIBUTE_ICON,
@@ -63,6 +61,12 @@ public class UmlPlugin extends AbstractUIPlugin {
 				getDescriptor("icons/method.gif"));
 		getImageRegistry().put(IIconConstants.FOLDER_ICON,
 				getDescriptor("icons/folder.gif"));
+		getImageRegistry().put(IIconConstants.INHERITANCE,
+				getDescriptor("icons/inheritance.gif"));
+		getImageRegistry().put(IIconConstants.AGGREGATION,
+				getDescriptor("icons/aggregation.gif"));
+		getImageRegistry().put(IIconConstants.ASSOCIATION,
+				getDescriptor("icons/association.gif"));
 	}
 
 	private ImageDescriptor getDescriptor(String path) {

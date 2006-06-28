@@ -41,7 +41,7 @@ public class UmlCreationFactory implements CreationFactory {
 		} else if (type == Inheritance.class) {
 			return new Inheritance();
 		} else if (type == Aggregation.class) {
-			return new Aggregation(true, "1..*");
+			return new Aggregation(true, "0..*");
 		} else if (type == Association.class) {
 			return new Association("", "", false, false);
 		}

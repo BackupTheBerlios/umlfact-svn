@@ -18,7 +18,7 @@ public class AssociationToolEntry extends ConnectionCreationToolEntry {
 	public AssociationToolEntry() {
 		super("Association", "Create a Association", new UmlCreationFactory(
 				Association.class), UmlPlugin
-				.getImageDescriptor(IIconConstants.ARROW_ICON), UmlPlugin
-				.getImageDescriptor(IIconConstants.ARROW_ICON));
+				.getImageDescriptor(IIconConstants.ASSOCIATION), UmlPlugin
+				.getImageDescriptor(IIconConstants.ASSOCIATION));
 	}
 }

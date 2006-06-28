@@ -18,7 +18,7 @@ public class InheritanceToolEntry extends ConnectionCreationToolEntry {
 	public InheritanceToolEntry() {
 		super("Inheritance", "Create a Inheritance", new UmlCreationFactory(
 				Inheritance.class), UmlPlugin
-				.getImageDescriptor(IIconConstants.ARROW_ICON), UmlPlugin
-				.getImageDescriptor(IIconConstants.ARROW_ICON));
+				.getImageDescriptor(IIconConstants.INHERITANCE), UmlPlugin
+				.getImageDescriptor(IIconConstants.INHERITANCE));
 	}
 }

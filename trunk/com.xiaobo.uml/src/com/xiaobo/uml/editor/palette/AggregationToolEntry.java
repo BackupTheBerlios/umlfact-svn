@@ -18,8 +18,8 @@ public class AggregationToolEntry extends ConnectionCreationToolEntry {
 	public AggregationToolEntry() {
 		super("Aggregation", "Create a Aggregation", new UmlCreationFactory(
 				Aggregation.class), UmlPlugin
-				.getImageDescriptor(IIconConstants.ARROW_ICON), UmlPlugin
-				.getImageDescriptor(IIconConstants.ARROW_ICON));
+				.getImageDescriptor(IIconConstants.AGGREGATION), UmlPlugin
+				.getImageDescriptor(IIconConstants.AGGREGATION));
 	}
 
 }

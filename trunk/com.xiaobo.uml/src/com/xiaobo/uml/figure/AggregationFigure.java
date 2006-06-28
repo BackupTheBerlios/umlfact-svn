@@ -21,8 +21,8 @@ public class AggregationFigure extends ConnectionFigure {
 
 		ConnectionEndpointLocator locator = new ConnectionEndpointLocator(this,
 				false);
-		locator.setUDistance(10);
-		locator.setVDistance(10);
+		locator.setUDistance(5);
+		locator.setVDistance(5);
 		sourceLabel = new Label(sourceString);
 		add(sourceLabel, locator);
 	}

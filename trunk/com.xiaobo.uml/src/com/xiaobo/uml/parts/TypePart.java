@@ -160,8 +160,9 @@ public class TypePart extends PositionableElementPart implements NodeEditPart {
 		if (getType().getStereotype().equals("")) {
 			label.setText(getType().getName());
 		} else {
-			label.setText("<<" + getType().getStereotype() + ">>  "
+			label.setText("<<" + getType().getStereotype() + ">>" + " "
 					+ getType().getName());
+			label.repaint();
 		}
 		// refresh the collapsed
 		if (getType().isCollapsed()) {

@@ -22,14 +22,14 @@ public class AssociationFigure extends ConnectionFigure {
 			boolean sourceNavigation, boolean targetNavigation) {
 		ConnectionEndpointLocator sourceLocator = new ConnectionEndpointLocator(
 				this, false);
-		sourceLocator.setUDistance(10);
-		sourceLocator.setVDistance(10);
+		sourceLocator.setUDistance(5);
+		sourceLocator.setVDistance(5);
 		sourceLabel = new Label(sourceString);
 		add(sourceLabel, sourceLocator);
 		ConnectionEndpointLocator targetLocator = new ConnectionEndpointLocator(
 				this, true);
-		targetLocator.setUDistance(10);
-		sourceLocator.setVDistance(10);
+		targetLocator.setUDistance(5);
+		sourceLocator.setVDistance(5);
 		targetLabel = new Label(targetString);
 		add(targetLabel, targetLocator);
 

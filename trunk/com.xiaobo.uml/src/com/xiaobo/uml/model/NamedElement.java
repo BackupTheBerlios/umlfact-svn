@@ -10,7 +10,7 @@ import com.xiaobo.uml.model.propertyDescriptor.UmlTextPropertyDescriptor;
  * 
  * Copyright 2006 by Xiaobo Sun. All Rights Reserved.
  */
-public class NamedElement extends UmlElement implements INamedElement {
+public abstract class NamedElement extends UmlElement implements INamedElement {
 
 	private static final long serialVersionUID = 1L;
 
