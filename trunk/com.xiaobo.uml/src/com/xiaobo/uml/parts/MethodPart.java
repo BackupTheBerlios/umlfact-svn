@@ -43,5 +43,4 @@ public class MethodPart extends NamedElementPart {
 			label.setFont(f);
 		}
 	}
-
 }
