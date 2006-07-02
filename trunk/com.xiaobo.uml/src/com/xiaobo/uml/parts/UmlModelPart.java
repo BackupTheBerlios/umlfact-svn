@@ -26,6 +26,18 @@ public class UmlModelPart extends UmlElementPart implements
 		PropertyChangeListener {
 
 	protected IFigure createFigure() {
+		/**
+		 * if use ToolbarLayout, the underlying problems is solved. 1) change
+		 * the length of the member'name caused the change of type size without
+		 * any refresh of type figure. 2) when initiate the editor, the type is
+		 * expand (inside compartments is showed).
+		 */
+		// Figure figure = new Figure();
+		// ToolbarLayout layout = new ToolbarLayout(false);
+		// figure.setLayoutManager(layout);
+		/**
+		 * but normally we gotta use XYLayout and ToolbarLayout together.
+		 */
 		Figure figure = new UmlModelFigure();
 
 		ConnectionLayer connectionLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
@@ -40,6 +52,14 @@ public class UmlModelPart extends UmlElementPart implements
 	}
 
 	protected void createEditPolicies() {
+		/**
+		 * ToolbarLayout
+		 */
+		// installEditPolicy(EditPolicy.LAYOUT_ROLE,
+		// new UmlModelToolbarLayoutEditPolicy());
+		/**
+		 * XYLayoutPolicy
+		 */
 		installEditPolicy(EditPolicy.LAYOUT_ROLE,
 				new UmlModelXYLayoutEditPolicy());
 	}
