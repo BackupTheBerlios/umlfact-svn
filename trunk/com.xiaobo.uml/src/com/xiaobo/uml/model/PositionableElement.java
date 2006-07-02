@@ -8,12 +8,10 @@ import org.eclipse.draw2d.geometry.Point;
  * 
  * Copyright 2006 by Xiaobo Sun. All Rights Reserved.
  */
-public class PositionableElement extends NamedElement implements
+public abstract class PositionableElement extends NamedElement implements
 		IPositionableElement {
 
-	private static final long serialVersionUID = 1L;
-
-	private static final String LOCATION_PROP = "Farm::Location";
+	private static final String LOCATION_PROP = "location";
 
 	private Point location = new Point(10, 10);
 

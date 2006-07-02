@@ -14,5 +14,4 @@ public class UmlModelFigure extends FreeformLayer {
 	public UmlModelFigure() {
 		setLayoutManager(new FreeformLayout());
 	}
-
 }

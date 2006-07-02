@@ -12,8 +12,6 @@ import com.xiaobo.uml.model.propertyDescriptor.UmlTextPropertyDescriptor;
  */
 public abstract class NamedElement extends UmlElement implements INamedElement {
 
-	private static final long serialVersionUID = 1L;
-
 	private static final String NAME_PROP = "name";
 
 	private static final String DESCRIPTION_PROP = "description";

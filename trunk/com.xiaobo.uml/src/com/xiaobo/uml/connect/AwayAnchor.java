@@ -4,6 +4,12 @@ import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
 
+/**
+ * 
+ * @author Xiaobo Sun. Created on 29.06.2006.
+ * 
+ * Copyright 2006 by Xiaobo Sun. All Rights reserved.
+ */
 public class AwayAnchor extends ChopboxAnchor {
 
 	public AwayAnchor(IFigure source) {
@@ -23,5 +29,4 @@ public class AwayAnchor extends ChopboxAnchor {
 		}
 		return p;
 	}
-
 }

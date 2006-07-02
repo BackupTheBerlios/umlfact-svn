@@ -16,9 +16,6 @@ import com.xiaobo.uml.model.propertyDescriptor.IUmlPropertyDescriptor;
  */
 public abstract class UmlElement extends UmlPropertySource implements
 		IUmlElement, Serializable {
-
-	private static final long serialVersionUID = 1L;
-
 	/**
 	 * for the property sheet.
 	 */

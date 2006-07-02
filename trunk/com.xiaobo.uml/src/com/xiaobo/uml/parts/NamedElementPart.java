@@ -63,6 +63,12 @@ public abstract class NamedElementPart extends UmlElementPart {
 		manager.show();
 	}
 
+	/**
+	 * In GEF for a Editpart, the child editpart's figure is painted on this
+	 * Editpart's figure, that means, this is a recurisve process. Here man
+	 * decides the container figure of the editpart's figure for the child
+	 * figure.
+	 */
 	public IFigure getContentPane() {
 		return ((ILabeledFigure) getFigure()).getContentPane();
 	}

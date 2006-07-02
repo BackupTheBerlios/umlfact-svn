@@ -12,7 +12,6 @@ import com.xiaobo.uml.model.IPositionableElement;
  * 
  * Copyright 2006 by Xiaobo Sun. All Rights Reserved.
  */
-
 public class PositionChangeCommand extends Command {
 
 	private IPositionableElement component;

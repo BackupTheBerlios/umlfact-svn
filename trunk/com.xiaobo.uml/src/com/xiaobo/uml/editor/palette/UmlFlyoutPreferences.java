@@ -13,11 +13,11 @@ import com.xiaobo.uml.UmlPlugin;
  */
 public class UmlFlyoutPreferences implements FlyoutPreferences {
 
-	private static final String PALETTE_DOCK_LOCATION = "FarmEditor.Location";
+	private static final String PALETTE_DOCK_LOCATION = "UmlEditor.Location";
 
-	private static final String PALETTE_SIZE = "FarmEditor.Size";
+	private static final String PALETTE_SIZE = "UmlEditor.Size";
 
-	private static final String PALETTE_STATE = "FarmEditor.State";
+	private static final String PALETTE_STATE = "UmlEditor.State";
 
 	private IPreferenceStore getPreferenceStore() {
 		return UmlPlugin.getDefault().getPreferenceStore();

@@ -51,6 +51,10 @@ public class UmlEditor extends GraphicalEditorWithFlyoutPalette {
 		return new UmlPaletteRoot();
 	}
 
+	protected FlyoutPreferences getPalettePreferences() {
+		return new UmlFlyoutPreferences();
+	}
+
 	public UmlModel getModel() {
 		return umlModel;
 	}
@@ -147,10 +151,6 @@ public class UmlEditor extends GraphicalEditorWithFlyoutPalette {
 		System.err.println("** Load failed. Using default model. **");
 		e.printStackTrace();
 		umlModel = new UmlModel();
-	}
-
-	protected FlyoutPreferences getPalettePreferences() {
-		return new UmlFlyoutPreferences();
 	}
 
 	protected void createActions() {
