@@ -1,4 +1,4 @@
-=================Features TODO List========================
+=================Features TODO List==============================================
 1.0) refine the figures. (done by xiaobo on Mar 21)
 calculate the length of the name of compartment is done on Jun 26.
 2.0) add GraphLayout to the UmlModelPart (done by xiaobo on Mar 21)
@@ -36,7 +36,7 @@ done on Jun 19.
 done on Jun 22.
 15.0--Jun 22) man can't move, add, delete the compartment model.
 done on Jun 22.
-=================Bugs List========================
+=================Bugs List=======================================
 1.) cann't refresh the Type automatically (Mar 21) 
 done with the solution: add TypeEditPart as children models' listener (deprecated)
 it's the bug of the eclipse. update to 3.2 no such issue.
@@ -52,8 +52,22 @@ deprecated!
 deprecated!
 2.) there are some errors in the uti package (Mar 21)
 changed by Micheal.
-7.0--Jun 10) why first comes the description property then name property ?
+7.0--Jun 10) why first comes the description property then name property?
 in one class the last added propertydescriptor appears first.
 8.0--Jun 16) how to use bendpoint delete command?
 11.0--Jun 13) the dirty key of the editor is broken.
 11.0--Jun 13) by loading the umlModelPart should be refreshed.
+	There is a general problem to face when we use a parent contains children in GEF. 
+	In the case of UML class diagram, that is, the Class contains the Attributes/Methods. Of course 
+	we set ToolbarLayout as the ClassFigure's layout. The problem is which layout we should use as 
+	the layout of the container figure of the parent figure, in the case of Uml class diagram the 
+	UmlModelFigure is the container figure of the ClassFigure. When we set ToolbarLayout instead of 
+	XYLayout as UmlModelFigure's layout, also install ToolbarLayoutEditPolicy to UmlModelEditpart, 
+	we can solve two issues: 
+		1) By initiating ClassFigure expands with filled child figures automatically. 
+		2) When the child model(Attributes/Methods) is changed, the size of parent(Class) figure 
+		   is changed automatically without manual refreshing of the class figure.
+	But normally we should use the ToolbarLayout(ClassFigure) and XYLayout(ContainerFigure of ClassFigures) 
+	together. 
+	What can we do now? add ParentPart as PropertyListener to the childmodel. I don't think this is a good idea, 
+	because usually the parent part is created before the creating of the child models. 
