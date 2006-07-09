@@ -13,7 +13,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui.ide,
  org.eclipse.ui.workbench.texteditor,
  org.eclipse.draw2d,
- org.eclipse.gef
+ org.eclipse.gef,
+ org.eclipse.jdt.core
 Eclipse-LazyStart: true
 Export-Package: com.xiaobo.uml,
  com.xiaobo.uml.connect,

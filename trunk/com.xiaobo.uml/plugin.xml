@@ -26,5 +26,20 @@
             id="com.xiaobo.uml.category"
             name="Uml"/>
    </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="false"
+            id="com.xiaobo.uml.objectContribution"
+            objectClass="org.eclipse.jdt.core.IJavaElement">
+         <action
+               class="com.xiaobo.uml.actions.CountAction"
+               enablesFor="1"
+               icon="icons/count.gif"
+               id="com.xiaobo.uml.actions.count"
+               label="LineCount"
+               style="push"/>
+      </objectContribution>
+   </extension>
 
 </plugin>
