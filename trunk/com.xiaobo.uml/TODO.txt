@@ -57,17 +57,23 @@ in one class the last added propertydescriptor appears first.
 8.0--Jun 16) how to use bendpoint delete command?
 11.0--Jun 13) the dirty key of the editor is broken.
 11.0--Jun 13) by loading the umlModelPart should be refreshed.
-	There is a general problem to face when we use a parent contains children in GEF. 
-	In the case of UML class diagram, that is, the Class contains the Attributes/Methods. Of course 
-	we set ToolbarLayout as the ClassFigure's layout. The problem is which layout we should use as 
-	the layout of the container figure of the parent figure, in the case of Uml class diagram the 
-	UmlModelFigure is the container figure of the ClassFigure. When we set ToolbarLayout instead of 
-	XYLayout as UmlModelFigure's layout, also install ToolbarLayoutEditPolicy to UmlModelEditpart, 
-	we can solve two issues: 
-		1) By initiating ClassFigure expands with filled child figures automatically. 
-		2) When the child model(Attributes/Methods) is changed, the size of parent(Class) figure 
-		   is changed automatically without manual refreshing of the class figure.
-	But normally we should use the ToolbarLayout(ClassFigure) and XYLayout(ContainerFigure of ClassFigures) 
-	together. 
-	What can we do now? add ParentPart as PropertyListener to the childmodel. I don't think this is a good idea, 
-	because usually the parent part is created before the creating of the child models. 
+==============Questions (theoretical)===============================
+1.0--July 2)There is a general problem to face when we use a parent contains children in GEF. 
+In the case of UML class diagram, that is, the Class contains the Attributes/Methods. Of course 
+we set ToolbarLayout as the ClassFigure's layout. The problem is which layout we should use as 
+the layout of the container figure of the parent figure, in the case of Uml class diagram the 
+UmlModelFigure is the container figure of the ClassFigure. When we set ToolbarLayout instead of 
+XYLayout as UmlModelFigure's layout, also install ToolbarLayoutEditPolicy to UmlModelEditpart, 
+we can solve two issues: 
+	1) By initiating ClassFigure expands with filled child figures automatically. 
+	2) When the child model(Attributes/Methods) is changed, the size of parent(Class) figure 
+  		is changed automatically without manual refreshing of the class figure.
+But normally we should use the ToolbarLayout(ClassFigure) and XYLayout(ContainerFigure of ClassFigures) 
+together. 
+What can we do now? add ParentPart as PropertyListener to the childmodel. I don't think this is a good idea, 
+because usually the parent part is created before the creating of the child models.
+2.0--July 4)what's the difference between the java.lang.Class object.newInstance and new constructor?
+1) newInstance() needs the no params (default)constructor.
+2) new constructor needs to know the name at the compiler time. 
+3) I think, this involves the Java reflection/class loader. Each java class has one
+java.lang.Class object at the runtime, because JVM uses ClassLoader to load it into the memory. 

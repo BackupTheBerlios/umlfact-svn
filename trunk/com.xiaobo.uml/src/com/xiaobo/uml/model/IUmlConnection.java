@@ -22,10 +22,10 @@ public interface IUmlConnection extends IUmlElement {
 
 	public List getBendpoints();
 
-	public void addBendpoints(int index, Point point);
+	public void addBendpoint(int index, Point point);
 
-	public void removeBendpoints(int index);
+	public void removeBendpoint(int index);
 
-	public void replaceBendpoints(int index, Point point);
+	public void replaceBendpoint(int index, Point point);
 
 }

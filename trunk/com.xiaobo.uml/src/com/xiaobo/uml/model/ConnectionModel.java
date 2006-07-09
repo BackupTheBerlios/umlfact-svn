@@ -22,18 +22,6 @@ public abstract class ConnectionModel extends UmlElement implements
 
 	private Type target;
 
-	/**
-	 * in order to store the no argument constructor from super. because there's
-	 * also the constructor with argus.
-	 */
-	public ConnectionModel() {
-	}
-
-	// public ConnectionModel(TypeModel source, TypeModel target) {
-	// setSource(source);
-	// setTarget(target);
-	// }
-
 	public IUmlConnectionNode getSource() {
 		return source;
 	}
@@ -66,17 +54,17 @@ public abstract class ConnectionModel extends UmlElement implements
 		return bendpoints;
 	}
 
-	public void addBendpoints(int index, Point point) {
+	public void addBendpoint(int index, Point point) {
 		bendpoints.add(index, point);
 		firePropertyChange(P_BEND_POINT);
 	}
 
-	public void removeBendpoints(int index) {
+	public void removeBendpoint(int index) {
 		bendpoints.remove(index);
 		firePropertyChange(P_BEND_POINT);
 	}
 
-	public void replaceBendpoints(int index, Point point) {
+	public void replaceBendpoint(int index, Point point) {
 		bendpoints.set(index, point);
 		firePropertyChange(P_BEND_POINT);
 	}

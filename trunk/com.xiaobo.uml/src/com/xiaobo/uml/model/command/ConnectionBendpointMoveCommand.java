@@ -22,7 +22,7 @@ public class ConnectionBendpointMoveCommand extends Command {
 
 	public void execute() {
 		oldLocation = (Point) connection.getBendpoints().get(index);
-		connection.replaceBendpoints(index, newLocation);
+		connection.replaceBendpoint(index, newLocation);
 	}
 
 	public void setConnection(Object model) {
@@ -38,6 +38,6 @@ public class ConnectionBendpointMoveCommand extends Command {
 	}
 
 	public void undo() {
-		connection.replaceBendpoints(index, oldLocation);
+		connection.replaceBendpoint(index, oldLocation);
 	}
 }

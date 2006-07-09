@@ -29,6 +29,6 @@ public class ConnectionBendpointDeleteCommand extends Command {
 	}
 
 	public void undo() {
-		connection.addBendpoints(index, oldLocation);
+		connection.addBendpoint(index, oldLocation);
 	}
 }

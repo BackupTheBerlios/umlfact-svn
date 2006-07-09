@@ -21,7 +21,7 @@ public class ConnectionBendpointCreateCommand extends Command {
 	private int index;
 
 	public void execute() {
-		connection.addBendpoints(index, location);
+		connection.addBendpoint(index, location);
 	}
 
 	public void setConnection(Object object) {
@@ -37,6 +37,6 @@ public class ConnectionBendpointCreateCommand extends Command {
 	}
 
 	public void undo() {
-		connection.removeBendpoints(index);
+		connection.removeBendpoint(index);
 	}
 }

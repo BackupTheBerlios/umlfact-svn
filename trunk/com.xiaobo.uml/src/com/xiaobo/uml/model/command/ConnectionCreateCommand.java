@@ -69,7 +69,7 @@ public class ConnectionCreateCommand extends Command {
 		Point point = ((Type) source).getLocation();
 		Point cbp0 = new Point(point.x, point.y - 30);
 		Point cbp1 = new Point(point.x + 100, point.y - 30);
-		connection.addBendpoints(0, cbp0);
-		connection.addBendpoints(1, cbp1);
+		connection.addBendpoint(0, cbp0);
+		connection.addBendpoint(1, cbp1);
 	}
 }
