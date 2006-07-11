@@ -36,14 +36,13 @@ public class CountAction implements IActionDelegate {
 			IJavaElement element = (IJavaElement) getSelection()
 					.getFirstElement();
 			counter = 0;
-			if (element instanceof IParent) {
-				countLines((IParent) element);
-			}
+			countLines(element);
 			MessageBox dialog = new MessageBox(PlatformUI.getWorkbench()
 					.getDisplay().getActiveShell(), SWT.OK
 					| SWT.ICON_INFORMATION);
 			dialog.setText("Line Counter by xiaobo");
-			dialog.setMessage("line counter: " + counter);
+			dialog.setMessage("You have " + counter
+					+ " lines in your java files!");
 			dialog.open();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -58,21 +57,28 @@ public class CountAction implements IActionDelegate {
 		return selection;
 	}
 
-	private void countLines(IParent parent) throws CoreException, IOException {
-		IJavaElement[] children;
-		children = parent.getChildren();
-		for (int i = 0; i < children.length; i++) {
-			if (children[i] instanceof ICompilationUnit) {
-				IFile ifile = (IFile) children[i].getResource();
-				File f = ifile.getLocation().toFile();
-
-				FileReader fr = new FileReader(f);
-				BufferedReader br = new BufferedReader(fr);
-				while (br.readLine() != null) {
-					counter++;
-				}
-			} else if (children[i] instanceof IParent) {
-				countLines((IParent) children[i]);
+	/**
+	 * actually package manages the code using with the flat format, it's the
+	 * reason why model.command package isn't the child of the model package.
+	 * 
+	 * @param element
+	 * @throws CoreException
+	 * @throws IOException
+	 */
+	private void countLines(IJavaElement element) throws CoreException,
+			IOException {
+		if (element instanceof ICompilationUnit) {
+			IFile ifile = (IFile) element.getResource();
+			File f = ifile.getLocation().toFile();
+			FileReader fr = new FileReader(f);
+			BufferedReader br = new BufferedReader(fr);
+			while (br.readLine() != null) {
+				counter++;
+			}
+		} else if (element instanceof IParent) {
+			IJavaElement[] children = ((IParent) element).getChildren();
+			for (int i = 0; i < children.length; i++) {
+				countLines(children[i]);
 			}
 		}
 	}
