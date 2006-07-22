@@ -50,7 +50,8 @@ public class CompartmentPart extends NamedElementPart {
 	public void calculateName() {
 		Compartment model = (Compartment) getModel();
 		StringBuffer name = new StringBuffer(model.getName());
-		String parentName = ((Type) getParent().getModel()).getName();
+		String parentName = ((Type) getParent().getModel()).getStereotype()
+				+ ((Type) getParent().getModel()).getName();
 
 		while (name.length() < parentName.length() * 3) {
 			name.append(" ");

@@ -4,8 +4,8 @@ import org.eclipse.gef.palette.ConnectionCreationToolEntry;
 
 import com.xiaobo.uml.IIconConstants;
 import com.xiaobo.uml.UmlPlugin;
-import com.xiaobo.uml.factories.UmlCreationFactory;
 import com.xiaobo.uml.model.Association;
+import com.xiaobo.uml.model.factory.UmlCreationFactory;
 
 /**
  * 

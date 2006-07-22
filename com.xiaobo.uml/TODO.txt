@@ -20,6 +20,7 @@ multiline isn't to be needed any more, properties is partly done. (Jun 10)
 abstract,static is done on Jun 26. But underline is still not implemented.
 8.0--Jun 10) connection anchor, connection locator, connection bendpoint
 chopAnchors, connection locators are done on Jun 11.
+inheritance can be dashed is done on July 20.
 8.1--Jun 23) connect to itself.
 done on Jun 26.
 bendpoint is done on Jun 15.
@@ -59,6 +60,8 @@ in one class the last added propertydescriptor appears first.
 11.0--Jun 13) the dirty key of the editor is broken.
 11.0--Jun 13) by loading the umlModelPart should be refreshed.
 done on 13 July. refresh the UmlModel by UmlEditor.initializeGraphicalViewer.
+12.0--Jun 14) stereo type fbug.
+done on 20 July.
 ==============Questions (theoretical)===============================
 1.0--July 2)There is a general problem to face when we use a parent contains children in GEF. 
 In the case of UML class diagram, that is, the Class contains the Attributes/Methods. Of course 

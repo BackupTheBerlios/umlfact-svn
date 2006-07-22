@@ -1,4 +1,4 @@
-package com.xiaobo.uml.factories;
+package com.xiaobo.uml.model.factory;
 
 import org.eclipse.gef.requests.CreationFactory;
 
@@ -39,7 +39,7 @@ public class UmlCreationFactory implements CreationFactory {
 		} else if (type == Method.class) {
 			return new Method();
 		} else if (type == Inheritance.class) {
-			return new Inheritance();
+			return new Inheritance(false);
 		} else if (type == Aggregation.class) {
 			return new Aggregation(true, "0..*");
 		} else if (type == Association.class) {

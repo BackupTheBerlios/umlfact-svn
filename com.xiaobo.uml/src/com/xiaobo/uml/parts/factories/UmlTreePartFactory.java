@@ -1,4 +1,4 @@
-package com.xiaobo.uml.factories;
+package com.xiaobo.uml.parts.factories;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;

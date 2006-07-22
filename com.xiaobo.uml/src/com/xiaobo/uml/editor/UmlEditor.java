@@ -29,10 +29,10 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
 import com.xiaobo.uml.editor.palette.UmlFlyoutPreferences;
 import com.xiaobo.uml.editor.palette.UmlPaletteRoot;
-import com.xiaobo.uml.factories.UmlEditPartFactory;
-import com.xiaobo.uml.factories.UmlTreePartFactory;
 import com.xiaobo.uml.model.UmlModel;
 import com.xiaobo.uml.parts.UmlModelPart;
+import com.xiaobo.uml.parts.factories.UmlEditPartFactory;
+import com.xiaobo.uml.parts.factories.UmlTreePartFactory;
 
 /**
  * 

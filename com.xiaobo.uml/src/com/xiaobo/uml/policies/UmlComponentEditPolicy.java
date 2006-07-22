@@ -6,9 +6,11 @@ import org.eclipse.gef.requests.GroupRequest;
 
 import com.xiaobo.uml.model.Compartment;
 import com.xiaobo.uml.model.IUmlConnection;
+import com.xiaobo.uml.model.IUmlConnectionNode;
 import com.xiaobo.uml.model.IUmlContainer;
 import com.xiaobo.uml.model.IUmlElement;
 import com.xiaobo.uml.model.command.ConnectionDeleteCommand;
+import com.xiaobo.uml.model.command.ConnectionNodeDeleteCommand;
 import com.xiaobo.uml.model.command.UmlElementDeleteCommand;
 
 /**
@@ -26,13 +28,12 @@ public class UmlComponentEditPolicy extends ComponentEditPolicy {
 		if (model instanceof IUmlConnection) {
 			return new ConnectionDeleteCommand((IUmlConnection) model);
 		}
-		/**
-		 * TODO: delete connection container
-		 */
-		// if (model instanceof IFarmConnectionContainer) {
-		// return new ConnectionContainerDeleteCommand(
-		// (IFarmConnectionContainer) model, (IFarmContainer) parent);
-		// }
+		
+		 if (model instanceof IUmlConnectionNode) {
+		 return new ConnectionNodeDeleteCommand(
+		 (IUmlConnectionNode) model, (IUmlContainer) parent);
+		 }
+		 
 		if (model instanceof IUmlElement
 				&& !(model instanceof Compartment)) {
 			return new UmlElementDeleteCommand((IUmlElement) model,
