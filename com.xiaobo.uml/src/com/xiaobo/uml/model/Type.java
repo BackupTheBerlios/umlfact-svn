@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jface.viewers.ICellEditorValidator;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 import com.xiaobo.uml.model.propertyDescriptor.UmlComboBoxPropertyDescriptor;
 import com.xiaobo.uml.model.propertyDescriptor.UmlTextPropertyDescriptor;
@@ -51,6 +54,10 @@ public class Type extends PositionableElement implements IUmlConnectionNode,
 		setName("Type");
 		setStereotype("");
 		setDescription("type");
+	}
+
+	public Type(Element element) {
+		// TODO Auto-generated constructor stub
 	}
 
 	public boolean isAbstract() {
@@ -187,5 +194,10 @@ public class Type extends PositionableElement implements IUmlConnectionNode,
 
 	public void setNameValidator(ICellEditorValidator validator) {
 		stereoTypePropertyDescriptor.setValidator(validator);
+	}
+
+	public Node toDom(Document document) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

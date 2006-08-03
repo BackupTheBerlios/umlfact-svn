@@ -1,7 +1,13 @@
 package com.xiaobo.uml.model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * 
@@ -16,6 +22,21 @@ public class UmlModel extends UmlElement implements IUmlContainer {
 	private static final String CHILD_PROP = "child";
 
 	private List types = new ArrayList();
+
+	public UmlModel() {
+
+	}
+
+	public UmlModel(Element element) {
+		NodeList childNodes = element.getChildNodes();
+		for (int i = 0; i < childNodes.getLength(); i++) {
+			Node childNode = childNodes.item(i);
+			if (childNode.getNodeType() == Node.ELEMENT_NODE
+					&& childNode.getNodeName().equals("type")) {
+				addChild(new Type((Element) childNode));
+			}
+		}
+	}
 
 	public List getChildren() {
 		return types;
@@ -43,5 +64,14 @@ public class UmlModel extends UmlElement implements IUmlContainer {
 		}
 		types.remove(element);
 		firePropertyChange(CHILD_PROP);
+	}
+
+	public Element toDom(Document document) {
+		Element rootElement = document.createElement("Uml Model");
+		for (Iterator i = getChildren().iterator(); i.hasNext();) {
+			Type child = (Type) i.next();
+			rootElement.appendChild(child.toDom(document));
+		}
+		return rootElement;
 	}
 }
