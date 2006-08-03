@@ -5,6 +5,8 @@ import org.eclipse.jface.viewers.ICellEditorValidator;
 import com.xiaobo.uml.model.propertyDescriptor.UmlComboBoxPropertyDescriptor;
 import com.xiaobo.uml.model.propertyDescriptor.UmlTextPropertyDescriptor;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 /**
  * 
  * @author xiaobo. Created on Jun 18, 2006.
@@ -162,5 +164,15 @@ public class Association extends ConnectionModel {
 	public void setNameValidator(ICellEditorValidator validator) {
 		sourceStringPropertyDescriptor.setValidator(validator);
 		targetStringPropertyDescriptor.setValidator(validator);
+	}
+	
+	public Element toXml(Document doc){
+		System.out.println("association toxml");
+		Element subRoot=doc.createElement("association");
+		subRoot.setAttribute("uid", serialVersionUID+"");
+		subRoot.setAttribute("sourceString", getSourceString());
+		subRoot.setAttribute("tagetString",getTargetString() );
+			
+		return subRoot;
 	}
 }

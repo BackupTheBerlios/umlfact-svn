@@ -1,7 +1,8 @@
 package com.xiaobo.uml.model;
 
 import com.xiaobo.uml.model.propertyDescriptor.UmlComboBoxPropertyDescriptor;
-
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 /**
  * 
  * @author xiaobo
@@ -68,5 +69,14 @@ public class Inheritance extends ConnectionModel {
 				setImpl(false);
 			}
 		}
+	}
+	
+	public Element toXml(Document doc){
+		System.out.println("inheritance toxml");
+
+		Element subRoot=doc.createElement("inheritance");
+		subRoot.setAttribute("uid", serialVersionUID+"");
+		
+		return subRoot;
 	}
 }

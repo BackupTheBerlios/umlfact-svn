@@ -3,5 +3,9 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry kind="lib" path="/home/qz4/Software/xerces-2_8_0/resolver.jar"/>
+	<classpathentry kind="lib" path="/home/qz4/Software/xerces-2_8_0/xercesImpl.jar"/>
+	<classpathentry kind="lib" path="/home/qz4/Software/xerces-2_8_0/xercesSamples.jar"/>
+	<classpathentry kind="lib" path="/home/qz4/Software/xerces-2_8_0/xml-apis.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

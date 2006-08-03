@@ -4,6 +4,8 @@ import org.eclipse.jface.viewers.ICellEditorValidator;
 
 import com.xiaobo.uml.model.propertyDescriptor.UmlComboBoxPropertyDescriptor;
 import com.xiaobo.uml.model.propertyDescriptor.UmlTextPropertyDescriptor;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  * 
@@ -101,5 +103,14 @@ public class Aggregation extends ConnectionModel {
 
 	public void setNameValidator(ICellEditorValidator validator) {
 		sourceStringPropertyDescriptor.setValidator(validator);
+	}
+	
+	public Element toXml(Document doc){
+		System.out.println("aggregation toxml");
+		Element subRoot=doc.createElement("aggregation");
+		subRoot.setAttribute("uid", serialVersionUID+"");
+		subRoot.setAttribute("isCompostion", isComposition+"");
+		subRoot.setAttribute("sourceString",getSourceString() );		
+		return subRoot;
 	}
 }

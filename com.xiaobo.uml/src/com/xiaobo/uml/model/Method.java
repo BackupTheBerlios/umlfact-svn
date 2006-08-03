@@ -1,5 +1,6 @@
 package com.xiaobo.uml.model;
-
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import com.xiaobo.uml.model.propertyDescriptor.UmlComboBoxPropertyDescriptor;
 
 /**
@@ -70,5 +71,14 @@ public class Method extends Member {
 				setAbstract(false);
 			}
 		}
+	}
+	
+	public Element toXml(Document doc){
+		System.out.println("read Method");
+		//Document doc = null;
+		Element subRoot=doc.createElement("method");
+		subRoot.setAttribute("name", getName());
+		subRoot.setAttribute("description",getDescription() );
+		return subRoot;
 	}
 }

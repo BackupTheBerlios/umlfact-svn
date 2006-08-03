@@ -1,5 +1,6 @@
 package com.xiaobo.uml.model;
-
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 /**
  * 
  * @author xiaobo
@@ -13,6 +14,15 @@ public class Attribute extends Member {
 	public Attribute() {
 		setName("-attribute:datatype");
 		setDescription("attribute");
+	}
+	
+	public Element toXml(Document doc){
+		System.out.println("read Attribut");
+		//Document doc = null;
+		Element subRoot=doc.createElement("attribute");
+		subRoot.setAttribute("name", getName());
+		subRoot.setAttribute("description",getDescription() );
+		return subRoot;
 	}
 
 }

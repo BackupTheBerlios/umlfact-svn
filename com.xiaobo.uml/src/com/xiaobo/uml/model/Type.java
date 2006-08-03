@@ -1,5 +1,7 @@
 package com.xiaobo.uml.model;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -188,4 +190,48 @@ public class Type extends PositionableElement implements IUmlConnectionNode,
 	public void setNameValidator(ICellEditorValidator validator) {
 		stereoTypePropertyDescriptor.setValidator(validator);
 	}
+	
+	public Element toXml(Document doc){
+		System.out.println("type toXml");
+		String id=serialVersionUID+"";
+		//Document doc = null;
+		Element subRoot=doc.createElement("type");
+		subRoot.setAttribute("uid", id);
+		subRoot.setAttribute("name",getName() );
+		subRoot.setAttribute("stereoType",getStereotype());
+		subRoot.setAttribute("description",getDescription() );
+		
+		Element memberElement;
+		for(int i=0;i<children.size();i++){
+			if(children.get(i) instanceof Attribute){
+				memberElement=((Attribute)children.get(i)).toXml(doc);
+				subRoot.appendChild(memberElement);
+			}else if(children.get(i) instanceof Method){
+				memberElement=((Method)children.get(i)).toXml(doc);
+				subRoot.appendChild(memberElement);
+			}
+		}
+		
+		for(int i=0;i<ins.size();i++){
+			if(ins.get(i) instanceof Aggregation){
+				memberElement=((Aggregation)ins.get(i)).toXml(doc);
+				subRoot.appendChild(memberElement);
+			}else if(ins.get(i) instanceof Association){
+				memberElement=((Association)ins.get(i)).toXml(doc);
+				subRoot.appendChild(memberElement);
+			}else if(ins.get(i) instanceof Inheritance){
+				memberElement=((Inheritance)ins.get(i)).toXml(doc);
+				subRoot.appendChild(memberElement);
+			}
+		}
+
+		return subRoot;
+	}
+	
+	
+	
+
+    public static Type parse(Element node) throws Exception {
+        return new Type();
+    }
 }
