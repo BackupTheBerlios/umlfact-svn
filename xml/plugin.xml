@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+   <extension
+         id="umleditor"
+         point="org.eclipse.ui.editors">
+      <editor
+            class="com.xiaobo.uml.editor.UmlEditor"
+            contributorClass="com.xiaobo.uml.editor.UmlEditorContributor"
+            default="false"
+            extensions="uml,cd"
+            icon="icons/type.gif"
+            id="com.xiaobo.uml.editor"
+            name="Class Diagram"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <wizard
+            category="com.xiaobo.uml.category"
+            class="com.xiaobo.uml.UmlClassDiagramNewWizard"
+            icon="icons/type.gif"
+            id="com.xiaobo.uml.UmlClassDiagramNewWizard"
+            name="Class Diagram"
+            project="false"/>
+      <category
+            id="com.xiaobo.uml.category"
+            name="Uml"/>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            label="SaveToXml"
+            visible="true"
+            id="com.xiaobo.uml.UlmSaveToXml">
+         <menu
+               label="SaveToXml"
+               id="SaveToXml">
+            <separator
+                  name="sampleGroup">
+            </separator>
+         </menu>
+         <action
+               label="&amp;SaveToXml"
+               icon="icons/type.gif"
+               class="com.xiaobo.uml.UlmSaveToXml"
+               tooltip="Save it into XML"
+               menubarPath="File/sampleGroup"
+               toolbarPath="sampleGroup"
+               id="com.xiaobo.uml.UlmSaveToXml">
+         </action>
+      </actionSet>
+   </extension>
+
+</plugin>

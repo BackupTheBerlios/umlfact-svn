@@ -1,0 +1,73 @@
+=================Features TODO List==============================================
+1.0) refine the figures. (done by xiaobo on Mar 21)
+calculate the length of the name of compartment is done on Jun 26.
+2.0) add GraphLayout to the UmlModelPart (done by xiaobo on Mar 21)
+2.1) delete everything about the position (Mar 21)
+deprecated! because instead of GraphicalLayout the XYLayout is used.
+3.0) combination the model to the uti package (Mar 21)
+deprecated!
+4.0) various types of connection to implement (Mar 21)
+the inheritance and aggregation are done on Apr 17
+4.1--Jun 19) add association connection
+done on Jun 20.
+5.0) varios types of memebers to implement (Apr 17)
+done on Jun 10.
+6.0) distinguish attributes and methods in the CompartmentLayoutEditPolicy. (Jun 10)
+7.0--Jun 10) undelining, multiline and properties
+7.1--Jun 21) refine the attributes' properties.
+7.2--Jun 22) refine the methods' properties.
+multiline isn't to be needed any more, properties is partly done. (Jun 10)
+abstract,static is done on Jun 26. But underline is still not implemented.
+8.0--Jun 10) connection anchor, connection locator, connection bendpoint
+chopAnchors, connection locators are done on Jun 11.
+8.1--Jun 23) connect to itself.
+done on Jun 26.
+bendpoint is done on Jun 15.
+9.0--Jun 10) action: delete, undo
+delete, undo, undo in the toolbar are done on Jun 11.
+10.0--Jun 10) wizard
+done on 18.06.06.
+11.0--Jun 10) save/load using with the serializable
+done on Jun 13.
+12.0--Jun 13) outlinetree.
+done on Jun 19.
+13.0--Jun 22) double click to cause to be expand/collapsed.
+14.0--Jun 22) change the icons.
+done on Jun 22.
+15.0--Jun 22) man can't move, add, delete the compartment model.
+done on Jun 22.
+=================Bugs List=======================================
+1.) cann't refresh the Type automatically (Mar 21) 
+done with the solution: add TypeEditPart as children models' listener (deprecated)
+it's the bug of the eclipse. update to 3.2 no such issue.
+1.0--Jun 23) calculate the compartmentfigure depending on the labelfigure.
+done on Jun 23, refine on Jun 26
+1.1) how can refresh the current created Type (Mar 21)
+deprecated!
+1.3) the length of the line above the compartment (Mar 21)
+deprecated!
+1.4) delete the label of the compartment (Mar 21)
+deprecated!
+1.5) add margin border for the member (Mar 21)
+deprecated!
+2.) there are some errors in the uti package (Mar 21)
+changed by Micheal.
+7.0--Jun 10) why first comes the description property then name property?
+in one class the last added propertydescriptor appears first.
+8.0--Jun 16) how to use bendpoint delete command?
+11.0--Jun 13) the dirty key of the editor is broken.
+11.0--Jun 13) by loading the umlModelPart should be refreshed.
+	There is a general problem to face when we use a parent contains children in GEF. 
+	In the case of UML class diagram, that is, the Class contains the Attributes/Methods. Of course 
+	we set ToolbarLayout as the ClassFigure's layout. The problem is which layout we should use as 
+	the layout of the container figure of the parent figure, in the case of Uml class diagram the 
+	UmlModelFigure is the container figure of the ClassFigure. When we set ToolbarLayout instead of 
+	XYLayout as UmlModelFigure's layout, also install ToolbarLayoutEditPolicy to UmlModelEditpart, 
+	we can solve two issues: 
+		1) By initiating ClassFigure expands with filled child figures automatically. 
+		2) When the child model(Attributes/Methods) is changed, the size of parent(Class) figure 
+		   is changed automatically without manual refreshing of the class figure.
+	But normally we should use the ToolbarLayout(ClassFigure) and XYLayout(ContainerFigure of ClassFigures) 
+	together. 
+	What can we do now? add ParentPart as PropertyListener to the childmodel. I don't think this is a good idea, 
+	because usually the parent part is created before the creating of the child models. 
