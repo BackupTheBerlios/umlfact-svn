@@ -9,6 +9,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IParent;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
@@ -74,6 +75,11 @@ public class CountAction implements IActionDelegate {
 			BufferedReader br = new BufferedReader(fr);
 			while (br.readLine() != null) {
 				counter++;
+			}
+		} else if (element instanceof IJavaProject) {
+			IJavaElement[] children = ((IParent) element).getChildren();
+			if (children[0] instanceof IJavaElement) {
+				countLines(children[0]);
 			}
 		} else if (element instanceof IParent) {
 			IJavaElement[] children = ((IParent) element).getChildren();

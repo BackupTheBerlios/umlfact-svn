@@ -38,6 +38,8 @@ done on Jun 22.
 15.0--Jun 22) man can't move, add, delete the compartment model.
 done on Jun 22.
 16.0--July 9)line counter is done!
+17.0--July 30) zoom in/zoom out
+done on 2 August.
 =================Bugs List=======================================
 1.) cann't refresh the Type automatically (Mar 21) 
 done with the solution: add TypeEditPart as children models' listener (deprecated)
@@ -62,6 +64,8 @@ in one class the last added propertydescriptor appears first.
 done on 13 July. refresh the UmlModel by UmlEditor.initializeGraphicalViewer.
 12.0--Jun 14) stereo type fbug.
 done on 20 July.
+13.0--July 9) line counter is very slow when the IJavaProject is selected.
+done on 2 August.
 ==============Questions (theoretical)===============================
 1.0--July 2)There is a general problem to face when we use a parent contains children in GEF. 
 In the case of UML class diagram, that is, the Class contains the Attributes/Methods. Of course 

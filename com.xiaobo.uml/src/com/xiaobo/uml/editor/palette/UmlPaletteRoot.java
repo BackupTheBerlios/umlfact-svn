@@ -1,8 +1,9 @@
 package com.xiaobo.uml.editor.palette;
 
+import org.eclipse.gef.palette.MarqueeToolEntry;
 import org.eclipse.gef.palette.PaletteDrawer;
 import org.eclipse.gef.palette.PaletteRoot;
-import org.eclipse.gef.palette.SelectionToolEntry;
+import org.eclipse.gef.palette.PanningSelectionToolEntry;
 
 /**
  * 
@@ -26,7 +27,8 @@ public class UmlPaletteRoot extends PaletteRoot {
 
 	private PaletteDrawer createDefaultToolBox() {
 		defaultTools = new PaletteDrawer("Default tools");
-		defaultTools.add(new SelectionToolEntry());
+		defaultTools.add(new PanningSelectionToolEntry());
+		defaultTools.add(new MarqueeToolEntry());
 		return defaultTools;
 	}
 
@@ -41,8 +43,6 @@ public class UmlPaletteRoot extends PaletteRoot {
 	private PaletteDrawer createComponentDrawer() {
 		componentsTools = new PaletteDrawer("Components tools");
 		componentsTools.add(new TypeToolEntry());
-		// componentsTools.add(new CompartmentToolEntry());
-		// componentsTools.add(new MemberToolEntry());
 		componentsTools.add(new AttributeToolEntry());
 		componentsTools.add(new MethodToolEntry());
 		return componentsTools;

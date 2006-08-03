@@ -14,10 +14,14 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.gef.DefaultEditDomain;
-import org.eclipse.gef.GraphicalViewer;
+import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
+import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.palette.PaletteRoot;
+import org.eclipse.gef.ui.actions.ZoomInAction;
+import org.eclipse.gef.ui.actions.ZoomOutAction;
 import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
+import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
@@ -62,8 +66,16 @@ public class UmlEditor extends GraphicalEditorWithFlyoutPalette {
 
 	protected void configureGraphicalViewer() {
 		super.configureGraphicalViewer();
-		GraphicalViewer viewer = getGraphicalViewer();
-		viewer.setEditPartFactory(new UmlEditPartFactory());
+
+		ScalableFreeformRootEditPart root = new ScalableFreeformRootEditPart();
+
+		getGraphicalViewer().setRootEditPart(root);
+		getGraphicalViewer().setEditPartFactory(new UmlEditPartFactory());
+
+		Action action1 = new ZoomInAction(root.getZoomManager());
+		getActionRegistry().registerAction(action1);
+		Action action2 = new ZoomOutAction(root.getZoomManager());
+		getActionRegistry().registerAction(action2);
 	}
 
 	/**
@@ -164,9 +176,13 @@ public class UmlEditor extends GraphicalEditorWithFlyoutPalette {
 	}
 
 	public Object getAdapter(Class type) {
-		if (type == IContentOutlinePage.class)
+		if (type == IContentOutlinePage.class) {
 			return new UmlContentOutlinePage(getModel(), getEditDomain(),
 					new UmlTreePartFactory(), getSelectionSynchronizer());
+		} else if (type == ZoomManager.class) {
+			return getGraphicalViewer().getProperty(
+					ZoomManager.class.toString());
+		}
 		return super.getAdapter(type);
 	}
 }
