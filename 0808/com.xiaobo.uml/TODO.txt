@@ -86,3 +86,14 @@ because usually the parent part is created before the creating of the child mode
 2) new constructor needs to know the name at the compiler time. 
 3) I think, this involves the Java reflection/class loader. Each java class has one
 java.lang.Class object at the runtime, because JVM uses ClassLoader to load it into the memory. 
+===================TODO and Bug to Germanyqi======================
+1) should save the position of the types.
+2) The existing file should be emptied before saving into it.
+3) the connection should be saved only one time, 
+it means, the connection saving should be after the type saving.
+<type id="type1">...</type>
+<type id="type2">...</type>
+<type id="type3">...</type>
+<type id="type4">...</type>
+<connection id="conn1" source="type1" target="type2">...</connection>
+<connection id="conn1" source="type2" target="type4">...</connection> 

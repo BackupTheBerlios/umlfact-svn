@@ -45,7 +45,8 @@ import com.xiaobo.uml.parts.factories.UmlTreePartFactory;
  * Copyright 2006 by Xiaobo Sun. All Rights Reserved.
  */
 public class UmlEditor extends GraphicalEditorWithFlyoutPalette {
-	public static UmlModel umlModel;
+
+	public UmlModel umlModel;
 
 	public UmlEditor() {
 		setEditDomain(new DefaultEditDomain(this));
@@ -57,10 +58,6 @@ public class UmlEditor extends GraphicalEditorWithFlyoutPalette {
 
 	protected FlyoutPreferences getPalettePreferences() {
 		return new UmlFlyoutPreferences();
-	}
-
-	public UmlModel getModel() {
-		return umlModel;
 	}
 
 	protected void configureGraphicalViewer() {
@@ -183,5 +180,18 @@ public class UmlEditor extends GraphicalEditorWithFlyoutPalette {
 					ZoomManager.class.toString());
 		}
 		return super.getAdapter(type);
+	}
+
+	private void refreshContent() {
+		getGraphicalViewer().setContents(umlModel);
+	}
+
+	public void setModel(UmlModel model) {
+		this.umlModel = model;
+		refreshContent();
+	}
+
+	public UmlModel getModel() {
+		return umlModel;
 	}
 }

@@ -2,8 +2,10 @@ package com.xiaobo.uml.model.command;
 
 import org.eclipse.draw2d.geometry.Rectangle;
 
+import com.xiaobo.uml.model.INamedElement;
 import com.xiaobo.uml.model.IPositionableElement;
 import com.xiaobo.uml.model.IUmlContainer;
+import com.xiaobo.uml.model.validation.NameValidator;
 
 /**
  * 
@@ -26,5 +28,7 @@ public class PositionableElementCreateCommand extends UmlElementCreateCommand {
 	public void execute() {
 		super.execute();
 		((IPositionableElement) child).setLocation(bounds.getLocation());
+		((INamedElement) child).setNameValidator(new NameValidator(
+				(INamedElement) child, parent));
 	}
 }

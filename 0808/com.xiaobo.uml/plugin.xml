@@ -57,7 +57,7 @@
          <action
                label="&amp;SaveToXml"
                icon="icons/type.gif"
-               class="com.xiaobo.uml.UmlSaveToXml"
+               class="com.xiaobo.uml.xml.UmlSaveToXml"
                tooltip="Save it into XML"
                menubarPath="File/sampleGroup"
                toolbarPath="sampleGroup"
@@ -82,7 +82,7 @@
          <action
                label="&amp;LoadFromXml"
                icon="icons/type.gif"
-               class="com.xiaobo.uml.LoadFromXml"
+               class="com.xiaobo.uml.xml.LoadFromXml"
                tooltip="Load from XML"
                menubarPath="File/sampleGroup"
                toolbarPath="sampleGroup"

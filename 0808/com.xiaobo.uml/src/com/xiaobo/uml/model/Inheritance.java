@@ -1,8 +1,10 @@
 package com.xiaobo.uml.model;
 
-import com.xiaobo.uml.model.propertyDescriptor.UmlComboBoxPropertyDescriptor;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import com.xiaobo.uml.model.propertyDescriptor.UmlComboBoxPropertyDescriptor;
+
 /**
  * 
  * @author xiaobo
@@ -22,13 +24,13 @@ public class Inheritance extends ConnectionModel {
 	public Inheritance(boolean impl) {
 		setImpl(impl);
 	}
-	
-	public Inheritance(Element element){
+
+	public Inheritance(Element element) {
 		boolean tmp;
-		if(element.getAttribute("isImpl").equals("true")){
-			tmp=true;
-		}else{
-			tmp=false;
+		if (element.getAttribute("isImpl").equals("true")) {
+			tmp = true;
+		} else {
+			tmp = false;
 		}
 		setImpl(tmp);
 	}
@@ -80,15 +82,16 @@ public class Inheritance extends ConnectionModel {
 			}
 		}
 	}
-	public Element toDom(Document doc){
+
+	public Element toDom(Document doc) {
 		System.out.println("inheritance toxml");
 
-		Element subRoot=doc.createElement("inheritance");
-		subRoot.setAttribute("uid", serialVersionUID+"");
-		subRoot.setAttribute("isImpl", isImpl+"");
-		subRoot.setAttribute("sourceTypeName", ((Type)getSource()).getName());
-		subRoot.setAttribute("targetTypeName", ((Type)getTarget()).getName());
-		
+		Element subRoot = doc.createElement("inheritance");
+		subRoot.setAttribute("uid", serialVersionUID + "");
+		subRoot.setAttribute("isImpl", isImpl + "");
+		subRoot.setAttribute("sourceTypeName", ((Type) getSource()).getName());
+		subRoot.setAttribute("targetTypeName", ((Type) getTarget()).getName());
+
 		return subRoot;
 	}
 }

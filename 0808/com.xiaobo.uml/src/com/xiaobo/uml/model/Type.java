@@ -12,6 +12,7 @@ import org.w3c.dom.NodeList;
 
 import com.xiaobo.uml.model.propertyDescriptor.UmlComboBoxPropertyDescriptor;
 import com.xiaobo.uml.model.propertyDescriptor.UmlTextPropertyDescriptor;
+import com.xiaobo.uml.util.NameCounter;
 
 //import org.w3c.dom.Document;
 //import org.w3c.dom.Element;
@@ -55,7 +56,7 @@ public class Type extends PositionableElement implements IUmlConnectionNode,
 	private boolean isAbstract;
 
 	public Type() {
-		setName("Type");
+		setName("Type_"+NameCounter.type_counter++);
 		setStereotype("");
 		setDescription("type");
 	}

@@ -1,16 +1,18 @@
 package com.xiaobo.uml.xml;
 
-import javax.xml.parsers.*;
+import java.io.FileInputStream;
 
-import org.w3c.dom.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
-import java.io.*;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
-import com.xiaobo.uml.model.*;
-import com.xiaobo.uml.editor.*;
+import com.xiaobo.uml.UmlPlugin;
+import com.xiaobo.uml.editor.UmlEditor;
+import com.xiaobo.uml.model.UmlModel;
 
-public class DOMLoader  {
-
+public class DOMLoader {
 
 	public void loadFormXml(String outputFilename) {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -19,14 +21,16 @@ public class DOMLoader  {
 			builder = factory.newDocumentBuilder();
 			Document doc = builder.parse(new FileInputStream(outputFilename));
 			Element root = doc.getDocumentElement();
+			UmlModel model = new UmlModel(root);
 
-			UmlEditor.umlModel = new UmlModel(root);
+			UmlEditor editor = (UmlEditor) UmlPlugin.getDefault()
+					.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+					.getActiveEditor();
+			editor.setModel(model);
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
-	
-
 
 }

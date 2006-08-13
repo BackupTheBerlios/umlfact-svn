@@ -1,26 +1,29 @@
-package com.xiaobo.uml;
-
-import com.xiaobo.uml.xml.*;
+package com.xiaobo.uml.xml;
 
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
-
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 
+
 public class UmlSaveToXml implements IWorkbenchWindowActionDelegate {
+
+	private static final String[] FILTER_NAMES = { "XML Files (*.xml)" };
+
+	private static final String[] FILTER_EXTS = { "*.xml" };
+
 	private IWorkbenchWindow window;
 
-	// private UmlClassDiagramNewWizard uu;
-
 	public void run(IAction action) {
-
-		MessageDialog.openInformation(window.getShell(), "Save into XML",
-				"Ok.saved");
 		DOMWriter domWriter = new DOMWriter();
 		try {
-			domWriter.WriteToXml("25.xml");
+			FileDialog dlg = new FileDialog(window.getShell(), SWT.SINGLE);
+			dlg.setFilterNames(FILTER_NAMES);
+			dlg.setFilterExtensions(FILTER_EXTS);
+			String fn = dlg.open();
+			domWriter.WriteToXml(fn);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
