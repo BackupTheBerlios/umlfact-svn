@@ -23,12 +23,9 @@ public class DOMWriter {
 				.getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		
 		outputFile.delete();
-		System.out.println("file not exist!");
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = factory.newDocumentBuilder();
-		doc = builder.newDocument();
-		// root=doc.getDocumentElement();
-		// System.out.println(root.getNodeName());
+		doc = builder.newDocument();;
 		root = (Element) doc.createElement("umlModel");
 		root.setAttribute("umlModelId", "ModelId");
 

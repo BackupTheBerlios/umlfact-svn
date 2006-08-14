@@ -18,7 +18,7 @@ public class Attribute extends Member {
 	
 	public Attribute(Element element) {
 		// TODO Auto-generated constructor stub
-		System.out.println("attribut has really added!!");
+		//System.out.println("attribut has really added!!");
 		setName(element.getAttribute("name"));
 		setDescription("description");
 	}

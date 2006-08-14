@@ -49,9 +49,11 @@ public class Association extends ConnectionModel {
 		setTargetNavigation(targetNavigation);
 	}
 	
-	public Association(Element element){
+	public Association(Element element,Type sourceType,Type targetType){
 		setSourceString(element.getAttribute("sourceString"));
 		setTargetString(element.getAttribute("targetString"));
+		this.setSource(sourceType);
+		this.setTarget(targetType);
 	}
 
 	public String getSourceString() {

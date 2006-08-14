@@ -25,7 +25,7 @@ public class Inheritance extends ConnectionModel {
 		setImpl(impl);
 	}
 
-	public Inheritance(Element element) {
+	public Inheritance(Element element,Type sourceType,Type targetType) {
 		boolean tmp;
 		if (element.getAttribute("isImpl").equals("true")) {
 			tmp = true;
@@ -33,6 +33,8 @@ public class Inheritance extends ConnectionModel {
 			tmp = false;
 		}
 		setImpl(tmp);
+		this.setSource(sourceType);
+		this.setTarget(targetType);
 	}
 
 	protected void createPropertyDescriptors() {

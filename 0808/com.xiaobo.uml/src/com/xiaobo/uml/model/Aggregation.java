@@ -35,13 +35,15 @@ public class Aggregation extends ConnectionModel {
 		setSourceString(sourceString);
 	}
 	
-	public Aggregation(Element element){
+	public Aggregation(Element element,Type sourceType,Type targetType){
 		boolean tmp;
 		if(element.getAttribute("isCompsition").equals("true")){
 			tmp=true;
 		}else{
 			tmp=false;
 		}
+		this.setSource(sourceType);
+		this.setTarget(targetType);
 		setComposition(tmp);
 		setSourceString(element.getAttribute("sourceString"));
 	}

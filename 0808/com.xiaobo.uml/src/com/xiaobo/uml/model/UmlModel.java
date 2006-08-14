@@ -1,5 +1,5 @@
 package com.xiaobo.uml.model;
-
+import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -23,27 +23,21 @@ public class UmlModel extends UmlElement implements IUmlContainer {
 
 	private List types = new ArrayList();
 
-	private Vector v = new Vector();
 
 	public UmlModel() {
 
 	}
 
 	public UmlModel(Element element) {
+		HashMap m = new HashMap();
 		// NodeList childNodes = element.getChildNodes();
 		NodeList childNodes = element.getElementsByTagName("type");
 		for (int i = 0; i < childNodes.getLength(); i++) {
 			// Node childNode = childNodes.item(i);
 			Element childNode = (Element) childNodes.item(i);
-			/*
-			 * if (childNode.getNodeType() == Node.ELEMENT_NODE &&
-			 * childNode.getNodeName().equals("type")) { addChild(new
-			 * Type((Element) childNode)); v.add(((Element)
-			 * childNode).getAttribute("name")); System.out.println("i found
-			 * type here and added."); }
-			 */
-			addChild(new Type(childNode));
-			v.add(childNode.getAttribute("name"));
+			Type tmpType=new Type(childNode);
+			addChild(tmpType);
+			m.put(tmpType.getName(),tmpType);
 			System.out.println("i found type " + childNode.getNodeName()
 					+ " here and added.");
 		}
@@ -55,9 +49,13 @@ public class UmlModel extends UmlElement implements IUmlContainer {
 					.getAttribute("sourceTypeName");
 			String targetTypeName = (aggregationNode)
 					.getAttribute("targetTypeName");
-			if (v.contains(targetTypeName) && v.contains(sourceTypeName)) {
-				System.out.println("i found aggregation here and added.");
-				new Aggregation(aggregationNode);
+			Type sourceType=(Type)m.get(sourceTypeName);
+			Type targetType=(Type)m.get(targetTypeName);
+			for(int j=0;j<types.size();j++){
+				Type tmpType=((Type)types.get(j));
+				if(tmpType.getName().equals(targetTypeName)){
+					tmpType.addIn(new Aggregation(aggregationNode,sourceType,targetType));
+				}
 			}
 		}
 		NodeList associationNodes = element.getElementsByTagName("association");
@@ -67,9 +65,13 @@ public class UmlModel extends UmlElement implements IUmlContainer {
 					.getAttribute("sourceTypeName");
 			String targetTypeName = (associationNode)
 					.getAttribute("targetTypeName");
-			if (v.contains(targetTypeName) && v.contains(sourceTypeName)) {
-				System.out.println("i found association here and added.");
-				new Association(associationNode);
+			Type sourceType=(Type)m.get(sourceTypeName);
+			Type targetType=(Type)m.get(targetTypeName);
+			for(int j=0;j<types.size();j++){
+				Type tmpType=((Type)types.get(j));
+				if(tmpType.getName().equals(targetTypeName)){
+					tmpType.addIn(new Association(associationNode,sourceType,targetType));
+				}
 			}
 		}
 		NodeList inheritanceNodes = element.getElementsByTagName("inheritance");
@@ -79,9 +81,13 @@ public class UmlModel extends UmlElement implements IUmlContainer {
 					.getAttribute("sourceTypeName");
 			String targetTypeName = (inheritanceNode)
 					.getAttribute("targetTypeName");
-			if (v.contains(targetTypeName) && v.contains(sourceTypeName)) {
-				System.out.println("i found inheritance here and added.");
-				new Association(inheritanceNode);
+			Type sourceType=(Type)m.get(sourceTypeName);
+			Type targetType=(Type)m.get(targetTypeName);
+			for(int j=0;j<types.size();j++){
+				Type tmpType=((Type)types.get(j));
+				if(tmpType.getName().equals(targetTypeName)){
+					tmpType.addIn(new Inheritance(inheritanceNode,sourceType,targetType));
+				}
 			}
 		}
 

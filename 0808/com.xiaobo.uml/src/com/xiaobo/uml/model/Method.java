@@ -26,7 +26,7 @@ public class Method extends Member {
 
 	public Method(Element element) {
 		// TODO Auto-generated constructor stub
-		System.out.println("attribut has really added!!");
+		//System.out.println("attribut has really added!!");
 		setName(element.getAttribute("name"));
 		setDescription("description");
 	}

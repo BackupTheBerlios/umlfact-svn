@@ -63,7 +63,6 @@ public class Type extends PositionableElement implements IUmlConnectionNode,
 	}
 
 	public Type(Element element) {
-		// TODO Auto-generated constructor stub
 		setName(element.getAttribute("name"));
 		setStereotype(element.getAttribute("stereoType"));
 		setDescription(element.getAttribute("description"));
@@ -91,7 +90,6 @@ public class Type extends PositionableElement implements IUmlConnectionNode,
 				addChild(tmp);
 			}
 		}
-		 
 	}
 
 	public boolean isAbstract() {
@@ -257,16 +255,6 @@ public class Type extends PositionableElement implements IUmlConnectionNode,
 				}
 			}
 		}
-
-		/*
-		 * for(int i=0;i<ins.size();i++){ if(ins.get(i) instanceof
-		 * Aggregation){ memberElement=((Aggregation)ins.get(i)).toDom(doc);
-		 * subRoot.appendChild(memberElement); }else if(ins.get(i) instanceof
-		 * Association){ memberElement=((Association)ins.get(i)).toDom(doc);
-		 * subRoot.appendChild(memberElement); }else if(ins.get(i) instanceof
-		 * Inheritance){ memberElement=((Inheritance)ins.get(i)).toDom(doc);
-		 * subRoot.appendChild(memberElement); } }
-		 */
 
 		return subRoot;
 	}
