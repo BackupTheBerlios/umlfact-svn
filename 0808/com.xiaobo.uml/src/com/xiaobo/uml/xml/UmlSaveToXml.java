@@ -23,7 +23,7 @@ public class UmlSaveToXml implements IWorkbenchWindowActionDelegate {
 			dlg.setFilterNames(FILTER_NAMES);
 			dlg.setFilterExtensions(FILTER_EXTS);
 			String fn = dlg.open();
-			domWriter.WriteToXml(fn);
+			domWriter.WriteToXml("uu2.xml");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

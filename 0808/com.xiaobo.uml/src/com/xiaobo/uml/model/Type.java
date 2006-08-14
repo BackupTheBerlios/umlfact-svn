@@ -2,6 +2,7 @@ package com.xiaobo.uml.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.eclipse.draw2d.geometry.Point;
 
 import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.w3c.dom.Document;
@@ -67,6 +68,10 @@ public class Type extends PositionableElement implements IUmlConnectionNode,
 		setStereotype(element.getAttribute("stereoType"));
 		setDescription(element.getAttribute("description"));
 		
+		int x=java.lang.Integer.parseInt(element.getAttribute("locationX"));
+		int y=java.lang.Integer.parseInt(element.getAttribute("locationY"));
+		setLocation(new Point(x,y));
+		
 		//List tmp = ((Compartment) children.get(i)).getChildren();
 		
 		NodeList childNodes = element.getChildNodes();
@@ -76,13 +81,13 @@ public class Type extends PositionableElement implements IUmlConnectionNode,
 					&& childNode.getNodeName().equals("attribute")) {
 				Compartment tmp=new Compartment("tmp");
 				tmp.addChild(new Attribute((Element) childNode));
-				System.out.println("i found attribut here and added.");
+				//System.out.println("i found attribut here and added.");
 				addChild(tmp);
 			}else if (childNode.getNodeType() == Node.ELEMENT_NODE
 					&& childNode.getNodeName().equals("method")) {
 				Compartment tmp=new Compartment("tmp");
 				tmp.addChild(new Attribute((Element) childNode));
-				System.out.println("i found method here and added.");
+				//System.out.println("i found method here and added.");
 				addChild(tmp);
 			}
 		}
@@ -234,6 +239,8 @@ public class Type extends PositionableElement implements IUmlConnectionNode,
 		subRoot.setAttribute("name", getName());
 		subRoot.setAttribute("stereoType", getStereotype());
 		subRoot.setAttribute("description", getDescription());
+		subRoot.setAttribute("locationX", getLocation().x+"");
+		subRoot.setAttribute("locationY", getLocation().y+"");
 
 		Element memberElement;
 		for (int i = 0; i < children.size(); i++) {
@@ -241,11 +248,11 @@ public class Type extends PositionableElement implements IUmlConnectionNode,
 			for (int j = 0; j < tmp.size(); j++) {
 				if (tmp.get(j) instanceof Attribute) {
 					memberElement = ((Attribute) tmp.get(j)).toDom(doc);
-					System.out.println(".............");
+					//System.out.println(".............");
 					subRoot.appendChild(memberElement);
 				} else if (tmp.get(j) instanceof Method) {
 					memberElement = ((Method) tmp.get(j)).toDom(doc);
-					System.out.println("????????????");
+					//System.out.println("????????????");
 					subRoot.appendChild(memberElement);
 				}
 			}

@@ -97,3 +97,8 @@ it means, the connection saving should be after the type saving.
 <type id="type4">...</type>
 <connection id="conn1" source="type1" target="type2">...</connection>
 <connection id="conn1" source="type2" target="type4">...</connection> 
+=================TODO and Bug finished============================
+1) position of the types has been added. done!
+2) file has been emptied before saving into it. done!
+3) the connection has been saved only one time. done!
+4) the connection has been saved after the type saving. done!

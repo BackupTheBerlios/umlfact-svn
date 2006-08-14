@@ -116,46 +116,117 @@ public class UmlModel extends UmlElement implements IUmlContainer {
 	}
 
 	public Element toDom(Document document) {
+		Vector v2=new Vector();
 		Element rootElement = document.createElement("UmlModel");
 		for (Iterator i = getChildren().iterator(); i.hasNext();) {
 			Type child = (Type) i.next();
+			v2.add(child.getName());
 			rootElement.appendChild(child.toDom(document));
 
 			// List tmp=(child.getIns());
+
+		}
+		for (Iterator i = getChildren().iterator(); i.hasNext();) {
 			Element memberElement;
+			Type child = (Type) i.next();
 			for (int j = 0; j < ((child.getIns()).size()); j++) {
 				if ((child.getIns()).get(j) instanceof Aggregation) {
-					memberElement = ((Aggregation) (child.getIns()).get(j))
-							.toDom(document);
-					rootElement.appendChild(memberElement);
+					Aggregation agg = ((Aggregation) (child.getIns()).get(j));
+					//if (!isConnected(agg, rootElement,v2)) {
+						memberElement = agg.toDom(document);
+						rootElement.appendChild(memberElement);
+					//}
+
 				} else if ((child.getIns()).get(j) instanceof Association) {
-					memberElement = ((Association) (child.getIns()).get(j))
-							.toDom(document);
-					rootElement.appendChild(memberElement);
+					Association ass = ((Association) (child.getIns()).get(j));
+					//if (!isConnected(ass, rootElement,v2)) {
+						memberElement = ass.toDom(document);
+						rootElement.appendChild(memberElement);
+					//}
+
 				} else if ((child.getIns()).get(j) instanceof Inheritance) {
-					memberElement = ((Inheritance) (child.getIns()).get(j))
-							.toDom(document);
-					rootElement.appendChild(memberElement);
+					Inheritance inh = ((Inheritance) (child.getIns()).get(j));
+					//if (!isConnected(inh, rootElement,v2)) {
+						memberElement = inh.toDom(document);
+						rootElement.appendChild(memberElement);
+					//}
+
 				}
 			}
-
+/*
 			for (int j = 0; j < ((child.getOuts()).size()); j++) {
 				if ((child.getOuts()).get(j) instanceof Aggregation) {
-					memberElement = ((Aggregation) (child.getOuts()).get(j))
-							.toDom(document);
-					rootElement.appendChild(memberElement);
+					Aggregation agg = ((Aggregation) (child.getOuts()).get(j));
+					if (!isConnected(agg, rootElement,v2)) {
+						memberElement = agg.toDom(document);
+						System.out.println("out agg called");
+						rootElement.appendChild(memberElement);
+					}
 				} else if ((child.getOuts()).get(j) instanceof Association) {
-					memberElement = ((Association) (child.getOuts()).get(j))
-							.toDom(document);
-					rootElement.appendChild(memberElement);
+					Association ass = ((Association) (child.getOuts()).get(j));
+					if (!isConnected(ass, rootElement,v2)) {
+						memberElement = ass.toDom(document);
+						System.out.println("out ass called");
+						rootElement.appendChild(memberElement);
+					}
 				} else if ((child.getOuts()).get(j) instanceof Inheritance) {
-					memberElement = ((Inheritance) (child.getOuts()).get(j))
-							.toDom(document);
-					rootElement.appendChild(memberElement);
+					Inheritance inh = ((Inheritance) (child.getOuts()).get(j));
+					if (!isConnected(inh, rootElement,v2)) {
+						memberElement = inh.toDom(document);
+						System.out.println("out inh called");
+						rootElement.appendChild(memberElement);
+					}
 				}
-			}
+			}*/
 		}
 
 		return rootElement;
 	}
+/*
+	public boolean isConnected(ConnectionModel cm, Element element,Vector v2) {
+		if (cm instanceof Aggregation) {
+			NodeList aggregationNodes = element
+					.getElementsByTagName("aggregation");
+			for (int i = 0; i < aggregationNodes.getLength(); i++) {
+				Element aggregationNode = (Element) aggregationNodes.item(i);
+				String sourceTypeName = (aggregationNode)
+						.getAttribute("sourceTypeName");
+				String targetTypeName = (aggregationNode)
+						.getAttribute("targetTypeName");
+				if (v2.contains(targetTypeName) && v2.contains(sourceTypeName)) {
+					return true;
+				}
+			}
+		} else if (cm instanceof Association) {
+			NodeList associationNodes = element
+					.getElementsByTagName("association");
+			for (int i = 0; i < associationNodes.getLength(); i++) {
+				Element associationNode = (Element) associationNodes.item(i);
+				String sourceTypeName = (associationNode)
+						.getAttribute("sourceTypeName");
+				String targetTypeName = (associationNode)
+						.getAttribute("targetTypeName");
+				if (v2.contains(targetTypeName) && v2.contains(sourceTypeName)) {
+					return true;
+				}
+			}
+
+		} else if (cm instanceof Inheritance) {
+			NodeList inheritanceNodes = element
+					.getElementsByTagName("inheritance");
+			for (int i = 0; i < inheritanceNodes.getLength(); i++) {
+				Element inheritanceNode = (Element) inheritanceNodes.item(i);
+				String sourceTypeName = (inheritanceNode)
+						.getAttribute("sourceTypeName");
+				String targetTypeName = (inheritanceNode)
+						.getAttribute("targetTypeName");
+				if (v2.contains(targetTypeName) && v2.contains(sourceTypeName)) {
+					return true;
+				}
+			}
+
+		}
+		return false;
+
+	}*/
 }
