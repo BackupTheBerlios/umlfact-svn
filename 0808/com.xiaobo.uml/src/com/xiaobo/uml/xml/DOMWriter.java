@@ -13,7 +13,7 @@ import com.xiaobo.uml.editor.UmlEditor;
 
 public class DOMWriter {
 
-	public void WriteToXml(String outputFilename) throws Exception {
+	public void writeToXml(String outputFilename) throws Exception {
 		System.out.println("umlModel toXml");
 		File outputFile = new File(outputFilename);
 
