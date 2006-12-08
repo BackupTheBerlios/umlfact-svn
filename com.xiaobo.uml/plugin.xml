@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+   <extension
+         id="umleditor"
+         point="org.eclipse.ui.editors">
+      <editor
+            class="com.xiaobo.uml.editor.UmlEditor"
+            contributorClass="com.xiaobo.uml.editor.UmlEditorContributor"
+            default="false"
+            extensions="uml,cd"
+            icon="icons/type.gif"
+            id="com.xiaobo.uml.editor"
+            name="Class Diagram"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <wizard
+            category="com.xiaobo.uml.category"
+            class="com.xiaobo.uml.UmlClassDiagramNewWizard"
+            icon="icons/type.gif"
+            id="com.xiaobo.uml.UmlClassDiagramNewWizard"
+            name="Class Diagram"
+            project="false"/>
+      <category
+            id="com.xiaobo.uml.category"
+            name="Uml"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="false"
+            id="com.xiaobo.uml.objectContribution"
+            objectClass="org.eclipse.jdt.core.IJavaElement">
+         <action
+               class="com.xiaobo.uml.actions.CountAction"
+               enablesFor="1"
+               icon="icons/count.gif"
+               id="com.xiaobo.uml.actions.count"
+               label="LineCount"
+               style="push"/>
+      </objectContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.exportWizards">
+      <wizard
+            class="com.xiaobo.uml.XSDExportWizard"
+            icon="icons/type.gif"
+            id="com.xiaobo.uml.XSDWizard"
+            name="XSD file"/>
+   </extension>
+
+</plugin>
