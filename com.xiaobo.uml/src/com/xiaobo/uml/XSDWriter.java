@@ -170,6 +170,7 @@ public class XSDWriter {
 		for (Iterator<IUmlConnection> i = type.getOuts().iterator(); i
 				.hasNext();) {
 			IUmlConnection connection = i.next();
+			//TODO: nested inheritance
 			if (connection instanceof Inheritance) {
 				Inheritance inheritance = (Inheritance) connection;
 				Type target = (Type) inheritance.getTarget();
